@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ソース ファイル\tinyxml">
+      <UniqueIdentifier>{6af61b27-0ebc-416d-93c3-ff50940a5ae3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\pao">
+      <UniqueIdentifier>{1b882ac5-86da-4e5f-8db5-093d05c001a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\avs">
+      <UniqueIdentifier>{3ee0c2b3-1037-4f4c-ac19-a0a870acf593}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\sink">
+      <UniqueIdentifier>{c0683e7e-22d2-4436-b1d0-991b1a91f5ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\sink\LayerTool">
+      <UniqueIdentifier>{05f6363f-6743-4b6c-9a7f-23bdf2d51115}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\sink\ScriptTool">
+      <UniqueIdentifier>{7b6a3a15-4453-4d0e-9c98-9c9fc756abe1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\pao">
+      <UniqueIdentifier>{23fd891b-fe0e-446e-a221-63bf21105318}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\tynyxml">
+      <UniqueIdentifier>{4961959a-8866-4886-99ff-17ef3c14ac0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\avs">
+      <UniqueIdentifier>{47781aeb-a1bc-47e1-9211-acff94847689}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\LayerTool">
+      <UniqueIdentifier>{0e0705f2-6b1f-4e78-929b-1bed1ebfd521}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Src\sink.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tinyxml\tinystr.cpp">
+      <Filter>ソース ファイル\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tinyxml\tinyxml.cpp">
+      <Filter>ソース ファイル\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tinyxml\tinyxmlerror.cpp">
+      <Filter>ソース ファイル\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tinyxml\tinyxmlparser.cpp">
+      <Filter>ソース ファイル\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\pao\Framework.cpp">
+      <Filter>ソース ファイル\pao</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\avs\TextCanvas.cpp">
+      <Filter>ソース ファイル\avs</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\image\ImageManager.cpp">
+      <Filter>ソース ファイル\sink</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\LayerTool.cpp">
+      <Filter>ソース ファイル\sink</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\movie\mymovie.cpp">
+      <Filter>ソース ファイル\sink</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\sound\mysound.cpp">
+      <Filter>ソース ファイル\sink</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ScriptTool.cpp">
+      <Filter>ソース ファイル\sink</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Setup.cpp">
+      <Filter>ソース ファイル\sink</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SoundTool.cpp">
+      <Filter>ソース ファイル\sink</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\TextWrite.cpp">
+      <Filter>ソース ファイル\sink</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\WinTextCanvas.cpp">
+      <Filter>ソース ファイル\sink</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ScriptData.cpp">
+      <Filter>ソース ファイル\sink\ScriptTool</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\vorbis\codec.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\LayerTool.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\movie\mymovie.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\sound\mysound.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ogg\ogg.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\ScriptData.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\ScriptTool.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Setup.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\SoundTool.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\TextWrite.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\vorbis\vorbisenc.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\vorbis\vorbisfile.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\WinTextCanvas.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\pao\Framework.h">
+      <Filter>ヘッダー ファイル\pao</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tinyxml\tinystr.h">
+      <Filter>ヘッダー ファイル\tynyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tinyxml\tinyxml.h">
+      <Filter>ヘッダー ファイル\tynyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\avs\ImageCanvas.h">
+      <Filter>ヘッダー ファイル\avs</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\avs\ImageTag.h">
+      <Filter>ヘッダー ファイル\avs</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\avs\SetupData.h">
+      <Filter>ヘッダー ファイル\avs</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\avs\TextCanvas.h">
+      <Filter>ヘッダー ファイル\avs</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\image\ImageManager.h">
+      <Filter>ヘッダー ファイル\LayerTool</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="sink.ico">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="small.ico">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Src\sink.rc">
+      <Filter>リソース ファイル</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

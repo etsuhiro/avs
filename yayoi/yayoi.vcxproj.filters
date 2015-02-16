@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="avs">
+      <UniqueIdentifier>{7c7007a2-6fc9-46de-b16e-96c9cab988ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="avs\common">
+      <UniqueIdentifier>{240d4841-349d-4c39-93fd-b9c8ed1c771e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="avs\XmlEnum">
+      <UniqueIdentifier>{48f365b2-23bc-4c42-be85-9438eefa1498}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="avs\tinyxml">
+      <UniqueIdentifier>{607bc051-c5cb-4337-8be0-11f68fc94519}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="avs\XmlBin">
+      <UniqueIdentifier>{ac3eca72-5359-4160-bc8a-71afea31dcfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="avs\ScriptEngine">
+      <UniqueIdentifier>{afb1399b-4134-42f6-8e0b-8cae8a2b405d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AssemblyInfo.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Form1.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptWindow.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="VariableWindow.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="yayoi.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="YayoiScriptEngine.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="YayoiText.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="LogWindow.cpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AvsCore\ScriptEngine.cpp">
+      <Filter>avs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\crc32.cpp">
+      <Filter>avs\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Strbank.cpp">
+      <Filter>avs\common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\XmlEnum\XmlEnum.cpp">
+      <Filter>avs\XmlEnum</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tinyxml\tinystr.cpp">
+      <Filter>avs\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tinyxml\tinyxml.cpp">
+      <Filter>avs\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tinyxml\tinyxmlerror.cpp">
+      <Filter>avs\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tinyxml\tinyxmlparser.cpp">
+      <Filter>avs\tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\XmlBin\XmlBin.cpp">
+      <Filter>avs\XmlBin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AvsCore\ScriptEngine\ScriptState.cpp">
+      <Filter>avs\ScriptEngine</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Form1.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="LogWindow.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptWindow.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectWindow.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="TextWindow.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="VariableWindow.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="windowdef.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="YayoiScriptEngine.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="YayoiText.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AvsCore\ErrorMessageListener.h">
+      <Filter>avs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AvsCore\ScriptEngine.h">
+      <Filter>avs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AvsCore\TextListener.h">
+      <Filter>avs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AvsCore\VariableListener.h">
+      <Filter>avs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\crc32.h">
+      <Filter>avs\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Strbank.h">
+      <Filter>avs\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\XmlEnum\XmlEnum.h">
+      <Filter>avs\XmlEnum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tinyxml\tinystr.h">
+      <Filter>avs\tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tinyxml\tinyxml.h">
+      <Filter>avs\tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\XmlBin\miku.h">
+      <Filter>avs\XmlBin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\XmlBin\XmlBin.h">
+      <Filter>avs\XmlBin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AvsCore\ScriptEngine\ScriptState.h">
+      <Filter>avs\ScriptEngine</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="app.ico">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="app.rc">
+      <Filter>リソース ファイル</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Form1.resX">
+      <Filter>リソース ファイル</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LogWindow.resx">
+      <Filter>リソース ファイル</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScriptWindow.resx">
+      <Filter>リソース ファイル</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SelectWindow.resx">
+      <Filter>リソース ファイル</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TextWindow.resx">
+      <Filter>リソース ファイル</Filter>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VariableWindow.resx">
+      <Filter>リソース ファイル</Filter>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>
