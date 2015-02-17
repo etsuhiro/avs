@@ -1,0 +1,26 @@
+﻿2015/02/13 19:43:53 にビルドを開始しました。
+     1>ノード 2 上のプロジェクト "C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\ex3_triangle\ex3_triangle.vcxproj" (Build ターゲット)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\..\pao" /I"C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\..\common" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\ex3_triangle.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ex3_triangle.cpp
+         ex3_triangle.cpp
+     1>c:\users\e-wada\documents\visual studio 2013\projects\trunk\common\cfilewrite.h(15): warning C4290: C++ の例外の指定は無視されます。関数が __declspec(nothrow) でないことのみ表示されます。
+     1>c:\users\e-wada\documents\visual studio 2013\projects\trunk\common\cfilewrite.h(30): warning C4290: C++ の例外の指定は無視されます。関数が __declspec(nothrow) でないことのみ表示されます。
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"Debug\ex3_triangle.res" ex3_triangle.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\Debug\ex3_triangle.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\Debug\ex3_triangle.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\Debug\ex3_triangle.lib" /MACHINE:X86 Debug\ex3_triangle.res
+         Debug\cFileWrite.obj
+         Debug\crc32.obj
+         Debug\Strbank.obj
+         Debug\DX11base.obj
+         Debug\FrameworkDX11.obj
+         Debug\FrameworkWindows.obj
+         Debug\WindowProc.obj
+         Debug\ex3_triangle.obj
+         Debug\stdafx.obj
+         ex3_triangle.vcxproj -> C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\Debug\ex3_triangle.exe
+     1>プロジェクト "C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\ex3_triangle\ex3_triangle.vcxproj" (Build ターゲット) のビルドが完了しました。
+
+ビルドに成功しました。
+
+経過時間 00:00:00.84

@@ -1,0 +1,30 @@
+﻿2015/02/13 19:45:04 にビルドを開始しました。
+     1>ノード 2 上のプロジェクト "C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\ex2_window\ex2_window.vcxproj" (Build ターゲット)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\..\pao" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\ex2_window.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\pao\DX11\DX11base.cpp ex2_window.cpp
+         DX11base.cpp
+         コードを生成中...
+         コンパイル中...
+         ex2_window.cpp
+         コードを生成中...
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\..\pao" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\pao\DX11\FrameworkDX11.cpp ..\..\pao\Windows\FrameworkWindows.cpp ..\..\pao\Windows\WindowProc.cpp
+         WindowProc.cpp
+         FrameworkWindows.cpp
+         FrameworkDX11.cpp
+         コードを生成中...
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"Debug\ex2_window.res" ex2_window.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\Debug\ex2_window.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\Debug\ex2_window.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\Debug\ex2_window.lib" /MACHINE:X86 Debug\ex2_window.res
+         Debug\DX11base.obj
+         Debug\FrameworkDX11.obj
+         Debug\FrameworkWindows.obj
+         Debug\WindowProc.obj
+         Debug\ex2_window.obj
+         Debug\stdafx.obj
+         ex2_window.vcxproj -> C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\Debug\ex2_window.exe
+     1>プロジェクト "C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\ex2_window\ex2_window.vcxproj" (Build ターゲット) のビルドが完了しました。
+
+ビルドに成功しました。
+
+経過時間 00:00:02.05
