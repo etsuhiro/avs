@@ -1,4 +1,13 @@
 #include "DxLib.h"
+#include <list>
+
+struct Sprite {
+	int ghandle;
+	int x;
+	int y;
+};
+
+std::list<Sprite> sprites;
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -12,11 +21,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return -1;				// エラーが起きたら直ちに終了
 	}
 	SetDrawScreen(DX_SCREEN_BACK);
-
-	// ＢＭＰ画像の表示
-	//	LoadGraphScreen( 0 , 0 , "test1.bmp" , TRUE ) ;
-	int bg = LoadGraph("bg_18_1.png");
-	int GHandle = LoadGraph("st_sor_s_916.png");
 
 	int x = 0;
 	while(1){
@@ -42,15 +46,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					ofn.lpstrDefExt = "png";					// デフォルトのファイルの種類
 					// ファイルを開くコモンダイアログを作成
 					if (GetOpenFileName(&ofn)){
+						int handle = LoadGraph(fname_full);
+						if (handle >= 0){
+							Sprite sprite{ handle, 0, 0 };
+							sprites.push_back(sprite);
+						}
 					}
 				}
 			}
 		}
-
-		DrawGraph(0, 0, bg, TRUE);
-		x += 1;
-		x %= 640;
-		DrawGraph(x, -40, GHandle, TRUE);
+		for (auto& sprite: sprites)
+		{
+			DrawGraph(sprite.x, sprite.y, sprite.ghandle, TRUE);
+		}
 
 		// メッセージループに代わる処理をする
 		if (ProcessMessage() == -1)
