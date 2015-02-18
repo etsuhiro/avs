@@ -1,0 +1,56 @@
+﻿2015/02/13 19:37:10 にビルドを開始しました。
+     1>ノード 2 上のプロジェクト "C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\ex4_texture\ex4_texture.vcxproj" (Build ターゲット)。
+     1>FxCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\fxc.exe /nologo /E"ps_main" /T ps_4_0_level_9_1 /Fo "C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\Debug\ps_texture.cso" /Od /Zi ..\..\pao\DX11\Shader\ps_texture.hlsl 
+         compilation object save succeeded; see C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\Debug\ps_texture.cso
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\fxc.exe /nologo /E"vs_main" /T vs_4_0_level_9_1 /Fo "C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\Debug\vs_texture.cso" /Od /Zi ..\..\pao\DX11\Shader\vs_texture.hlsl 
+         compilation object save succeeded; see C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\Debug\vs_texture.cso
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\..\common" /I"C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\..\pao" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _WIN32_WINNT=0x601 /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yc"stdafx.h" /Fp"Debug\ex4_texture.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt stdafx.cpp
+         stdafx.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\..\common" /I"C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\..\pao" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _WIN32_WINNT=0x601 /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\common\cFileWrite.cpp ..\..\common\crc32.cpp ..\..\common\Strbank.cpp ..\..\pao\DX11\DirectXTex\WICTextureLoader.cpp ..\..\pao\DX11\FrameworkDX11.cpp ..\..\pao\Windows\FrameworkWindows.cpp ..\..\pao\Windows\WindowProc.cpp
+         WindowProc.cpp
+         FrameworkWindows.cpp
+         FrameworkDX11.cpp
+         WICTextureLoader.cpp
+         Strbank.cpp
+         crc32.cpp
+         cFileWrite.cpp
+     1>c:\users\e-wada\documents\visual studio 2013\projects\trunk\common\cfilewrite.h(15): warning C4290: C++ の例外の指定は無視されます。関数が __declspec(nothrow) でないことのみ表示されます。
+     1>c:\users\e-wada\documents\visual studio 2013\projects\trunk\common\cfilewrite.h(30): warning C4290: C++ の例外の指定は無視されます。関数が __declspec(nothrow) でないことのみ表示されます。
+     1>c:\users\e-wada\documents\visual studio 2013\projects\trunk\common\cfilewrite.cpp(9): warning C4290: C++ の例外の指定は無視されます。関数が __declspec(nothrow) でないことのみ表示されます。
+     1>c:\users\e-wada\documents\visual studio 2013\projects\trunk\common\cfilewrite.cpp(13): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(211) : 'fopen' の宣言を確認してください。
+     1>c:\users\e-wada\documents\visual studio 2013\projects\trunk\common\cfilewrite.cpp(51): warning C4290: C++ の例外の指定は無視されます。関数が __declspec(nothrow) でないことのみ表示されます。
+     1>c:\users\e-wada\documents\visual studio 2013\projects\trunk\common\cfilewrite.cpp(57): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(211) : 'fopen' の宣言を確認してください。
+         コードを生成中...
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\..\common" /I"C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\..\pao" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _WIN32_WINNT=0x601 /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp"Debug\ex4_texture.pch" /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\pao\DX11\DX11base.cpp ex4_texture.cpp
+         ex4_texture.cpp
+     1>c:\users\e-wada\documents\visual studio 2013\projects\trunk\dx11exercise\ex4_texture\ex4_texture.cpp(4): warning C4603: 'D3DX': マクロが定義されていないか、プリコンパイル済みヘッダーが使用している定義とは異なります
+                 ここで定義するのではなくプリコンパイル済みヘッダーにマクロを追加します
+                 c:\users\e-wada\documents\visual studio 2013\projects\trunk\dx11exercise\ex4_texture\ex4_texture.cpp(6): プリコンパイル済みヘッダーの使用
+     1>c:\users\e-wada\documents\visual studio 2013\projects\trunk\common\cfilewrite.h(15): warning C4290: C++ の例外の指定は無視されます。関数が __declspec(nothrow) でないことのみ表示されます。
+     1>c:\users\e-wada\documents\visual studio 2013\projects\trunk\common\cfilewrite.h(30): warning C4290: C++ の例外の指定は無視されます。関数が __declspec(nothrow) でないことのみ表示されます。
+         DX11base.cpp
+         コードを生成中...
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"Debug\ex4_texture.res" ex4_texture.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\Debug\ex4_texture.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\Debug\ex4_texture.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\Debug\ex4_texture.lib" /MACHINE:X86 Debug\ex4_texture.res
+         Debug\cFileWrite.obj
+         Debug\crc32.obj
+         Debug\Strbank.obj
+         Debug\WICTextureLoader.obj
+         Debug\DX11base.obj
+         Debug\FrameworkDX11.obj
+         Debug\FrameworkWindows.obj
+         Debug\WindowProc.obj
+         Debug\ex4_texture.obj
+         Debug\stdafx.obj
+         ex4_texture.vcxproj -> C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\Debug\ex4_texture.exe
+     1>プロジェクト "C:\Users\e-wada\Documents\Visual Studio 2013\Projects\trunk\DX11exercise\ex4_texture\ex4_texture.vcxproj" (Build ターゲット) のビルドが完了しました。
+
+ビルドに成功しました。
+
+経過時間 00:00:03.88
