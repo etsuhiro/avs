@@ -1,5 +1,43 @@
 #include "DxLib.h"
 #include <list>
+#include <string>
+#include <algorithm>
+
+struct Asset {
+	std::string name;
+	int handle;
+};
+
+class AssetManager {
+	std::list<Asset> m_assets;
+
+public:
+	~AssetManager(){
+		for (auto& asset : m_assets){
+			DeleteGraph(asset.handle);
+		}
+		m_assets.clear();
+	}
+	int Load(const char* path){
+		auto it = std::find_if(m_assets.begin(), m_assets.end(), [&path](Asset& asset){return asset.name == path; });
+		if (it != m_assets.end())
+			return it->handle;
+
+		int handle = LoadGraph(path);
+		if (handle >= 0){
+			Asset asset{ path, handle };
+			m_assets.push_back(asset);
+		}
+		return handle;
+	}
+	void Remove(int handle){
+		auto it = std::find_if(m_assets.begin(), m_assets.end(), [&handle](Asset& asset){return asset.handle == handle; });
+		if (it != m_assets.end()){
+			DeleteGraph(it->handle);
+			m_assets.erase(it);
+		}
+	}
+};
 
 struct Sprite {
 	int ghandle;
@@ -20,9 +58,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		return -1;				// エラーが起きたら直ちに終了
 	}
-	SetDrawScreen(DX_SCREEN_BACK);
+	SetDrawScreen(DX_SCREEN_BACK);	// 裏画面描画モード
 
-	int x = 0;
+	AssetManager asset_manager;
+
 	while(1){
 		// キーの状態をチェック
 		{
@@ -46,7 +85,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					ofn.lpstrDefExt = "png";					// デフォルトのファイルの種類
 					// ファイルを開くコモンダイアログを作成
 					if (GetOpenFileName(&ofn)){
-						int handle = LoadGraph(fname_full);
+						int handle = asset_manager.Load(fname_full);
 						if (handle >= 0){
 							Sprite sprite{ handle, 0, 0 };
 							sprites.push_back(sprite);
