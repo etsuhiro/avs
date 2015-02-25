@@ -4,6 +4,8 @@
 #include "stdafx.h"
 #include "ResTest.h"
 
+#include <commctrl.h>
+
 #define MAX_LOADSTRING 100
 
 // グローバル変数:
@@ -188,5 +190,74 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 // プロシージャ
 LRESULT CALLBACK Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	static int x = 0;
+	static int y = 0;
+
+	switch (msg) {
+	case WM_INITDIALOG:
+		SetDlgItemInt(hDlg, IDC_EDIT1, x, TRUE);							// X : 表示座標の X 値
+		SetDlgItemInt(hDlg, IDC_EDIT2, y, TRUE);							// Y : 表示座標の Y 値
+		break;
+
+	case WM_DROPFILES:
+		break;
+
+	case WM_COMMAND:
+		// アイテムの内容が変更された時
+		if (HIWORD(wParam) == EN_UPDATE){
+			BOOL translated = FALSE;
+			int value = 0;
+			// どのアイテムが変更されたか
+			switch (LOWORD(wParam)) {
+			case IDC_EDIT1: // X
+				value = (int)GetDlgItemInt(hDlg, IDC_EDIT1, &translated, TRUE);
+				if (translated == TRUE) x = value;
+				else
+				SetDlgItemInt(hDlg, IDC_EDIT1, x, TRUE);
+				return TRUE;
+				break;
+
+			case IDC_EDIT2: // Y
+				value = (int)GetDlgItemInt(hDlg, IDC_EDIT2, &translated, TRUE);
+				if (translated == TRUE) y = value;
+				return TRUE;
+				break;
+			}
+		}
+		break;
+
+	case WM_NOTIFY:
+		{
+			LPNMHDR nhm = (NMHDR*)lParam;
+			NM_UPDOWN* nmud = (NM_UPDOWN*)nhm;
+
+			switch (nhm->code){
+			case UDN_DELTAPOS:	// スピンボタンを押した時
+				switch (nmud->hdr.idFrom){
+				case IDC_SPIN1:		// X
+					if (nmud->iDelta < 0){
+						x++;
+					}
+					else {
+						x--;
+					}
+					SetDlgItemInt(hDlg, IDC_EDIT1, x, TRUE);
+					break;
+				case IDC_SPIN2:		// Y
+					if (nmud->iDelta < 0){
+						y++;
+					}
+					else {
+						y--;
+					}
+					SetDlgItemInt(hDlg, IDC_EDIT2, y, TRUE);
+					break;
+				}
+			}
+		}
+		break;
+
+	}
+
 	return FALSE;
 }
