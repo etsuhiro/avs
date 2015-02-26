@@ -51,23 +51,24 @@ STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_CAPTION | WS_VIS
 CAPTION "Dialog"
 FONT 8, "Ms Shell Dlg"
 {
-    CONTROL         "", 0, WC_TREEVIEW, WS_TABSTOP | WS_BORDER | TVS_INFOTIP | TVS_NOSCROLL, 30, 5, 172, 130, WS_EX_LEFT
+    AUTOCHECKBOX    "repeat", 0, 140, 205, 36, 8, 0, WS_EX_LEFT
+    CONTROL         "", IDC_TREE1, WC_TREEVIEW, WS_TABSTOP | WS_BORDER | TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_INFOTIP, 30, 5, 172, 130, WS_EX_LEFT
     EDITTEXT        IDC_COMBO1, 30, 145, 220, 15, ES_AUTOHSCROLL, WS_EX_LEFT
     PUSHBUTTON      "Button", 0, 214, 20, 35, 16, 0, WS_EX_LEFT
     RTEXT           "ƒtƒ@ƒCƒ‹:", IDC_STATIC, 3, 147, 26, 8, SS_RIGHT, WS_EX_LEFT
-    RTEXT           "X :", IDC_STATIC, 0, 170, 26, 8, SS_RIGHT, WS_EX_LEFT
-    RTEXT           "Y :", IDC_STATIC, 66, 169, 26, 8, SS_RIGHT, WS_EX_LEFT
-    RTEXT           "U :", IDC_STATIC, 0, 190, 26, 8, SS_RIGHT, WS_EX_LEFT
-    RTEXT           "V :", IDC_STATIC, 66, 189, 26, 8, SS_RIGHT, WS_EX_LEFT
-    RTEXT           "Width :", IDC_STATIC, 128, 189, 26, 8, SS_RIGHT, WS_EX_LEFT
-    RTEXT           "Height :", IDC_STATIC, 191, 189, 26, 8, SS_RIGHT, WS_EX_LEFT
-    RTEXT           "X”{—¦ :", IDC_STATIC, 128, 169, 26, 8, SS_RIGHT, WS_EX_LEFT
-    RTEXT           "Y”{—¦ :", IDC_STATIC, 191, 169, 26, 8, SS_RIGHT, WS_EX_LEFT
-    RTEXT           "Red :", IDC_STATIC, 3, 229, 26, 8, SS_RIGHT, WS_EX_LEFT
-    RTEXT           "Green :", IDC_STATIC, 3, 249, 26, 8, SS_RIGHT, WS_EX_LEFT
-    RTEXT           "Blue :", IDC_STATIC, 3, 269, 26, 8, SS_RIGHT, WS_EX_LEFT
-    RTEXT           "Alpha :", IDC_STATIC, 3, 289, 26, 8, SS_RIGHT, WS_EX_LEFT
-    RTEXT           "Rot:", IDC_STATIC, 12, 211, 14, 9, SS_RIGHT, WS_EX_LEFT
+    RTEXT           "x", IDC_STATIC, 0, 170, 26, 8, SS_RIGHT, WS_EX_LEFT
+    RTEXT           "y", IDC_STATIC, 64, 170, 26, 8, SS_RIGHT, WS_EX_LEFT
+    RTEXT           "u", IDC_STATIC, 0, 190, 26, 8, SS_RIGHT, WS_EX_LEFT
+    RTEXT           "v", IDC_STATIC, 64, 190, 26, 8, SS_RIGHT, WS_EX_LEFT
+    RTEXT           "width", IDC_STATIC, 128, 190, 26, 8, SS_RIGHT, WS_EX_LEFT
+    RTEXT           "height", IDC_STATIC, 192, 190, 26, 8, SS_RIGHT, WS_EX_LEFT
+    RTEXT           "h scale", IDC_STATIC, 128, 170, 26, 8, SS_RIGHT, WS_EX_LEFT
+    RTEXT           "v scale", IDC_STATIC, 192, 170, 26, 8, SS_RIGHT, WS_EX_LEFT
+    RTEXT           "red", IDC_STATIC, 3, 229, 26, 8, SS_RIGHT, WS_EX_LEFT
+    RTEXT           "green", IDC_STATIC, 3, 249, 26, 8, SS_RIGHT, WS_EX_LEFT
+    RTEXT           "blue", IDC_STATIC, 3, 269, 26, 8, SS_RIGHT, WS_EX_LEFT
+    RTEXT           "alpha", IDC_STATIC, 3, 289, 26, 8, SS_RIGHT, WS_EX_LEFT
+    RTEXT           "rot", IDC_STATIC, 12, 211, 14, 9, SS_RIGHT, WS_EX_LEFT
     CTEXT           "min", IDC_STATIC, 34, 229, 10, 8, SS_CENTER, WS_EX_LEFT
     CTEXT           "min", IDC_STATIC, 34, 249, 10, 8, SS_CENTER, WS_EX_LEFT
     CTEXT           "min", IDC_STATIC, 34, 269, 10, 8, SS_CENTER, WS_EX_LEFT

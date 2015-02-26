@@ -42,3 +42,4 @@
 #define IDC_SLIDER4                             3004
 #define IDC_COMBO1                              40000
 #define IDS_APP_TITLE                           40000
+#define IDC_TREE1                               40002
