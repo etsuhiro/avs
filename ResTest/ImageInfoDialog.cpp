@@ -2,6 +2,59 @@
 #include "ImageInfoDialog.h"
 #include <commctrl.h>
 #include "resource.h"
+#include "AvsCore/ImageListener.h"
+
+namespace {
+	// 整数値のコントロール
+	int EditBoxInt(HWND hDlg, int nIDDlgItem, int param)
+	{
+		BOOL translated = FALSE;
+		int value = (int)GetDlgItemInt(hDlg, nIDDlgItem, &translated, TRUE);
+		if (translated == TRUE)
+			param = value;
+		else
+			SetDlgItemInt(hDlg, nIDDlgItem, param, TRUE);
+		return param;
+	}
+	float EditBoxInt(HWND hDlg, int nIDDlgItem, float param)
+	{
+		return (float)EditBoxInt(hDlg, nIDDlgItem, (int)param);
+	}
+
+	int SpinButtonInt(HWND hDlg, int delta, int nIDDlgItem, int param)
+	{
+		if (delta < 0){
+			param++;
+		}
+		else {
+			param--;
+		}
+		SetDlgItemInt(hDlg, nIDDlgItem, param, TRUE);
+		return param;
+	}
+	float SpinButtonInt(HWND hDlg, int delta, int nIDDlgItem, float param)
+	{
+		return (float)SpinButtonInt(hDlg, delta, nIDDlgItem, (int)param);
+	}
+
+	// float値のコントロール
+	float EditBoxFloat(HWND hDlg, int nIDDlgItem, float param)
+	{
+		TCHAR buf[32];
+		BOOL translated = FALSE;
+		int result = GetDlgItemText(hDlg, nIDDlgItem, buf, sizeof(buf));
+		if (result > 0){
+			char str[32];
+			WideCharToMultiByte(CP_OEMCP, 0, buf, result, str, sizeof(str), NULL, NULL);
+			param = (float)atof(str);
+		}
+		else {
+			swprintf(buf, 256, L"%.2f", param);
+			SetDlgItemText(hDlg, nIDDlgItem, buf);
+		}
+		return param;
+	}
+}
 
 void ImageInfoDialog::Create(HINSTANCE hInst, HWND hWndParent)
 {
@@ -12,14 +65,13 @@ void ImageInfoDialog::Create(HINSTANCE hInst, HWND hWndParent)
 // プロシージャ
 LRESULT CALLBACK ImageInfoDialog::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	static int x = 0;
-	static int y = 0;
+	static struct avs::ImageInfo image = {};
 	static TV_INSERTSTRUCT tv{};
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		SetDlgItemInt(hDlg, IDC_EDIT1, x, TRUE);							// X : 表示座標の X 値
-		SetDlgItemInt(hDlg, IDC_EDIT2, y, TRUE);							// Y : 表示座標の Y 値
+		SetDlgItemInt(hDlg, IDC_EDIT1, (int)image.x, TRUE);							// X : 表示座標の X 値
+		SetDlgItemInt(hDlg, IDC_EDIT2, (int)image.y, TRUE);							// Y : 表示座標の Y 値
 		{
 			HWND hWnd = GetDlgItem(hDlg, IDC_TREE1);
 			tv.hInsertAfter = TVI_LAST;
@@ -43,23 +95,29 @@ LRESULT CALLBACK ImageInfoDialog::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARA
 	case WM_COMMAND:
 		// アイテムの内容が変更された時
 		if (HIWORD(wParam) == EN_UPDATE){
-			BOOL translated = FALSE;
-			int value = 0;
 			// どのアイテムが変更されたか
 			switch (LOWORD(wParam)) {
-			case IDC_EDIT1: // X
-				value = (int)GetDlgItemInt(hDlg, IDC_EDIT1, &translated, TRUE);
-				if (translated == TRUE) x = value;
-				else
-					SetDlgItemInt(hDlg, IDC_EDIT1, x, TRUE);
+			case IDC_EDIT1:
+				image.x = EditBoxInt(hDlg, IDC_EDIT1, image.x);
 				return TRUE;
-				break;
-
-			case IDC_EDIT2: // Y
-				value = (int)GetDlgItemInt(hDlg, IDC_EDIT2, &translated, TRUE);
-				if (translated == TRUE) y = value;
+			case IDC_EDIT2:
+				image.y = EditBoxInt(hDlg, IDC_EDIT2, image.y);
 				return TRUE;
-				break;
+			case IDC_EDIT3:
+				image.u = EditBoxInt(hDlg, IDC_EDIT3, image.u);
+				return TRUE;
+			case IDC_EDIT4:
+				image.v = EditBoxInt(hDlg, IDC_EDIT4, image.v);
+				return TRUE;
+			case IDC_EDIT5:
+				image.w = EditBoxInt(hDlg, IDC_EDIT5, image.w);
+				return TRUE;
+			case IDC_EDIT6:
+				image.h = EditBoxInt(hDlg, IDC_EDIT6, image.h);
+				return TRUE;
+			case IDC_EDIT12:
+				image.a = EditBoxFloat(hDlg, IDC_EDIT12, image.a);
+				return TRUE;
 			}
 		}
 		break;
@@ -72,24 +130,24 @@ LRESULT CALLBACK ImageInfoDialog::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARA
 		switch (nhm->code){
 		case UDN_DELTAPOS:	// スピンボタンを押した時
 			switch (nmud->hdr.idFrom){
-			case IDC_SPIN1:		// X
-				if (nmud->iDelta < 0){
-					x++;
-				}
-				else {
-					x--;
-				}
-				SetDlgItemInt(hDlg, IDC_EDIT1, x, TRUE);
-				break;
-			case IDC_SPIN2:		// Y
-				if (nmud->iDelta < 0){
-					y++;
-				}
-				else {
-					y--;
-				}
-				SetDlgItemInt(hDlg, IDC_EDIT2, y, TRUE);
-				break;
+			case IDC_SPIN1:
+				image.x = SpinButtonInt(hDlg, nmud->iDelta, IDC_EDIT1, image.x);
+				return TRUE;
+			case IDC_SPIN2:
+				image.y = SpinButtonInt(hDlg, nmud->iDelta, IDC_EDIT2, image.y);
+				return TRUE;
+			case IDC_SPIN3:
+				image.u = SpinButtonInt(hDlg, nmud->iDelta, IDC_EDIT3, image.u);
+				return TRUE;
+			case IDC_SPIN4:
+				image.v = SpinButtonInt(hDlg, nmud->iDelta, IDC_EDIT4, image.v);
+				return TRUE;
+			case IDC_SPIN5:
+				image.w = SpinButtonInt(hDlg, nmud->iDelta, IDC_EDIT5, image.w);
+				return TRUE;
+			case IDC_SPIN6:
+				image.h = SpinButtonInt(hDlg, nmud->iDelta, IDC_EDIT6, image.h);
+				return TRUE;
 			}
 		}
 	}
@@ -99,3 +157,4 @@ LRESULT CALLBACK ImageInfoDialog::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARA
 
 	return FALSE;
 }
+
