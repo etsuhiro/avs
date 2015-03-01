@@ -21,6 +21,13 @@ namespace {
 		return (float)EditBoxInt(hDlg, nIDDlgItem, (int)param);
 	}
 
+	void SetDlgItemFloat(HWND hDlg, int nIDDlgItem, float param)
+	{
+		TCHAR buf[32];
+		_stprintf_s(buf, _T("%.2f"), param);
+		SetDlgItemText(hDlg, nIDDlgItem, buf);
+	}
+
 	int SpinButtonInt(HWND hDlg, int delta, int nIDDlgItem, int param)
 	{
 		if (delta < 0){
@@ -34,7 +41,14 @@ namespace {
 	}
 	float SpinButtonInt(HWND hDlg, int delta, int nIDDlgItem, float param)
 	{
-		return (float)SpinButtonInt(hDlg, delta, nIDDlgItem, (int)param);
+		if (delta < 0){
+			param+=1.f;
+		}
+		else {
+			param-=1.f;
+		}
+		SetDlgItemFloat(hDlg, nIDDlgItem, param);
+		return param;
 	}
 
 	// float値のコントロール
@@ -44,13 +58,22 @@ namespace {
 		BOOL translated = FALSE;
 		int result = GetDlgItemText(hDlg, nIDDlgItem, buf, sizeof(buf));
 		if (result > 0){
-			char str[32];
-			WideCharToMultiByte(CP_OEMCP, 0, buf, result, str, sizeof(str), NULL, NULL);
-			param = (float)atof(str);
-		}
-		else {
-			swprintf(buf, 256, L"%.2f", param);
-			SetDlgItemText(hDlg, nIDDlgItem, buf);
+			TCHAR* endptr;
+			float value = _tcstof(buf, &endptr);
+			if (buf != endptr){
+				if (value < 0.f){
+					value = 0.f;
+					SetDlgItemFloat(hDlg, nIDDlgItem, value);
+				}
+				if (1.f < value){
+					value = 1.f;
+					SetDlgItemFloat(hDlg, nIDDlgItem, value);
+				}
+				param = value;
+			}
+			else {
+				SetDlgItemFloat(hDlg, nIDDlgItem, param);
+			}
 		}
 		return param;
 	}
@@ -70,8 +93,28 @@ LRESULT CALLBACK ImageInfoDialog::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARA
 
 	switch (msg) {
 	case WM_INITDIALOG:
+		SendMessage(GetDlgItem(hDlg, IDC_SLIDER1), TBM_SETRANGE, (WPARAM)TRUE, (LPARAM)MAKELONG(0, 100));
+		SendMessage(GetDlgItem(hDlg, IDC_SLIDER2), TBM_SETRANGE, (WPARAM)TRUE, (LPARAM)MAKELONG(0, 100));
+		SendMessage(GetDlgItem(hDlg, IDC_SLIDER3), TBM_SETRANGE, (WPARAM)TRUE, (LPARAM)MAKELONG(0, 100));
+		SendMessage(GetDlgItem(hDlg, IDC_SLIDER4), TBM_SETRANGE, (WPARAM)TRUE, (LPARAM)MAKELONG(0, 100));
+
 		SetDlgItemInt(hDlg, IDC_EDIT1, (int)image.x, TRUE);							// X : 表示座標の X 値
 		SetDlgItemInt(hDlg, IDC_EDIT2, (int)image.y, TRUE);							// Y : 表示座標の Y 値
+		SetDlgItemInt(hDlg, IDC_EDIT3, (int)image.u, TRUE);
+		SetDlgItemInt(hDlg, IDC_EDIT4, (int)image.v, TRUE);
+		SetDlgItemInt(hDlg, IDC_EDIT5, (int)image.w, TRUE);
+		SetDlgItemInt(hDlg, IDC_EDIT6, (int)image.h, TRUE);
+		SetDlgItemFloat(hDlg, IDC_EDIT7, image.hscale);
+		SetDlgItemFloat(hDlg, IDC_EDIT8, image.vscale);
+		SetDlgItemFloat(hDlg, IDC_EDIT9, image.r);
+		SetDlgItemFloat(hDlg, IDC_EDIT10, image.g);
+		SetDlgItemFloat(hDlg, IDC_EDIT11, image.b);
+		SetDlgItemFloat(hDlg, IDC_EDIT12, image.a);
+		SetDlgItemFloat(hDlg, IDC_EDIT13, image.rot);
+		SendMessage(GetDlgItem(hDlg, IDC_SLIDER1), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.r * 100));
+		SendMessage(GetDlgItem(hDlg, IDC_SLIDER2), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.g * 100));
+		SendMessage(GetDlgItem(hDlg, IDC_SLIDER3), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.b * 100));
+		SendMessage(GetDlgItem(hDlg, IDC_SLIDER4), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.a * 100));
 		{
 			HWND hWnd = GetDlgItem(hDlg, IDC_TREE1);
 			tv.hInsertAfter = TVI_LAST;
@@ -115,12 +158,45 @@ LRESULT CALLBACK ImageInfoDialog::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARA
 			case IDC_EDIT6:
 				image.h = EditBoxInt(hDlg, IDC_EDIT6, image.h);
 				return TRUE;
+			case IDC_EDIT7:
+				image.hscale = EditBoxFloat(hDlg, IDC_EDIT7, image.hscale);
+				return TRUE;
+			case IDC_EDIT8:
+				image.vscale = EditBoxFloat(hDlg, IDC_EDIT8, image.vscale);
+				return TRUE;
+			case IDC_EDIT9:
+				image.r = EditBoxFloat(hDlg, IDC_EDIT9, image.r);
+				SendMessage(GetDlgItem(hDlg, IDC_SLIDER1), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.r * 100));
+				return TRUE;
+			case IDC_EDIT10:
+				image.g = EditBoxFloat(hDlg, IDC_EDIT10, image.g);
+				SendMessage(GetDlgItem(hDlg, IDC_SLIDER2), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.g * 100));
+				return TRUE;
+			case IDC_EDIT11:
+				image.b = EditBoxFloat(hDlg, IDC_EDIT11, image.b);
+				SendMessage(GetDlgItem(hDlg, IDC_SLIDER3), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.b * 100));
+				return TRUE;
 			case IDC_EDIT12:
 				image.a = EditBoxFloat(hDlg, IDC_EDIT12, image.a);
+				SendMessage(GetDlgItem(hDlg, IDC_SLIDER4), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.a * 100));
+				return TRUE;
+			case IDC_EDIT13:
+				image.rot = EditBoxFloat(hDlg, IDC_EDIT13, image.rot);
 				return TRUE;
 			}
 		}
 		break;
+
+	case WM_HSCROLL:	// バーを動かしてる時
+		image.r = (float)(SendMessage(GetDlgItem(hDlg, IDC_SLIDER1), TBM_GETPOS, 0, 0)) / 100;
+		image.g = (float)(SendMessage(GetDlgItem(hDlg, IDC_SLIDER2), TBM_GETPOS, 0, 0)) / 100;
+		image.b = (float)(SendMessage(GetDlgItem(hDlg, IDC_SLIDER3), TBM_GETPOS, 0, 0)) / 100;
+		image.a = (float)(SendMessage(GetDlgItem(hDlg, IDC_SLIDER4), TBM_GETPOS, 0, 0)) / 100;
+		SetDlgItemFloat(hDlg, IDC_EDIT9, image.r);
+		SetDlgItemFloat(hDlg, IDC_EDIT10, image.g);
+		SetDlgItemFloat(hDlg, IDC_EDIT11, image.b);
+		SetDlgItemFloat(hDlg, IDC_EDIT12, image.a);
+		return TRUE;
 
 	case WM_NOTIFY:
 	{
@@ -147,6 +223,9 @@ LRESULT CALLBACK ImageInfoDialog::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARA
 				return TRUE;
 			case IDC_SPIN6:
 				image.h = SpinButtonInt(hDlg, nmud->iDelta, IDC_EDIT6, image.h);
+				return TRUE;
+			case IDC_SPIN13:
+				image.rot = SpinButtonInt(hDlg, nmud->iDelta, IDC_EDIT13, image.rot);
 				return TRUE;
 			}
 		}
