@@ -82,6 +82,7 @@
   <ItemGroup>
     <ClInclude Include="..\AvsCore\ImageListener.h" />
     <ClInclude Include="ImageInfoDialog.h" />
+    <ClInclude Include="ImageTreeView.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResTest.h" />
     <ClInclude Include="stdafx.h" />
@@ -89,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ImageInfoDialog.cpp" />
+    <ClCompile Include="ImageTreeView.cpp" />
     <ClCompile Include="ResTest.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

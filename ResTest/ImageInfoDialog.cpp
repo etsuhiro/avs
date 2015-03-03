@@ -199,39 +199,51 @@ LRESULT CALLBACK ImageInfoDialog::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARA
 		return TRUE;
 
 	case WM_NOTIFY:
-	{
-		LPNMHDR nhm = (NMHDR*)lParam;
-		NM_UPDOWN* nmud = (NM_UPDOWN*)nhm;
-
-		switch (nhm->code){
-		case UDN_DELTAPOS:	// スピンボタンを押した時
-			switch (nmud->hdr.idFrom){
-			case IDC_SPIN1:
-				image.x = SpinButtonInt(hDlg, nmud->iDelta, IDC_EDIT1, image.x);
-				return TRUE;
-			case IDC_SPIN2:
-				image.y = SpinButtonInt(hDlg, nmud->iDelta, IDC_EDIT2, image.y);
-				return TRUE;
-			case IDC_SPIN3:
-				image.u = SpinButtonInt(hDlg, nmud->iDelta, IDC_EDIT3, image.u);
-				return TRUE;
-			case IDC_SPIN4:
-				image.v = SpinButtonInt(hDlg, nmud->iDelta, IDC_EDIT4, image.v);
-				return TRUE;
-			case IDC_SPIN5:
-				image.w = SpinButtonInt(hDlg, nmud->iDelta, IDC_EDIT5, image.w);
-				return TRUE;
-			case IDC_SPIN6:
-				image.h = SpinButtonInt(hDlg, nmud->iDelta, IDC_EDIT6, image.h);
-				return TRUE;
-			case IDC_SPIN13:
-				image.rot = SpinButtonInt(hDlg, nmud->iDelta, IDC_EDIT13, image.rot);
+		if (wParam == IDC_TREE1)
+		{
+			TV_DISPINFO* ptv_disp = (TV_DISPINFO *)lParam;
+			if (ptv_disp->hdr.code == TVN_SELCHANGING){
+				// 項目が選択された
 				return TRUE;
 			}
-		}
-	}
-	break;
+			if (ptv_disp->hdr.code == TVN_ENDLABELEDIT)
+			{
+				// ツリーの項目編集が終わったのでデータをセット
+				TreeView_SetItem(GetDlgItem(hDlg, IDC_TREE1), &ptv_disp->item);
+				return TRUE;
+			}
+		} else {
+			LPNMHDR nhm = (NMHDR*)lParam;
+			NM_UPDOWN* nmud = (NM_UPDOWN*)nhm;
 
+			switch (nhm->code){
+			case UDN_DELTAPOS:	// スピンボタンを押した時
+				switch (nmud->hdr.idFrom){
+				case IDC_SPIN1:
+					image.x = SpinButtonInt(hDlg, nmud->iDelta, IDC_EDIT1, image.x);
+					return TRUE;
+				case IDC_SPIN2:
+					image.y = SpinButtonInt(hDlg, nmud->iDelta, IDC_EDIT2, image.y);
+					return TRUE;
+				case IDC_SPIN3:
+					image.u = SpinButtonInt(hDlg, nmud->iDelta, IDC_EDIT3, image.u);
+					return TRUE;
+				case IDC_SPIN4:
+					image.v = SpinButtonInt(hDlg, nmud->iDelta, IDC_EDIT4, image.v);
+					return TRUE;
+				case IDC_SPIN5:
+					image.w = SpinButtonInt(hDlg, nmud->iDelta, IDC_EDIT5, image.w);
+					return TRUE;
+				case IDC_SPIN6:
+					image.h = SpinButtonInt(hDlg, nmud->iDelta, IDC_EDIT6, image.h);
+					return TRUE;
+				case IDC_SPIN13:
+					image.rot = SpinButtonInt(hDlg, nmud->iDelta, IDC_EDIT13, image.rot);
+					return TRUE;
+				}
+			}
+		}
+		break;
 	}
 
 	return FALSE;
