@@ -24,7 +24,7 @@ namespace {
 	void SetDlgItemFloat(HWND hDlg, int nIDDlgItem, float param)
 	{
 		TCHAR buf[32];
-		_stprintf_s(buf, _T("%.2f"), param);
+		_stprintf_s(buf, _T("%g"), param);
 		SetDlgItemText(hDlg, nIDDlgItem, buf);
 	}
 
@@ -61,14 +61,6 @@ namespace {
 			TCHAR* endptr;
 			float value = _tcstof(buf, &endptr);
 			if (buf != endptr){
-				if (value < 0.f){
-					value = 0.f;
-					SetDlgItemFloat(hDlg, nIDDlgItem, value);
-				}
-				if (1.f < value){
-					value = 1.f;
-					SetDlgItemFloat(hDlg, nIDDlgItem, value);
-				}
 				param = value;
 			}
 			else {
@@ -76,6 +68,20 @@ namespace {
 			}
 		}
 		return param;
+	}
+
+	float EditBoxFloat(HWND hDlg, int nIDDlgItem, float param, float min, float max)
+	{
+		float value = EditBoxFloat(hDlg, nIDDlgItem, param);
+		if (value < min){
+			value = min;
+			SetDlgItemFloat(hDlg, nIDDlgItem, value);
+		}
+		if (value > max){
+			value = max;
+			SetDlgItemFloat(hDlg, nIDDlgItem, value);
+		}
+		return value;
 	}
 }
 
@@ -115,6 +121,7 @@ LRESULT CALLBACK ImageInfoDialog::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARA
 		SendMessage(GetDlgItem(hDlg, IDC_SLIDER2), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.g * 100));
 		SendMessage(GetDlgItem(hDlg, IDC_SLIDER3), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.b * 100));
 		SendMessage(GetDlgItem(hDlg, IDC_SLIDER4), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.a * 100));
+		EnableWindow(GetDlgItem(hDlg, IDC_BUTTON1), FALSE);	// Undoボタンを選択不可に
 		{
 			HWND hWnd = GetDlgItem(hDlg, IDC_TREE1);
 			tv.hInsertAfter = TVI_LAST;
@@ -165,19 +172,19 @@ LRESULT CALLBACK ImageInfoDialog::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARA
 				image.vscale = EditBoxFloat(hDlg, IDC_EDIT8, image.vscale);
 				return TRUE;
 			case IDC_EDIT9:
-				image.r = EditBoxFloat(hDlg, IDC_EDIT9, image.r);
+				image.r = EditBoxFloat(hDlg, IDC_EDIT9, image.r, 0.f, 1.f);
 				SendMessage(GetDlgItem(hDlg, IDC_SLIDER1), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.r * 100));
 				return TRUE;
 			case IDC_EDIT10:
-				image.g = EditBoxFloat(hDlg, IDC_EDIT10, image.g);
+				image.g = EditBoxFloat(hDlg, IDC_EDIT10, image.g, 0.f, 1.f);
 				SendMessage(GetDlgItem(hDlg, IDC_SLIDER2), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.g * 100));
 				return TRUE;
 			case IDC_EDIT11:
-				image.b = EditBoxFloat(hDlg, IDC_EDIT11, image.b);
+				image.b = EditBoxFloat(hDlg, IDC_EDIT11, image.b, 0.f, 1.f);
 				SendMessage(GetDlgItem(hDlg, IDC_SLIDER3), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.b * 100));
 				return TRUE;
 			case IDC_EDIT12:
-				image.a = EditBoxFloat(hDlg, IDC_EDIT12, image.a);
+				image.a = EditBoxFloat(hDlg, IDC_EDIT12, image.a, 0.f, 1.f);
 				SendMessage(GetDlgItem(hDlg, IDC_SLIDER4), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.a * 100));
 				return TRUE;
 			case IDC_EDIT13:
