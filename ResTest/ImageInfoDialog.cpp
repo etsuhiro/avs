@@ -3,6 +3,7 @@
 #include <commctrl.h>
 #include "resource.h"
 #include "AvsCore/ImageListener.h"
+#include "ImageTreeView.h"
 
 namespace {
 	// 整数値のコントロール
@@ -91,11 +92,21 @@ void ImageInfoDialog::Create(HINSTANCE hInst, HWND hWndParent)
 	CreateDialog(hInst, MAKEINTRESOURCE(IDD_DIALOG1), hWndParent, (DLGPROC)Proc);
 }
 
+void modyfyCheck(HWND hDlg, avs::ImageInfo& image, avs::ImageInfo& org)
+{
+	if (image.x != org.x
+	 || image.r != org.r)
+		EnableWindow(GetDlgItem(hDlg, IDC_BUTTON1), TRUE);	// Undoボタンを選択可に
+}
+
 // プロシージャ
 LRESULT CALLBACK ImageInfoDialog::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static struct avs::ImageInfo image = {};
-	static TV_INSERTSTRUCT tv{};
+	static struct avs::ImageInfo org = image;
+
+	if (ImageTreeView::Proc(hDlg, msg, wParam, lParam)==TRUE)
+		return TRUE;
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -122,21 +133,6 @@ LRESULT CALLBACK ImageInfoDialog::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARA
 		SendMessage(GetDlgItem(hDlg, IDC_SLIDER3), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.b * 100));
 		SendMessage(GetDlgItem(hDlg, IDC_SLIDER4), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.a * 100));
 		EnableWindow(GetDlgItem(hDlg, IDC_BUTTON1), FALSE);	// Undoボタンを選択不可に
-		{
-			HWND hWnd = GetDlgItem(hDlg, IDC_TREE1);
-			tv.hInsertAfter = TVI_LAST;
-			tv.item.mask = TVIF_TEXT;
-			tv.hParent = TVI_ROOT;
-			tv.item.pszText = TEXT("親１");
-			TreeView_InsertItem(hWnd, &tv);
-			tv.item.pszText = TEXT("親２");
-			HTREEITEM hParent = TreeView_InsertItem(hWnd, &tv);
-			tv.hParent = hParent;
-			tv.item.pszText = TEXT("子１");
-			TreeView_InsertItem(hWnd, &tv);
-			tv.item.pszText = TEXT("子２");
-			TreeView_InsertItem(hWnd, &tv);
-		}
 		break;
 
 	case WM_DROPFILES:
@@ -149,46 +145,59 @@ LRESULT CALLBACK ImageInfoDialog::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARA
 			switch (LOWORD(wParam)) {
 			case IDC_EDIT1:
 				image.x = EditBoxInt(hDlg, IDC_EDIT1, image.x);
+				modyfyCheck(hDlg, image, org);
 				return TRUE;
 			case IDC_EDIT2:
 				image.y = EditBoxInt(hDlg, IDC_EDIT2, image.y);
+				modyfyCheck(hDlg, image, org);
 				return TRUE;
 			case IDC_EDIT3:
 				image.u = EditBoxInt(hDlg, IDC_EDIT3, image.u);
+				modyfyCheck(hDlg, image, org);
 				return TRUE;
 			case IDC_EDIT4:
 				image.v = EditBoxInt(hDlg, IDC_EDIT4, image.v);
+				modyfyCheck(hDlg, image, org);
 				return TRUE;
 			case IDC_EDIT5:
 				image.w = EditBoxInt(hDlg, IDC_EDIT5, image.w);
+				modyfyCheck(hDlg, image, org);
 				return TRUE;
 			case IDC_EDIT6:
 				image.h = EditBoxInt(hDlg, IDC_EDIT6, image.h);
+				modyfyCheck(hDlg, image, org);
 				return TRUE;
 			case IDC_EDIT7:
 				image.hscale = EditBoxFloat(hDlg, IDC_EDIT7, image.hscale);
+				modyfyCheck(hDlg, image, org);
 				return TRUE;
 			case IDC_EDIT8:
 				image.vscale = EditBoxFloat(hDlg, IDC_EDIT8, image.vscale);
+				modyfyCheck(hDlg, image, org);
 				return TRUE;
 			case IDC_EDIT9:
 				image.r = EditBoxFloat(hDlg, IDC_EDIT9, image.r, 0.f, 1.f);
 				SendMessage(GetDlgItem(hDlg, IDC_SLIDER1), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.r * 100));
+				modyfyCheck(hDlg, image, org);
 				return TRUE;
 			case IDC_EDIT10:
 				image.g = EditBoxFloat(hDlg, IDC_EDIT10, image.g, 0.f, 1.f);
 				SendMessage(GetDlgItem(hDlg, IDC_SLIDER2), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.g * 100));
+				modyfyCheck(hDlg, image, org);
 				return TRUE;
 			case IDC_EDIT11:
 				image.b = EditBoxFloat(hDlg, IDC_EDIT11, image.b, 0.f, 1.f);
 				SendMessage(GetDlgItem(hDlg, IDC_SLIDER3), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.b * 100));
+				modyfyCheck(hDlg, image, org);
 				return TRUE;
 			case IDC_EDIT12:
 				image.a = EditBoxFloat(hDlg, IDC_EDIT12, image.a, 0.f, 1.f);
 				SendMessage(GetDlgItem(hDlg, IDC_SLIDER4), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.a * 100));
+				modyfyCheck(hDlg, image, org);
 				return TRUE;
 			case IDC_EDIT13:
 				image.rot = EditBoxFloat(hDlg, IDC_EDIT13, image.rot);
+				modyfyCheck(hDlg, image, org);
 				return TRUE;
 			}
 		}
@@ -206,20 +215,7 @@ LRESULT CALLBACK ImageInfoDialog::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARA
 		return TRUE;
 
 	case WM_NOTIFY:
-		if (wParam == IDC_TREE1)
-		{
-			TV_DISPINFO* ptv_disp = (TV_DISPINFO *)lParam;
-			if (ptv_disp->hdr.code == TVN_SELCHANGING){
-				// 項目が選択された
-				return TRUE;
-			}
-			if (ptv_disp->hdr.code == TVN_ENDLABELEDIT)
-			{
-				// ツリーの項目編集が終わったのでデータをセット
-				TreeView_SetItem(GetDlgItem(hDlg, IDC_TREE1), &ptv_disp->item);
-				return TRUE;
-			}
-		} else {
+	{
 			LPNMHDR nhm = (NMHDR*)lParam;
 			NM_UPDOWN* nmud = (NM_UPDOWN*)nhm;
 
