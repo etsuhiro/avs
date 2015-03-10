@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "ResTest.h"
-#include "ImageInfoDialog.h"
+#include "ImageTreeView.h"
 
 
 #define MAX_LOADSTRING 100
@@ -113,7 +113,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    UpdateWindow(hWnd);
 
 	// モードレスダイアログボックスを作成します
-   ImageInfoDialog::Create(hInst, hWnd);
+   ImageTreeView::Create(hInst, hWnd);
 
    return TRUE;
 }

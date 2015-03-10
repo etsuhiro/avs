@@ -2,8 +2,6 @@
 #include "ImageInfoDialog.h"
 #include <commctrl.h>
 #include "resource.h"
-#include "AvsCore/ImageListener.h"
-#include "ImageTreeView.h"
 
 namespace {
 	// 整数値のコントロール
@@ -86,12 +84,6 @@ namespace {
 	}
 }
 
-void ImageInfoDialog::Create(HINSTANCE hInst, HWND hWndParent)
-{
-	// モードレスダイアログボックスを作成します
-	CreateDialog(hInst, MAKEINTRESOURCE(IDD_DIALOG1), hWndParent, (DLGPROC)Proc);
-}
-
 void modyfyCheck(HWND hDlg, avs::ImageInfo& image, avs::ImageInfo& org)
 {
 	if (image.x != org.x
@@ -99,14 +91,59 @@ void modyfyCheck(HWND hDlg, avs::ImageInfo& image, avs::ImageInfo& org)
 		EnableWindow(GetDlgItem(hDlg, IDC_BUTTON1), TRUE);	// Undoボタンを選択可に
 }
 
-// プロシージャ
-LRESULT CALLBACK ImageInfoDialog::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	static struct avs::ImageInfo image = {};
-	static struct avs::ImageInfo org = image;
+ImageInfoDialog::ImageInfoDialog(avs::ImageInfo* info)
+	: m_pInfo(info)
+{}
 
-	if (ImageTreeView::Proc(hDlg, msg, wParam, lParam)==TRUE)
-		return TRUE;
+void ImageInfoDialog::Init(HWND hDlg)
+{
+	if (m_pInfo){
+		m_orgInfo = *m_pInfo;
+		SetDlgItemInt(hDlg, IDC_EDIT1, (int)m_pInfo->x, TRUE);							// X : 表示座標の X 値
+		SetDlgItemInt(hDlg, IDC_EDIT2, (int)m_pInfo->y, TRUE);							// Y : 表示座標の Y 値
+		SetDlgItemInt(hDlg, IDC_EDIT3, (int)m_pInfo->u, TRUE);
+		SetDlgItemInt(hDlg, IDC_EDIT4, (int)m_pInfo->v, TRUE);
+		SetDlgItemInt(hDlg, IDC_EDIT5, (int)m_pInfo->w, TRUE);
+		SetDlgItemInt(hDlg, IDC_EDIT6, (int)m_pInfo->h, TRUE);
+		SetDlgItemFloat(hDlg, IDC_EDIT7, m_pInfo->hscale);
+		SetDlgItemFloat(hDlg, IDC_EDIT8, m_pInfo->vscale);
+		SetDlgItemFloat(hDlg, IDC_EDIT9, m_pInfo->r);
+		SetDlgItemFloat(hDlg, IDC_EDIT10, m_pInfo->g);
+		SetDlgItemFloat(hDlg, IDC_EDIT11, m_pInfo->b);
+		SetDlgItemFloat(hDlg, IDC_EDIT12, m_pInfo->a);
+		SetDlgItemFloat(hDlg, IDC_EDIT13, m_pInfo->rot);
+		SendMessage(GetDlgItem(hDlg, IDC_SLIDER1), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(m_pInfo->r * 100));
+		SendMessage(GetDlgItem(hDlg, IDC_SLIDER2), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(m_pInfo->g * 100));
+		SendMessage(GetDlgItem(hDlg, IDC_SLIDER3), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(m_pInfo->b * 100));
+		SendMessage(GetDlgItem(hDlg, IDC_SLIDER4), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(m_pInfo->a * 100));
+	}
+	else {
+		SetDlgItemText(hDlg, IDC_EDIT1, L"");
+		SetDlgItemText(hDlg, IDC_EDIT2, L"");
+		SetDlgItemText(hDlg, IDC_EDIT3, L"");
+		SetDlgItemText(hDlg, IDC_EDIT4, L"");
+		SetDlgItemText(hDlg, IDC_EDIT5, L"");
+		SetDlgItemText(hDlg, IDC_EDIT6, L"");
+		SetDlgItemText(hDlg, IDC_EDIT7, L"");
+		SetDlgItemText(hDlg, IDC_EDIT8, L"");
+		SetDlgItemText(hDlg, IDC_EDIT9, L"");
+		SetDlgItemText(hDlg, IDC_EDIT10, L"");
+		SetDlgItemText(hDlg, IDC_EDIT11, L"");
+		SetDlgItemText(hDlg, IDC_EDIT12, L"");
+		SetDlgItemText(hDlg, IDC_EDIT13, L"");
+		EnableWindow(GetDlgItem(hDlg, IDC_SLIDER1), FALSE);
+		EnableWindow(GetDlgItem(hDlg, IDC_SLIDER2), FALSE);
+		EnableWindow(GetDlgItem(hDlg, IDC_SLIDER3), FALSE);
+		EnableWindow(GetDlgItem(hDlg, IDC_SLIDER4), FALSE);
+	}
+	EnableWindow(GetDlgItem(hDlg, IDC_BUTTON1), FALSE);	// Undoボタンを選択不可に
+}
+
+// プロシージャ
+LRESULT ImageInfoDialog::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	if (m_pInfo == nullptr)	return FALSE;
+	avs::ImageInfo& image = *m_pInfo;
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -114,25 +151,6 @@ LRESULT CALLBACK ImageInfoDialog::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARA
 		SendMessage(GetDlgItem(hDlg, IDC_SLIDER2), TBM_SETRANGE, (WPARAM)TRUE, (LPARAM)MAKELONG(0, 100));
 		SendMessage(GetDlgItem(hDlg, IDC_SLIDER3), TBM_SETRANGE, (WPARAM)TRUE, (LPARAM)MAKELONG(0, 100));
 		SendMessage(GetDlgItem(hDlg, IDC_SLIDER4), TBM_SETRANGE, (WPARAM)TRUE, (LPARAM)MAKELONG(0, 100));
-
-		SetDlgItemInt(hDlg, IDC_EDIT1, (int)image.x, TRUE);							// X : 表示座標の X 値
-		SetDlgItemInt(hDlg, IDC_EDIT2, (int)image.y, TRUE);							// Y : 表示座標の Y 値
-		SetDlgItemInt(hDlg, IDC_EDIT3, (int)image.u, TRUE);
-		SetDlgItemInt(hDlg, IDC_EDIT4, (int)image.v, TRUE);
-		SetDlgItemInt(hDlg, IDC_EDIT5, (int)image.w, TRUE);
-		SetDlgItemInt(hDlg, IDC_EDIT6, (int)image.h, TRUE);
-		SetDlgItemFloat(hDlg, IDC_EDIT7, image.hscale);
-		SetDlgItemFloat(hDlg, IDC_EDIT8, image.vscale);
-		SetDlgItemFloat(hDlg, IDC_EDIT9, image.r);
-		SetDlgItemFloat(hDlg, IDC_EDIT10, image.g);
-		SetDlgItemFloat(hDlg, IDC_EDIT11, image.b);
-		SetDlgItemFloat(hDlg, IDC_EDIT12, image.a);
-		SetDlgItemFloat(hDlg, IDC_EDIT13, image.rot);
-		SendMessage(GetDlgItem(hDlg, IDC_SLIDER1), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.r * 100));
-		SendMessage(GetDlgItem(hDlg, IDC_SLIDER2), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.g * 100));
-		SendMessage(GetDlgItem(hDlg, IDC_SLIDER3), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.b * 100));
-		SendMessage(GetDlgItem(hDlg, IDC_SLIDER4), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.a * 100));
-		EnableWindow(GetDlgItem(hDlg, IDC_BUTTON1), FALSE);	// Undoボタンを選択不可に
 		break;
 
 	case WM_DROPFILES:
@@ -145,59 +163,59 @@ LRESULT CALLBACK ImageInfoDialog::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARA
 			switch (LOWORD(wParam)) {
 			case IDC_EDIT1:
 				image.x = EditBoxInt(hDlg, IDC_EDIT1, image.x);
-				modyfyCheck(hDlg, image, org);
+				modyfyCheck(hDlg, image, m_orgInfo);
 				return TRUE;
 			case IDC_EDIT2:
 				image.y = EditBoxInt(hDlg, IDC_EDIT2, image.y);
-				modyfyCheck(hDlg, image, org);
+				modyfyCheck(hDlg, image, m_orgInfo);
 				return TRUE;
 			case IDC_EDIT3:
 				image.u = EditBoxInt(hDlg, IDC_EDIT3, image.u);
-				modyfyCheck(hDlg, image, org);
+				modyfyCheck(hDlg, image, m_orgInfo);
 				return TRUE;
 			case IDC_EDIT4:
 				image.v = EditBoxInt(hDlg, IDC_EDIT4, image.v);
-				modyfyCheck(hDlg, image, org);
+				modyfyCheck(hDlg, image, m_orgInfo);
 				return TRUE;
 			case IDC_EDIT5:
 				image.w = EditBoxInt(hDlg, IDC_EDIT5, image.w);
-				modyfyCheck(hDlg, image, org);
+				modyfyCheck(hDlg, image, m_orgInfo);
 				return TRUE;
 			case IDC_EDIT6:
 				image.h = EditBoxInt(hDlg, IDC_EDIT6, image.h);
-				modyfyCheck(hDlg, image, org);
+				modyfyCheck(hDlg, image, m_orgInfo);
 				return TRUE;
 			case IDC_EDIT7:
 				image.hscale = EditBoxFloat(hDlg, IDC_EDIT7, image.hscale);
-				modyfyCheck(hDlg, image, org);
+				modyfyCheck(hDlg, image, m_orgInfo);
 				return TRUE;
 			case IDC_EDIT8:
 				image.vscale = EditBoxFloat(hDlg, IDC_EDIT8, image.vscale);
-				modyfyCheck(hDlg, image, org);
+				modyfyCheck(hDlg, image, m_orgInfo);
 				return TRUE;
 			case IDC_EDIT9:
 				image.r = EditBoxFloat(hDlg, IDC_EDIT9, image.r, 0.f, 1.f);
 				SendMessage(GetDlgItem(hDlg, IDC_SLIDER1), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.r * 100));
-				modyfyCheck(hDlg, image, org);
+				modyfyCheck(hDlg, image, m_orgInfo);
 				return TRUE;
 			case IDC_EDIT10:
 				image.g = EditBoxFloat(hDlg, IDC_EDIT10, image.g, 0.f, 1.f);
 				SendMessage(GetDlgItem(hDlg, IDC_SLIDER2), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.g * 100));
-				modyfyCheck(hDlg, image, org);
+				modyfyCheck(hDlg, image, m_orgInfo);
 				return TRUE;
 			case IDC_EDIT11:
 				image.b = EditBoxFloat(hDlg, IDC_EDIT11, image.b, 0.f, 1.f);
 				SendMessage(GetDlgItem(hDlg, IDC_SLIDER3), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.b * 100));
-				modyfyCheck(hDlg, image, org);
+				modyfyCheck(hDlg, image, m_orgInfo);
 				return TRUE;
 			case IDC_EDIT12:
 				image.a = EditBoxFloat(hDlg, IDC_EDIT12, image.a, 0.f, 1.f);
 				SendMessage(GetDlgItem(hDlg, IDC_SLIDER4), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)(image.a * 100));
-				modyfyCheck(hDlg, image, org);
+				modyfyCheck(hDlg, image, m_orgInfo);
 				return TRUE;
 			case IDC_EDIT13:
 				image.rot = EditBoxFloat(hDlg, IDC_EDIT13, image.rot);
-				modyfyCheck(hDlg, image, org);
+				modyfyCheck(hDlg, image, m_orgInfo);
 				return TRUE;
 			}
 		}

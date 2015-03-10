@@ -1,11 +1,13 @@
 #pragma once
 
 #include <Windows.h>
+#include "AvsCore/ImageListener.h"
 
 class ImageInfoDialog {
+	avs::ImageInfo* m_pInfo;
+	avs::ImageInfo m_orgInfo;
 public:
-	static void Create(HINSTANCE hInst, HWND hWndParent);
-
-private:
-	static LRESULT CALLBACK Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+	ImageInfoDialog(avs::ImageInfo* info);
+	void Init(HWND hDlg);
+	LRESULT Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 };
