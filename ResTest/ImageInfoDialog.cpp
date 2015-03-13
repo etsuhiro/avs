@@ -87,7 +87,18 @@ namespace {
 void modyfyCheck(HWND hDlg, avs::ImageInfo& image, avs::ImageInfo& org)
 {
 	if (image.x != org.x
-	 || image.r != org.r)
+	 || image.y != org.y
+	 || image.hscale != org.hscale
+	 || image.vscale != org.vscale
+	 || image.r != org.r
+	 || image.g != org.g
+	 || image.b != org.b
+	 || image.a != org.a
+	 || image.u != org.u
+	 || image.v != org.v
+	 || image.w != org.h
+	 || image.rot != org.rot
+	|| image.priority != org.priority)
 		EnableWindow(GetDlgItem(hDlg, IDC_BUTTON1), TRUE);	// Undoボタンを選択可に
 }
 
@@ -157,6 +168,13 @@ LRESULT ImageInfoDialog::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_BUTTON1: // 「UNDO」ボタン
+			image = m_orgInfo;
+			Init(hDlg);
+			return TRUE;
+		}
+
 		// アイテムの内容が変更された時
 		if (HIWORD(wParam) == EN_UPDATE){
 			// どのアイテムが変更されたか
@@ -215,6 +233,10 @@ LRESULT ImageInfoDialog::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				return TRUE;
 			case IDC_EDIT13:
 				image.rot = EditBoxFloat(hDlg, IDC_EDIT13, image.rot);
+				modyfyCheck(hDlg, image, m_orgInfo);
+				return TRUE;
+			case IDC_EDIT14:
+				image.priority = EditBoxInt(hDlg, IDC_EDIT14, image.priority);
 				modyfyCheck(hDlg, image, m_orgInfo);
 				return TRUE;
 			}

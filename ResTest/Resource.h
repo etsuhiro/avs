@@ -22,6 +22,7 @@
 #define IDC_EDIT11                              1011
 #define IDC_EDIT12                              1012
 #define IDC_EDIT13                              1013
+#define IDC_EDIT14                              1014
 #define IDC_SPIN1                               2001
 #define IDC_SPIN2                               2002
 #define IDC_SPIN3                               2003
