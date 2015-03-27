@@ -51,6 +51,9 @@ void XmlEnum::ReadSchema(const TiXmlElement* e)
 				} else
 				if (s=="xsd:float"){
 					m_attribute[idx].type = XmlEnum::FLOAT;
+				} else
+				if (s=="xsd:crc32"){
+					m_attribute[idx].type = XmlEnum::CRC32;
 				}
 			}
 		}

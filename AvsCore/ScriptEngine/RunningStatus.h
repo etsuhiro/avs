@@ -12,5 +12,6 @@ namespace avs {
 		CHILD_SCRIPT,	//!< マルチスクリプト
 		WHILE,			//!< 繰り返し
 		EVENT,			//!< イベント
+		CLICK,
 	};
 }

@@ -79,6 +79,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\common\crc32.cpp" />
     <ClCompile Include="debugAvs.cpp" />
     <ClCompile Include="ScriptEngine.cpp" />
     <ClCompile Include="..\common\cFileWrite.cpp" />
@@ -92,6 +93,7 @@
     <ClCompile Include="ScriptEngine\ScriptState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\common\crc32.h" />
     <ClInclude Include="ScriptEngine.h" />
     <ClInclude Include="sinkenum.h" />
     <ClInclude Include="TextListener.h" />

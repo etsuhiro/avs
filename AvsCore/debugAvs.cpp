@@ -4,6 +4,7 @@
 #include <map>
 
 #include "ScriptEngine.h"
+#include "XmlBin/miku.h"
 #include "XmlBin/XmlBin.h"
 #include "XmlEnum/XmlEnum.h"
 #include "TextListener.h"
@@ -12,13 +13,60 @@
 XmlEnum xmls;	// ちょっとテスト
 
 class AvsText : public avs::avsTextListener {
-	void Put(const char *msg);
-	void Crlf();
-	void Option(const char *msg, int num);
+	void Put(const char* str, float time, int id)
+	{
+		if (!m_out){
+			printf("「");
+		}
+		m_out = true;
+		printf("%s", str);
+	}
+
+	void Crlf()
+	{
+		printf("\n");
+	}
+
+	void Attr(TEXT_ATTR attr)
+	{
+	}
+
+	void Option(const char* str, int num)
+	{
+		if (m_out){
+			printf("」\n");
+			m_out = false;
+		}
+		printf(" %d:%s\n", num + 1, str);
+	}
+
+	void Clear()
+	{
+	}
+
+	void Click()
+	{
+	}
+
+	void Window(float x, float y)
+	{
+	}
+
+	bool IsBusy()
+	{
+		return false;
+	}
 
 public:
 	AvsText() : m_out(false) {}
-	void Update();
+
+	void Update()
+	{
+		if (m_out){
+			printf("」\n");
+			m_out = false;
+		}
+	}
 
 private:
 	bool m_out;
@@ -38,6 +86,10 @@ class Variable : public avs::VariableListener {
 			return 0;
 		}
 		return m_item[name];
+	}
+	int KeyOn(int key)
+	{
+		return 0;
 	}
 
 	std::map<std::string, int> m_item;
@@ -138,7 +190,8 @@ void LoadScript(std::vector<char>& scriptbuf, const char* path, XmlEnum& xmls)
 	}
 
 	// バイナリに変換
-	XmlBin().Conv(scriptbuf, xml, &xmls );
+	hashmap_t hashmap;
+	XmlBin().Conv(scriptbuf, hashmap, xml, &xmls );
 //	mikuPrint(&scriptbuf[0], xmls);
 }
 
@@ -206,6 +259,7 @@ int main(int argc, char *argv[])
 
 void SelectOption(MyScriptEngine& script)
 {
+#if 0
 	int num = script.getOptionNum();
 	int c;
 	do {
@@ -214,35 +268,5 @@ void SelectOption(MyScriptEngine& script)
 		c = getchar();
 	} while(c<'1' ||  '0'+num<c);
 	script.GotoOption(c-'1');
-}
-
-void AvsText::Put(const char *str)
-{
-	if (!m_out){
-		printf("「");
-	}
-	m_out = true;
-	printf("%s", str);
-}
-
-void AvsText::Crlf()
-{
-	printf("\n");
-}
-
-void AvsText::Option(const char *msg, int num)
-{
-	if (m_out){
-		printf("」\n");
-		m_out = false;
-	}
-	printf(" %d:%s\n", num+1, msg);
-}
-
-void AvsText::Update()
-{
-	if (m_out){
-		printf("」\n");
-		m_out = false;
-	}
+#endif
 }

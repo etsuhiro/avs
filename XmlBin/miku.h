@@ -32,7 +32,10 @@ namespace miku
 	//! ElementNodeに続いてnAttr個続く構造体
 	struct Attr {
 		Offset name;	//!< 属性の名前の位置、あるいは属性のenum
-		Offset value;	//!< 属性の値の位置、あるいは値そのもの
+		union {
+			Offset value;	//!< 属性の値の位置、あるいは値そのもの
+			float fvalue;
+		};
 	};
 
 	//! タイプが要素の場合 

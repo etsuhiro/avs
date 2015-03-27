@@ -63,6 +63,9 @@
     <ClCompile Include="ScriptEngine\ScriptState.cpp">
       <Filter>ScriptEngine</Filter>
     </ClCompile>
+    <ClCompile Include="..\common\crc32.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScriptEngine.h">
@@ -100,6 +103,9 @@
     </ClInclude>
     <ClInclude Include="ScriptEngine\ScriptState.h">
       <Filter>ScriptEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\crc32.h">
+      <Filter>common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

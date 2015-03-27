@@ -3,14 +3,15 @@
 #include <cstdio>
 #include <vector>
 
-#include "cFileWrite.h"
-#include "Strbank.h"
-#include "tinyxml.h"
+#include "common/cFileWrite.h"
+#include "common/Strbank.h"
+#include "tinyxml/tinyxml.h"
 #include "miku.h"
-#include "XmlEnum.h"
+#include "XmlEnum/XmlEnum.h"
 
 bool debugMode = false;
 bool epackMode = false;
+bool bigEndian = false;
 XmlEnum xmls;
 
 void mikuPrint(char *pBuf, int idx, int indent)
@@ -136,12 +137,14 @@ void mikuDump(char *pBuf, int idx, int ret)
 
 void usage(void)
 {
-	fprintf(stderr, "Usage: xmlbin xmlfile [-d] [-e schemafile]\n");
+	fprintf(stderr, "Usage: xmlbin xmlfile [-d] [-b] [-e schemafile] [-o outfile]\n");
 	exit(0);
 }
 
 int main(int argc, char *argv[])
 {
+	const char *outFile = 0;
+
 	if (argc==1)	usage();
 
 	TiXmlDocument xml;
@@ -163,6 +166,13 @@ int main(int argc, char *argv[])
 				case 'd':
 					debugMode = true;
 					break;
+				case 'b':
+					bigEndian = true;
+					break;
+				case 'o':
+					if (++i>=argc)	usage();
+					outFile = argv[i];
+					break;
 				default:
 					usage();
 				}
@@ -171,19 +181,35 @@ int main(int argc, char *argv[])
 		}
 
 		std::vector<char> bxbuf;
-		XmlBin().Conv(bxbuf, xml, (epackMode)? &xmls:0 );
+		hashmap_t	hashmap;
+		int nodeSize = XmlBin().Conv(bxbuf, hashmap, xml, (epackMode)? &xmls:0 );
 
 		if (debugMode){
 			mikuPrint(&bxbuf[0], 0, 0);
 			mikuDump(&bxbuf[0], 0, 0);
 		} else {
-			std::string outfile(argv[1]);
-			std::string::size_type pos = outfile.find_last_of('.');
-			if (pos!=std::string::npos){
-				outfile.erase(pos);	// ägí£éqÇè¡Ç∑
+			if (bigEndian){
+				for (int i=0; i<nodeSize; i+=4){
+					char ex[4];
+					for (int j=0; j<4; j++){
+						ex[3-j] = bxbuf[i+j];
+					}
+					for (int j=0; j<4; j++){
+						bxbuf[i+j] = ex[j];
+					}
+				}
 			}
-			outfile += ".bin";
-			FileWrite(outfile.c_str()).write(&bxbuf[0], bxbuf.size());
+			if (outFile==0){
+				std::string outfile(argv[1]);
+				std::string::size_type pos = outfile.find_last_of('.');
+				if (pos!=std::string::npos){
+					outfile.erase(pos);	// ägí£éqÇè¡Ç∑
+				}
+				outfile += ".bin";
+				FileWrite(outfile.c_str()).write(&bxbuf[0], bxbuf.size());
+			} else {
+				FileWrite(outFile).write(&bxbuf[0], bxbuf.size());
+			}
 		}
 	} else {
 		fprintf(stderr, "file read error %s\n", argv[1]);

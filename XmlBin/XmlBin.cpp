@@ -28,6 +28,8 @@ namespace
 		virtual void textProc(const char *) {}	// テキスト
 		virtual void attrNum(int, int) {}
 	protected:
+		~xmlPerse(){}
+
 		std::vector<char>& m_buf;	// 生成されるバイナリスクリプトが格納される
 		int m_ofs;
 		XmlEnum* m_enum;	// enum pack用のスキーマ
@@ -81,6 +83,8 @@ namespace
 	public:
 		pass1(std::vector<char>& buf, myStrbank& mystr, XmlEnum* xenum)
 		 : xmlPerse(buf, xenum), m_mystr(mystr) {}
+
+		virtual ~pass1(){}
 
 		void Elements(const TiXmlElement* e)
 		{
@@ -142,6 +146,8 @@ namespace
 	public:
 		pass2(std::vector<char>& buf, myStrbank& mystr, XmlEnum* xenum, hashmap_t& hashmap)
 		 : xmlPerse(buf, xenum), m_mystr(mystr), m_hashmap(hashmap) {}
+
+		virtual ~pass2(){}
 
 		void Elements(const TiXmlElement* e)
 		{
@@ -211,13 +217,15 @@ namespace
 
 }
 
-void XmlBin::Conv(std::vector<char>& outbuf, hashmap_t& hashmap, const TiXmlDocument& xml, XmlEnum* xenum)
+int XmlBin::Conv(std::vector<char>& outbuf, hashmap_t& hashmap, const TiXmlDocument& xml, XmlEnum* xenum)
 {
 	outbuf.clear();
 	myStrbank mystr(outbuf);
 	pass1(outbuf, mystr, xenum).Elements(xml.RootElement());
+	int nodeSize = outbuf.size();
 	pass2(outbuf, mystr, xenum, hashmap).Elements(xml.RootElement());
 	returnSet(&outbuf[0], 0, 0);
+	return nodeSize;
 }
 
 

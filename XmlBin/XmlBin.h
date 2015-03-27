@@ -11,5 +11,5 @@ typedef std::map<unsigned int, std::string>	hashmap_t;
 
 class XmlBin {
 public:
-	void Conv(std::vector<char>& outbuf, hashmap_t& hashmap, const TiXmlDocument& xml, XmlEnum* xenum);
+	int Conv(std::vector<char>& outbuf, hashmap_t& hashmap, const TiXmlDocument& xml, XmlEnum* xenum);
 };

@@ -25,6 +25,7 @@ public:
 		SHORT,	//!< ２バイト整数
 		BYTE,	//!< １バイト整数
 		FLOAT,	//!< ４バイト浮動小数点
+		CRC32,	//!< CRC32ハッシュ値
 	};
 	/// スキーマを読み込みます
 	void ReadSchema(const TiXmlElement* e);

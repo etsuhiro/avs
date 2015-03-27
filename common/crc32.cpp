@@ -90,10 +90,11 @@ static unsigned int CRC32Table[ 256 ] = {
 // メモリのCRC32コードを計算
 unsigned int getCRC32(const char *str)
 {
+	if (str==0)	return 0;
 	unsigned int crc32 = 0xffffffff;
 	
 	while ( *str ){
-        crc32 = CRC32Table[ (crc32 >> (32 - 8)) ^ *str ] ^ (crc32 << 8);
+        crc32 = CRC32Table[ (crc32 >> (32 - 8)) ^ (unsigned char)(*str) ] ^ (crc32 << 8);
         str++;
     }
     return crc32 ^ 0xffffffff;
