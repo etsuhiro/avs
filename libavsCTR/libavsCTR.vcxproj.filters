@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{45107b0f-ce51-41f4-8340-12f8fb619aee}</UniqueIdentifier>
+      <Extensions>cpp;cxx;c++;cc;CC;c;s</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{c06db3f7-b92e-4a3f-8bf6-82571ba9ae84}</UniqueIdentifier>
+      <Extensions>h;hpp</Extensions>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{8910cbda-74ae-4c14-b2cf-049516b820bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ScriptEngine">
+      <UniqueIdentifier>{3d2fe648-b4af-4d6f-a7d6-14ec4796ab7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tinyxml">
+      <UniqueIdentifier>{bc17016b-0457-48a6-894f-b9e5c80c22c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="XmlBin">
+      <UniqueIdentifier>{1f651ff9-cf19-4b7a-b2f2-c10109d7a736}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="XmlEnum">
+      <UniqueIdentifier>{38e4eb57-4571-43f5-a0f1-782b250d1d84}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\common\crc32.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Strbank.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AvsCore\ScriptEngine\ScriptState.cpp">
+      <Filter>ScriptEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tinyxml\tinystr.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tinyxml\tinyxml.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tinyxml\tinyxmlerror.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tinyxml\tinyxmlparser.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\XmlBin\XmlBin.cpp">
+      <Filter>XmlBin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\XmlEnum\XmlEnum.cpp">
+      <Filter>XmlEnum</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\common\crc32.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Strbank.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AvsCore\ScriptEngine\ScriptState.h">
+      <Filter>ScriptEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tinyxml\tinystr.h">
+      <Filter>tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tinyxml\tinyxml.h">
+      <Filter>tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\XmlBin\miku.h">
+      <Filter>XmlBin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\XmlBin\XmlBin.h">
+      <Filter>XmlBin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\XmlEnum\XmlEnum.h">
+      <Filter>XmlEnum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\avs.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+</Project>
