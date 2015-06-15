@@ -81,7 +81,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="debugAvs.cpp" />
-    <ClCompile Include="ScriptEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\avs.h" />
