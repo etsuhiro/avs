@@ -10,7 +10,7 @@ FileWrite::FileWrite(const char *fname) throw(badFileIO)
 {
 	if (fname==NULL)
 		throw( badFileIO("FileWrite:: File name ptr is NULL", "") );
-	if ((ofp = fopen(fname, "wb")) == NULL){
+	if ((fopen_s(&ofp, fname, "wb")) != 0){
 		throw( badFileIO("FileWrite:: Can't Open File ", fname) );
 	}
 }
@@ -54,7 +54,7 @@ FileRead::FileRead(const char *filename) throw(badFileIO)
 
 	if (filename==NULL)
 		throw( badFileIO("FileRead:: File name ptr is NULL", "") );
-	if ((fp = fopen(filename, "rb")) == NULL){
+	if (fopen_s(&fp, filename, "rb") != 0){
 		throw( badFileIO("FileRead:: Can't Open File ", filename) );
 	}
 	// ファイルサイズを求めるのにDOS系依存ではなく原始的な方法を用いる

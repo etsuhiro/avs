@@ -13,21 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
-    <Filter Include="common">
-      <UniqueIdentifier>{14ba3e1f-d238-4dfc-8226-de3ca049ef47}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="tinyxml">
-      <UniqueIdentifier>{a5f0a9a1-80fa-43df-809f-2de861f99d98}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="XmlBin">
-      <UniqueIdentifier>{5539b2d2-b278-4ae5-971b-aa2d94a2e3c5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="XmlEnum">
-      <UniqueIdentifier>{70914c28-5b75-4852-9185-4237ea22bc41}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ScriptEngine">
-      <UniqueIdentifier>{b9424e68-d37b-46e4-97e5-b068e188418f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debugAvs.cpp">
@@ -35,36 +20,6 @@
     </ClCompile>
     <ClCompile Include="ScriptEngine.cpp">
       <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\cFileWrite.cpp">
-      <Filter>common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\Strbank.cpp">
-      <Filter>common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\tinyxml\tinystr.cpp">
-      <Filter>tinyxml</Filter>
-    </ClCompile>
-    <ClCompile Include="..\tinyxml\tinyxml.cpp">
-      <Filter>tinyxml</Filter>
-    </ClCompile>
-    <ClCompile Include="..\tinyxml\tinyxmlerror.cpp">
-      <Filter>tinyxml</Filter>
-    </ClCompile>
-    <ClCompile Include="..\tinyxml\tinyxmlparser.cpp">
-      <Filter>tinyxml</Filter>
-    </ClCompile>
-    <ClCompile Include="..\XmlBin\XmlBin.cpp">
-      <Filter>XmlBin</Filter>
-    </ClCompile>
-    <ClCompile Include="..\XmlEnum\XmlEnum.cpp">
-      <Filter>XmlEnum</Filter>
-    </ClCompile>
-    <ClCompile Include="ScriptEngine\ScriptState.cpp">
-      <Filter>ScriptEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\common\crc32.cpp">
-      <Filter>common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -79,33 +34,6 @@
     </ClInclude>
     <ClInclude Include="VariableListener.h">
       <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\cFileWrite.h">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\Strbank.h">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\tinyxml\tinystr.h">
-      <Filter>tinyxml</Filter>
-    </ClInclude>
-    <ClInclude Include="..\tinyxml\tinyxml.h">
-      <Filter>tinyxml</Filter>
-    </ClInclude>
-    <ClInclude Include="..\XmlBin\miku.h">
-      <Filter>XmlBin</Filter>
-    </ClInclude>
-    <ClInclude Include="..\XmlBin\XmlBin.h">
-      <Filter>XmlBin</Filter>
-    </ClInclude>
-    <ClInclude Include="..\XmlEnum\XmlEnum.h">
-      <Filter>XmlEnum</Filter>
-    </ClInclude>
-    <ClInclude Include="ScriptEngine\ScriptState.h">
-      <Filter>ScriptEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\common\crc32.h">
-      <Filter>common</Filter>
     </ClInclude>
     <ClInclude Include="..\avs.h">
       <Filter>ヘッダー ファイル</Filter>

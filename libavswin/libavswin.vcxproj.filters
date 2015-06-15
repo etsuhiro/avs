@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{ba8121f6-5a04-4fe7-9d58-e882609ea79f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ScriptEngine">
+      <UniqueIdentifier>{7ae87bcc-41bc-4168-84f2-096b1b4a7e60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tinyxml">
+      <UniqueIdentifier>{e26d0a36-c3be-4587-a73c-3573d2bdd2de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="XmlBin">
+      <UniqueIdentifier>{ae86e322-514a-4cc2-b6e4-8a5293f049fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="XmlEnum">
+      <UniqueIdentifier>{80f95b9d-3f52-4ed8-8bb5-69f21ef6613b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\crc32.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\cFileWrite.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Strbank.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AvsCore\ScriptEngine\ScriptState.h">
+      <Filter>ScriptEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tinyxml\tinystr.h">
+      <Filter>tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tinyxml\tinyxml.h">
+      <Filter>tinyxml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\XmlBin\miku.h">
+      <Filter>XmlBin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\XmlBin\XmlBin.h">
+      <Filter>XmlBin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\XmlEnum\XmlEnum.h">
+      <Filter>XmlEnum</Filter>
+    </ClInclude>
+    <ClInclude Include="..\avs.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\crc32.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\cFileWrite.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Strbank.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AvsCore\ScriptEngine\ScriptState.cpp">
+      <Filter>ScriptEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tinyxml\tinystr.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tinyxml\tinyxml.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tinyxml\tinyxmlerror.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tinyxml\tinyxmlparser.cpp">
+      <Filter>tinyxml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\XmlBin\XmlBin.cpp">
+      <Filter>XmlBin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\XmlEnum\XmlEnum.cpp">
+      <Filter>XmlEnum</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

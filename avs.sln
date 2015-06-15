@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
+# Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "sink", "sink\sink.vcxproj", "{12A13128-8B8F-4C17-B5B8-3BA90E172589}"
@@ -16,6 +16,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "honoka", "honoka\honoka.vcxproj", "{D89CE27E-B399-4C5E-8CC2-A4EAEA07E766}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ResTest", "ResTest\ResTest.vcxproj", "{FF12994E-A97D-4876-B522-09B1504075A1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libavswin", "libavswin\libavswin.vcxproj", "{58AD8B7F-22B0-4A0D-AF4F-E52C00DE742F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{FF12994E-A97D-4876-B522-09B1504075A1}.Debug|Win32.Build.0 = Debug|Win32
 		{FF12994E-A97D-4876-B522-09B1504075A1}.Release|Win32.ActiveCfg = Release|Win32
 		{FF12994E-A97D-4876-B522-09B1504075A1}.Release|Win32.Build.0 = Release|Win32
+		{58AD8B7F-22B0-4A0D-AF4F-E52C00DE742F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{58AD8B7F-22B0-4A0D-AF4F-E52C00DE742F}.Debug|Win32.Build.0 = Debug|Win32
+		{58AD8B7F-22B0-4A0D-AF4F-E52C00DE742F}.Release|Win32.ActiveCfg = Release|Win32
+		{58AD8B7F-22B0-4A0D-AF4F-E52C00DE742F}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
