@@ -93,6 +93,7 @@
     <ClCompile Include="ScriptEngine\ScriptState.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\avs.h" />
     <ClInclude Include="..\common\crc32.h" />
     <ClInclude Include="ScriptEngine.h" />
     <ClInclude Include="sinkenum.h" />

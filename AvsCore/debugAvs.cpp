@@ -3,12 +3,7 @@
 #include <string>
 #include <map>
 
-#include "ScriptEngine.h"
-#include "XmlBin/miku.h"
-#include "XmlBin/XmlBin.h"
-#include "XmlEnum/XmlEnum.h"
-#include "TextListener.h"
-#include "VariableListener.h"
+#include "avs.h"
 
 XmlEnum xmls;	// ‚¿‚å‚Á‚ÆƒeƒXƒg
 

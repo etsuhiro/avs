@@ -107,5 +107,8 @@
     <ClInclude Include="..\common\crc32.h">
       <Filter>common</Filter>
     </ClInclude>
+    <ClInclude Include="..\avs.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
