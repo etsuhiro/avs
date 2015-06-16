@@ -84,8 +84,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\avs.h" />
+    <ClInclude Include="ErrorMessageListener.h" />
+    <ClInclude Include="ImageListener.h" />
     <ClInclude Include="ScriptEngine.h" />
     <ClInclude Include="sinkenum.h" />
+    <ClInclude Include="SoundListener.h" />
     <ClInclude Include="TextListener.h" />
     <ClInclude Include="VariableListener.h" />
   </ItemGroup>

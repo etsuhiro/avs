@@ -100,6 +100,27 @@
     <ClInclude Include="..\AvsCore\ScriptEngine\ScriptState.h">
       <Filter>ヘッダー ファイル\ScriptEngine</Filter>
     </ClInclude>
+    <ClInclude Include="..\AvsCore\ErrorMessageListener.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AvsCore\ImageListener.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AvsCore\ScriptEngine.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AvsCore\sinkenum.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AvsCore\SoundListener.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AvsCore\TextListener.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AvsCore\VariableListener.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
