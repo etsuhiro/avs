@@ -1035,7 +1035,7 @@ bool CmdAsset::AttrProc(ScriptContext& context, const miku::ElementNode *pElemen
 		if (context.m_pErrorMessageListener){
 			context.m_pErrorMessageListener->ErrorRequiredAttr(sink::element::ASSET, sink::attribute::file);
 		}
-	}
+	} else
 	if (context.m_pImageListener){
 		if (file[0]=='-')
 			context.m_pImageListener->ReleaseAsset(file+1);

@@ -6,11 +6,32 @@
   <xsd:element name="br"/>
   <xsd:element name="click"/>
   <xsd:element name="if"/>
+  <xsd:element name="while"/>
   <xsd:element name="goto"/>
   <xsd:element name="label"/>
   <xsd:element name="select"/>
   <xsd:element name="option"/>
   <xsd:element name="set"/>
+  <xsd:element name="wait"/>
+  <xsd:element name="asset"/>
+  <xsd:element name="cg"/>
+  <xsd:element name="cgt"/>
+  <xsd:element name="fade"/>
+  <xsd:element name="actor"/>
+  <xsd:element name="stage"/>
+  <xsd:element name="event"/>
+  <xsd:element name="camera"/>
+  <xsd:element name="light"/>
+  <xsd:element name="effect"/>
+  <xsd:element name="sync"/>
+  <xsd:element name="drawsync"/>
+  <xsd:element name="se"/>
+  <xsd:element name="bgm"/>
+  <xsd:element name="stream"/>
+  <xsd:element name="movie"/>
+  <xsd:element name="child"/>
+  <xsd:element name="window"/>
+  <xsd:element name="slow"/>
   <xsd:attribute name="id" type="xsd:crc32"/>
   <xsd:attribute name="voice" type="xsd:string"/>
   <xsd:attribute name="face" type="xsd:string"/>
@@ -31,4 +52,37 @@
   <xsd:attribute name="label" type="xsd:crc32"/>
   <xsd:attribute name="time" type="xsd:float"/>
   <xsd:attribute name="noskip" type="xsd:int"/>
+	  <xsd:attribute name="x" type="xsd:float"/>
+	  <xsd:attribute name="y" type="xsd:float"/>
+	  <xsd:attribute name="z" type="xsd:float"/>
+	  <xsd:attribute name="r" type="xsd:float"/>
+	  <xsd:attribute name="g" type="xsd:float"/>
+	  <xsd:attribute name="b" type="xsd:float"/>
+	  <xsd:attribute name="a" type="xsd:float"/>
+	  <xsd:attribute name="u" type="xsd:int"/>
+	  <xsd:attribute name="v" type="xsd:int"/>
+	  <xsd:attribute name="w" type="xsd:int"/>
+	  <xsd:attribute name="h" type="xsd:int"/>
+	  <xsd:attribute name="hscale" type="xsd:float"/>
+	  <xsd:attribute name="vscale" type="xsd:float"/>
+	  <xsd:attribute name="rot" type="xsd:float"/>
+	  <xsd:attribute name="scale" type="xsd:float"/>
+	  <xsd:attribute name="method" type="xsd:int"/>
+	  <xsd:attribute name="action" type="xsd:string"/>
+	  <xsd:attribute name="joint" type="xsd:string"/>
+	  <xsd:attribute name="frame" type="xsd:int"/>
+	  <xsd:attribute name="draw" type="xsd:int"/>
+	  <xsd:attribute name="volume" type="xsd:float"/>
+	  <xsd:attribute name="pan" type="xsd:float"/>
+	  <xsd:attribute name="key" type="xsd:crc32"/>
+	  <xsd:attribute name="parent" type="xsd:crc32"/>
+	  <xsd:attribute name="near" type="xsd:float"/>
+	  <xsd:attribute name="far" type="xsd:float"/>
+	  <xsd:attribute name="fov" type="xsd:float"/>
+	  <xsd:attribute name="loop" type="xsd:int"/>
+	  <xsd:attribute name="sync" type="xsd:int"/>
+	  <xsd:attribute name="group" type="xsd:string"/>
+	  <xsd:attribute name="asset" type="xsd:string"/>
+	  <xsd:attribute name="priority" type="xsd:int"/>
+
 </xsd:schema>
