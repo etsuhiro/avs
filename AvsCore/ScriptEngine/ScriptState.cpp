@@ -680,7 +680,7 @@ bool CmdIf::AttrProc(ScriptContext& context, const miku::ElementNode *pElement)
 		if (context.m_pVariableListener==0)	return false;
 		return context.m_pVariableListener->KeyOn(pAttr->value);
 	default:
-		context.ErrorRequiredAttr(sink::element::SET, sink::attribute::var);
+		context.ErrorInvalidAttr(sink::element::IF, pAttr->name);
 		return false;
 	}
 

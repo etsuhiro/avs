@@ -8,6 +8,8 @@
 #include "AvsCore\TextListener.h"
 #include "AvsCore\VariableListener.h"
 
+#include "common\crc32.h"
+
 #include "tinyxml\tinyxml.h"
 #include "XmlBin\miku.h"
 #include "XmlBin\XmlBin.h"
