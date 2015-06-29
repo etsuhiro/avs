@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<cmds>
+<cmd name="asset">
+  <function>
+    テクスチャーをまとめたアセットを読み込み、または破棄します。アセットの仕様は実装依存です。
+  </function>
+  <param name="file">
+    ファイル名を指定します。ファイル名の前に-を付けるとそのアセットを破棄します。
+    <example>
+      <asset file="etcpack"/>
+      ファイルetcpackをメモリに読み込みます。
+      <asset file="-etcpack"/>
+      etcpackをメモリから破棄します。
+    </example>
+  </param>
+</cmd>
+</cmds>
