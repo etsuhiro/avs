@@ -33,16 +33,32 @@ namespace docmaker
                     //ストリームからノードを読み取る
                     while (reader.Read())
                     {
+                        if (reader.NodeType == XmlNodeType.Whitespace)
+                        {
+                            continue;
+                        }
+
+                        if (reader.NodeType == XmlNodeType.EndElement)
+                        {
+                            continue;
+                        }
+
+                        textBox2.Text += "NodeType = {" + reader.NodeType + "}, Name = {" + reader.Name + "}, Value = {" + reader.Value + "}\r\n";
+
                         if (reader.NodeType == XmlNodeType.Element)
                         {
-                            switch (reader.LocalName)
+                            //switch (reader.LocalName)
+                            //{
+                            //    case "param":
+                            //        textBox2.Text += reader.ReadString() + "\r\n";
+                            //        break;
+                            //    case "example":
+                            //        textBox2.Text += reader.ReadString() + "\r\n";
+                            //        break;
+                            //}
+                            while (reader.MoveToNextAttribute())
                             {
-                                case "param":
-                                    textBox2.Text += reader.ReadString() + "\r\n";
-                                    break;
-                                case "example":
-                                    textBox2.Text += reader.ReadString() + "\r\n";
-                                    break;
+                                Console.WriteLine("{0} = {1}", reader.Name, reader.Value);
                             }
                         }
                     }
