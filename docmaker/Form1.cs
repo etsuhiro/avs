@@ -37,7 +37,10 @@ namespace docmaker
                         {
                             switch (reader.LocalName)
                             {
-                                case "parameter":
+                                case "param":
+                                    textBox2.Text += reader.ReadString() + "\r\n";
+                                    break;
+                                case "example":
                                     textBox2.Text += reader.ReadString() + "\r\n";
                                     break;
                             }
