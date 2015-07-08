@@ -8,13 +8,13 @@
 	<function>
 		cgコマンドは画像を作成して表示、または破棄します。
 	</function>
-	<parameter name="id">
+	<param name="id">
 		画像の識別名を指定します。ハッシュ値に変換されます。
 		既に存在する識別名を指定すると、その画像を破棄します。
-	</parameter>
-	<parameter name="file">
+	</param>
+	<param name="file">
 		ファイル名を指定します。指定されたファイルをテクスチャーとして画像を作成します。
-	</parameter>
+	</param>
 </cmd>
 
 

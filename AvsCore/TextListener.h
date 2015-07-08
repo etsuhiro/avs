@@ -9,12 +9,12 @@ namespace avs
 		ScriptEngineにテキストの出力が発生するとコールバックされる。
 	 */
 	class avsTextListener {
+	protected:
+		~avsTextListener() {}
 	public:
 		enum TEXT_ATTR {
 			DEFAULT		//!< 
 		};
-
-		virtual ~avsTextListener() {}
 
 		//! テキスト出力
 		virtual void Put(const char* str /**< テキストのポインタ */,

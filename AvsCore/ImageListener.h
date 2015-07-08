@@ -32,8 +32,9 @@ namespace avs
 		ScriptEngineに画像の命令が発生するとコールバックされる。
 	 */
 	class avsImageListener {
+	protected:
+		~avsImageListener() {}
 	public:
-		virtual ~avsImageListener() {}
 		virtual void AddAsset(const char* file) = 0;
 		virtual void ReleaseAsset(const char* file) = 0;
 		virtual void Cg(int id, const char* file, const avs::ImageInfo& info, int parent) = 0;

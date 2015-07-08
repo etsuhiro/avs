@@ -9,8 +9,9 @@ namespace avs
 {
 
 class VariableListener {
+protected:
+	~VariableListener(){}
 public:
-	virtual ~VariableListener(){}
 
 	//! 変数に値をセットする
 	virtual void Set(const char* name, int val) = 0;

@@ -9,8 +9,9 @@ namespace avs
 		ScriptEngineにサウンドの出力が発生するとコールバックされる。
 	 */
 	class avsSoundListener {
+	protected:
+		~avsSoundListener() {}
 	public:
-		virtual ~avsSoundListener() {}
 		virtual void Voice(const char* file, int chrId) = 0;
 		virtual void Se(int id, const char* file, float volume, float pan) = 0;
 		virtual void Bgm(const char* file, const char* action, float volume, float fadeTime) = 0;
