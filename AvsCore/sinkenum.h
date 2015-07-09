@@ -89,6 +89,8 @@ namespace sink {
 			group,
 			asset,
 			priority,
+			xpivot,
+			ypivot,
 		};
 	}
 }

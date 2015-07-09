@@ -67,7 +67,7 @@
 	  <xsd:attribute name="vscale" type="xsd:float"/>
 	  <xsd:attribute name="rot" type="xsd:float"/>
 	  <xsd:attribute name="scale" type="xsd:float"/>
-	  <xsd:attribute name="method" type="xsd:int"/>
+	  <xsd:attribute name="method" type="xsd:crc32"/>
 	  <xsd:attribute name="action" type="xsd:string"/>
 	  <xsd:attribute name="joint" type="xsd:string"/>
 	  <xsd:attribute name="frame" type="xsd:int"/>
@@ -84,5 +84,7 @@
 	  <xsd:attribute name="group" type="xsd:string"/>
 	  <xsd:attribute name="asset" type="xsd:string"/>
 	  <xsd:attribute name="priority" type="xsd:int"/>
+	  <xsd:attribute name="xpivot" type="xsd:float"/>
+	  <xsd:attribute name="ypivot" type="xsd:float"/>
 
 </xsd:schema>

@@ -1087,7 +1087,9 @@ bool CmdCg::AttrProc(ScriptContext& context, const miku::ElementNode *pElement)
 			1.f,1.f,1.f,1.f,
 			0,0,0,0,
 			0,
-			0,};
+			0,
+			0,0,
+	};
 
 	const miku::Attr *pAttr = pElement->getAttrPtr();
 	const miku::Attr *end = pAttr + pElement->getAttrNum();
@@ -1146,6 +1148,12 @@ bool CmdCg::AttrProc(ScriptContext& context, const miku::ElementNode *pElement)
 		case sink::attribute::priority:
 			info.priority = pAttr->value;
 			break;
+		case sink::attribute::xpivot:
+			info.xpivot = pAttr->fvalue;
+			break;
+		case sink::attribute::ypivot:
+			info.ypivot = pAttr->fvalue;
+			break;
 		default:
 			context.ErrorInvalidAttr(sink::element::CG, pAttr->name);
 		}
@@ -1182,7 +1190,6 @@ bool CmdCgt::AttrProc(ScriptContext& context, const miku::ElementNode *pElement)
 	ImageInfo info;
 	unsigned int change = 0;
 	float time = 0;
-	float offset = 0;
 	int method = 0;
 	const char* action = 0;
 
@@ -1249,24 +1256,26 @@ bool CmdCgt::AttrProc(ScriptContext& context, const miku::ElementNode *pElement)
 			info.priority = pAttr->value;
 			change |= CHG_PRIORITY;
 			break;
+		case sink::attribute::xpivot:
+			info.xpivot = pAttr->fvalue;
+			change |= CHG_XPIVOT;
+			break;
+		case sink::attribute::ypivot:
+			info.ypivot = pAttr->fvalue;
+			change |= CHG_YPIVOT;
+			break;
 		case sink::attribute::time:
 			time = pAttr->fvalue;
 			break;
-		case sink::attribute::scale:
-			offset = pAttr->fvalue;
-			break;
 		case sink::attribute::method:
 			method = pAttr->value;
-			break;
-		case sink::attribute::action:
-			action = &context.m_ScriptBuf[pAttr->value];
 			break;
 		default:
 			context.ErrorInvalidAttr(sink::element::CGT, pAttr->name);
 		}
 	}
 	if (context.m_pImageListener){
-		context.m_pImageListener->CgTrans(id, time, info, change, method, offset, action);
+		context.m_pImageListener->CgTrans(id, time, info, change, method);
 	}
 	return false;	// q—v‘f‚ğ‚½‚È‚¢
 }
