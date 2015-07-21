@@ -1,6 +1,8 @@
 #pragma once
 
 #include "AvsCore\3DListener.h"
+#include "AvsCore\AvsImage\AvsSprite.h"
+#include "AvsCore\AvsImage\cgt.h"
 #include "AvsCore\ErrorMessageListener.h"
 #include "AvsCore\ImageListener.h"
 #include "AvsCore\ScriptEngine.h"

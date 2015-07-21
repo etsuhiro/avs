@@ -39,6 +39,12 @@
     <Filter Include="ヘッダー ファイル\ScriptEngine">
       <UniqueIdentifier>{dfcb4161-13d8-48ca-a1bb-63e49ad777f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\AvsImage">
+      <UniqueIdentifier>{e71201f7-1b34-4251-9930-bf62462f26ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\AvsImage">
+      <UniqueIdentifier>{fb4410f2-45cc-44f3-99a4-4a1ab3169ca5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\common\crc32.cpp">
@@ -70,6 +76,12 @@
     </ClCompile>
     <ClCompile Include="..\XmlEnum\XmlEnum.cpp">
       <Filter>ソース ファイル\XmlEnum</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AvsCore\AvsImage\cgt.cpp">
+      <Filter>ソース ファイル\AvsImage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AvsCore\AvsImage\AvsSprite.cpp">
+      <Filter>ソース ファイル\AvsImage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -120,6 +132,12 @@
     </ClInclude>
     <ClInclude Include="..\AvsCore\VariableListener.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AvsCore\AvsImage\cgt.h">
+      <Filter>ヘッダー ファイル\AvsImage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AvsCore\AvsImage\AvsSprite.h">
+      <Filter>ヘッダー ファイル\AvsImage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
