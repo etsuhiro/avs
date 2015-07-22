@@ -43,6 +43,12 @@
     <Filter Include="ヘッダー ファイル\ScriptEngine">
       <UniqueIdentifier>{4f77e39a-909d-442e-9776-286b2008599d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\AvsImage">
+      <UniqueIdentifier>{ba2049d0-62aa-489e-ad36-9fc776975dda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\AvsImage">
+      <UniqueIdentifier>{d75f5695-7d12-4927-9a98-5691b06d81b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -84,6 +90,12 @@
     <ClInclude Include="..\AvsCore\ScriptEngine\ScriptState.h">
       <Filter>ヘッダー ファイル\ScriptEngine</Filter>
     </ClInclude>
+    <ClInclude Include="..\AvsCore\AvsImage\cgt.h">
+      <Filter>ヘッダー ファイル\AvsImage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AvsCore\AvsImage\AvsSprite.h">
+      <Filter>ヘッダー ファイル\AvsImage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -121,6 +133,12 @@
     </ClCompile>
     <ClCompile Include="..\XmlBin\XmlBin.cpp">
       <Filter>ソース ファイル\XmlBin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AvsCore\AvsImage\cgt.cpp">
+      <Filter>ソース ファイル\AvsImage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AvsCore\AvsImage\AvsSprite.cpp">
+      <Filter>ソース ファイル\AvsImage</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
