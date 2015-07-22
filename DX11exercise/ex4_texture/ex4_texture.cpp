@@ -1,18 +1,20 @@
 // ex4_texture.cpp : アプリケーションのエントリ ポイントを定義します。
 //
 
-#define D3DX
-
 #include "stdafx.h"
 #include "ex4_texture.h"
 #include "DX11/FrameworkDX11.h"
 #include "cFileWrite.h"
 
+//#define D3DX
+
 #if defined(D3DX)
 	#include <d3dx11.h>
 	#pragma comment(lib, "d3dx11.lib")
 #else
-#include "DX11/DirectXTex/WICTextureLoader.h"
+#include <SpriteBatch.h>
+#include <WICTextureLoader.h>
+#pragma comment(lib, "DirectXTK.lib")
 #endif
 
 class MyFramework : public pao::FrameworkDX11 {
@@ -20,6 +22,13 @@ class MyFramework : public pao::FrameworkDX11 {
 	TCHAR szTitle[MAX_LOADSTRING];					// タイトル バーのテキスト
 	TCHAR szWindowClass[MAX_LOADSTRING];			// メイン ウィンドウ クラス名
 	HACCEL hAccelTable;
+
+	//2Dスプライト
+	std::shared_ptr<DirectX::SpriteBatch> m_sprites;
+
+
+	ID3D11ShaderResourceView* hpShaderResourceView = NULL;
+	ID3D11ShaderResourceView* hpShaderResourceView2 = NULL;
 
 	static const int TYOUTEN = 4;	//ポリゴンの頂点数
 
@@ -55,11 +64,16 @@ public:
 		};
 
 		//頂点データ(三角ポリゴン1枚)
-		Vertex3D hVectorData[TYOUTEN] = {
+		Vertex3D hVectorData[] = {
 			{ { -1.0f, +1.0f, +0.5f }, { 1.0f, 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f } },	// 左上
 			{ { +1.0f, +1.0f, +0.5f }, { 0.0f, 1.0f, 0.0f, 1.0f }, { 1.0f, 0.0f } },	// 右上
 			{ { -1.0f, -1.0f, +0.5f }, { 0.0f, 0.0f, 1.0f, 1.0f }, { 0.0f, 1.0f } },	// 左下
-			{ { +1.0f, -1.0f, +0.5f }, { 1.0f, 0.0f, 0.0f, 1.0f }, { 1.0f, 1.0f } }		// 右下
+			{ { +1.0f, -1.0f, +0.5f }, { 1.0f, 0.0f, 0.0f, 1.0f }, { 1.0f, 1.0f } },		// 右下
+
+			{ { -0.5f, +1.0f, +0.5f }, { 1.0f, 0.0f, 0.0f, 1.0f }, { 0.0f, 0.0f } },	// 左上
+			{ { +0.5f, +1.0f, +0.5f }, { 0.0f, 1.0f, 0.0f, 1.0f }, { 1.0f, 0.0f } },	// 右上
+			{ { -0.5f, -1.0f, +0.5f }, { 0.0f, 0.0f, 1.0f, 1.0f }, { 0.0f, 1.0f } },	// 左下
+			{ { +0.5f, -1.0f, +0.5f }, { 1.0f, 0.0f, 0.0f, 1.0f }, { 1.0f, 1.0f } }		// 右下
 		};
 
 		//頂点レイアウト
@@ -75,7 +89,7 @@ public:
 
 		//頂点バッファ作成
 		D3D11_BUFFER_DESC hBufferDesc;
-		hBufferDesc.ByteWidth = sizeof(Vertex3D) * TYOUTEN;
+		hBufferDesc.ByteWidth = sizeof(Vertex3D) * TYOUTEN * 2;
 		hBufferDesc.Usage = D3D11_USAGE_DEFAULT;
 		hBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		hBufferDesc.CPUAccessFlags = 0;
@@ -138,29 +152,47 @@ public:
 		hpDeviceContext->PSSetShader(hpPixelShader, NULL, 0);
 
 		//テクスチャー読み込み
-		ID3D11ShaderResourceView* hpShaderResourceView = NULL;
 #if defined(D3DX)
-		if (FAILED(D3DX11CreateShaderResourceViewFromFile(hpDevice, _T("bg_04_1.png"), NULL, NULL, &hpShaderResourceView, NULL))){
-			MessageBox(hWnd, _T("D3DX11CreateShaderResourceViewFromFile"), _T("Err"), MB_ICONSTOP);
+//		if (FAILED(D3DX11CreateShaderResourceViewFromFile(hpDevice, _T("bg_04_1.png"), NULL, NULL, &hpShaderResourceView, NULL))){
+		if (FAILED(D3DX11CreateShaderResourceViewFromFile(hpDevice, _T("ev_sub_01_a.png"), NULL, NULL, &hpShaderResourceView, NULL))){
+				MessageBox(hWnd, _T("D3DX11CreateShaderResourceViewFromFile"), _T("Err"), MB_ICONSTOP);
+			return FALSE;
+		}
+		if (FAILED(D3DX11CreateShaderResourceViewFromFile(hpDevice, _T("st_kag_l_101.png"), NULL, NULL, &hpShaderResourceView2, NULL))){
+//		if (FAILED(D3DX11CreateShaderResourceViewFromFile(hpDevice, _T("ev_sub_01_a.png"), NULL, NULL, &hpShaderResourceView2, NULL))){
+				MessageBox(hWnd, _T("D3DX11CreateShaderResourceViewFromFile"), _T("Err"), MB_ICONSTOP);
 			return FALSE;
 		}
 #else
 		if (FAILED(DirectX::CreateWICTextureFromFile(hpDevice, _T("bg_04_1.png"), NULL, &hpShaderResourceView))){
+				MessageBox(hWnd, _T("CreateWICTextureFromFile"), _T("Err"), MB_ICONSTOP);
+			return FALSE;
+		}
+		if (FAILED(DirectX::CreateWICTextureFromFile(hpDevice, _T("st_kag_l_101.png"), NULL, &hpShaderResourceView2))){
 			MessageBox(hWnd, _T("CreateWICTextureFromFile"), _T("Err"), MB_ICONSTOP);
 			return FALSE;
 		}
 #endif
-
-		//そのテクスチャーをコンテキストに設定
-		ID3D11ShaderResourceView* hpShaderResourceViews[] = { hpShaderResourceView };
-		hpDeviceContext->PSSetShaderResources(0, 1, hpShaderResourceViews);
 
 		return TRUE;
 	}
 
 	virtual void Render(ID3D11DeviceContext* pDeviceContext) override
 	{
+#if 0
+		m_sprites->Begin();
+		m_sprites->Draw(hpShaderResourceView, DirectX::XMFLOAT2(10, 75), nullptr, DirectX::Colors::White);
+		m_sprites->End();
+#else
+		// テクスチャーをコンテキストに設定
+		ID3D11ShaderResourceView* hpShaderResourceViews[] = { hpShaderResourceView };
+		pDeviceContext->PSSetShaderResources(0, 1, hpShaderResourceViews);
 		pDeviceContext->Draw(TYOUTEN, 0);
+
+		ID3D11ShaderResourceView* hpShaderResourceViews2[] = { hpShaderResourceView2 };
+		pDeviceContext->PSSetShaderResources(0, 1, hpShaderResourceViews2);
+		pDeviceContext->Draw(TYOUTEN, 4);
+#endif
 	}
 
 	// アプリケーション メニューの処理
