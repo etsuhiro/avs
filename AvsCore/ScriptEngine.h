@@ -32,7 +32,7 @@ public:
 	 * @retval SELECT　選択肢。GotoOption()で選択する。
 	 * @retval LABEL_JUMP　他のスクリプトへジャンプ。ファイル読み込みをし、SetScript()で知らせる。
 	 */
-	RunningStatus Run();
+	RunningStatus Run(float elapsedTime);
 
 	void Init();
 	void SetScript(const char *script);
@@ -71,9 +71,6 @@ public:
 
 	//! ジャンプファイル名を得る
 	const char* getJumpFile() const;
-
-	//! 待ち時間を得る
-	float getWaitTime() const;
 
 	//! 通知イベントを得る
 	int getEvent() const { return m_event; }

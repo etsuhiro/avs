@@ -57,9 +57,14 @@ void ScriptEngine::SetScript(const char *script ///< スクリプトのポインタ
 	m_FileLoadReq = false;
 }
 
-RunningStatus ScriptEngine::Run()
+RunningStatus ScriptEngine::Run(float elapsedTime)
 {
-	if (m_Context.m_ScriptBuf==0)	return FINISH;
+	if ((m_Context.m_WaitTime -= elapsedTime) > 0.f)
+		return WAIT;
+	else
+		m_Context.m_WaitTime = 0;
+
+	if (m_Context.m_ScriptBuf == 0)	return FINISH;
 
 	if (m_FileLoadReq)	return LABEL_JUMP;
 
@@ -211,10 +216,4 @@ const char *ScriptEngine::getHeadline() const
 const char* ScriptEngine::getJumpFile() const
 {
 	return m_Context.m_file;
-}
-
-//! 待ち時間を得る
-float ScriptEngine::getWaitTime() const
-{
-	return m_Context.m_WaitTime;
 }
