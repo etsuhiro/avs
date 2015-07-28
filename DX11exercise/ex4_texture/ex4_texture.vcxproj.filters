@@ -28,9 +28,6 @@
     <Filter Include="pao\Windows">
       <UniqueIdentifier>{415ac805-57c3-47f3-8c15-72aeb466c4af}</UniqueIdentifier>
     </Filter>
-    <Filter Include="pao\DX11\DirectXTex">
-      <UniqueIdentifier>{feee720c-057e-408a-9abc-9e36b09c07f3}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -69,9 +66,6 @@
     <ClInclude Include="..\..\pao\Windows\WindowProc.h">
       <Filter>pao\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\pao\DX11\DirectXTex\WICTextureLoader.h">
-      <Filter>pao\DX11\DirectXTex</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -100,9 +94,6 @@
     </ClCompile>
     <ClCompile Include="..\..\pao\Windows\WindowProc.cpp">
       <Filter>pao\Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\pao\DX11\DirectXTex\WICTextureLoader.cpp">
-      <Filter>pao\DX11\DirectXTex</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
