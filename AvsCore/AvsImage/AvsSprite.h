@@ -19,5 +19,6 @@ namespace avs
 		AvsSprite* GetParent();
 		void Disown();
 		avs::ImageInfo& ImageInfo();
+		static void Delete(avs::AvsSprite* sprite);
 	};
 }

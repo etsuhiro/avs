@@ -76,8 +76,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\avs.h" />
+    <ClInclude Include="..\AvsCore\AvsImage\AvsImage.h" />
     <ClInclude Include="..\AvsCore\AvsImage\AvsSprite.h" />
-    <ClInclude Include="..\AvsCore\AvsImage\cgt.h" />
+    <ClInclude Include="..\AvsCore\AvsImage\ImageController.h" />
     <ClInclude Include="..\AvsCore\ScriptEngine\ScriptState.h" />
     <ClInclude Include="..\common\cFileWrite.h" />
     <ClInclude Include="..\common\crc32.h" />
@@ -91,8 +92,9 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\AvsCore\AvsImage\AvsImage.cpp" />
     <ClCompile Include="..\AvsCore\AvsImage\AvsSprite.cpp" />
-    <ClCompile Include="..\AvsCore\AvsImage\cgt.cpp" />
+    <ClCompile Include="..\AvsCore\AvsImage\ImageController.cpp" />
     <ClCompile Include="..\AvsCore\ScriptEngine.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>

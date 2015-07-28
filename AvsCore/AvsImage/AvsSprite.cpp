@@ -65,3 +65,8 @@ avs::ImageInfo& AvsSprite::ImageInfo()
 {
 	return m_info;
 }
+
+void AvsSprite::Delete(avs::AvsSprite* sprite)
+{
+	delete sprite;
+}

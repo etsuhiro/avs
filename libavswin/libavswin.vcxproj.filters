@@ -90,10 +90,13 @@
     <ClInclude Include="..\AvsCore\ScriptEngine\ScriptState.h">
       <Filter>ヘッダー ファイル\ScriptEngine</Filter>
     </ClInclude>
-    <ClInclude Include="..\AvsCore\AvsImage\cgt.h">
+    <ClInclude Include="..\AvsCore\AvsImage\AvsSprite.h">
       <Filter>ヘッダー ファイル\AvsImage</Filter>
     </ClInclude>
-    <ClInclude Include="..\AvsCore\AvsImage\AvsSprite.h">
+    <ClInclude Include="..\AvsCore\AvsImage\AvsImage.h">
+      <Filter>ヘッダー ファイル\AvsImage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AvsCore\AvsImage\ImageController.h">
       <Filter>ヘッダー ファイル\AvsImage</Filter>
     </ClInclude>
   </ItemGroup>
@@ -134,10 +137,13 @@
     <ClCompile Include="..\XmlBin\XmlBin.cpp">
       <Filter>ソース ファイル\XmlBin</Filter>
     </ClCompile>
-    <ClCompile Include="..\AvsCore\AvsImage\cgt.cpp">
+    <ClCompile Include="..\AvsCore\AvsImage\AvsSprite.cpp">
       <Filter>ソース ファイル\AvsImage</Filter>
     </ClCompile>
-    <ClCompile Include="..\AvsCore\AvsImage\AvsSprite.cpp">
+    <ClCompile Include="..\AvsCore\AvsImage\AvsImage.cpp">
+      <Filter>ソース ファイル\AvsImage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\AvsCore\AvsImage\ImageController.cpp">
       <Filter>ソース ファイル\AvsImage</Filter>
     </ClCompile>
   </ItemGroup>
