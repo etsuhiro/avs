@@ -77,10 +77,10 @@
     <ClCompile Include="..\XmlEnum\XmlEnum.cpp">
       <Filter>ソース ファイル\XmlEnum</Filter>
     </ClCompile>
-    <ClCompile Include="..\AvsCore\AvsImage\cgt.cpp">
+    <ClCompile Include="..\AvsCore\AvsImage\AvsSprite.cpp">
       <Filter>ソース ファイル\AvsImage</Filter>
     </ClCompile>
-    <ClCompile Include="..\AvsCore\AvsImage\AvsSprite.cpp">
+    <ClCompile Include="..\AvsCore\AvsImage\ImageController.cpp">
       <Filter>ソース ファイル\AvsImage</Filter>
     </ClCompile>
   </ItemGroup>
@@ -133,10 +133,10 @@
     <ClInclude Include="..\AvsCore\VariableListener.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\AvsCore\AvsImage\cgt.h">
+    <ClInclude Include="..\AvsCore\AvsImage\AvsSprite.h">
       <Filter>ヘッダー ファイル\AvsImage</Filter>
     </ClInclude>
-    <ClInclude Include="..\AvsCore\AvsImage\AvsSprite.h">
+    <ClInclude Include="..\AvsCore\AvsImage\ImageController.h">
       <Filter>ヘッダー ファイル\AvsImage</Filter>
     </ClInclude>
   </ItemGroup>

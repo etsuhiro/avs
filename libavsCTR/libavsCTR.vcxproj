@@ -95,7 +95,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\AvsCore\AvsImage\AvsSprite.cpp" />
-    <ClCompile Include="..\AvsCore\AvsImage\cgt.cpp" />
+    <ClCompile Include="..\AvsCore\AvsImage\ImageController.cpp" />
     <ClCompile Include="..\AvsCore\ScriptEngine.cpp" />
     <ClCompile Include="..\AvsCore\ScriptEngine\ScriptState.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Develop|CTR'">NotUsing</PrecompiledHeader>
@@ -138,7 +138,7 @@
   <ItemGroup>
     <ClInclude Include="..\avs.h" />
     <ClInclude Include="..\AvsCore\AvsImage\AvsSprite.h" />
-    <ClInclude Include="..\AvsCore\AvsImage\cgt.h" />
+    <ClInclude Include="..\AvsCore\AvsImage\ImageController.h" />
     <ClInclude Include="..\AvsCore\ErrorMessageListener.h" />
     <ClInclude Include="..\AvsCore\ImageListener.h" />
     <ClInclude Include="..\AvsCore\ScriptEngine.h" />

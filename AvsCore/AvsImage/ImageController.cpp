@@ -1,4 +1,4 @@
-#include "cgt.h"
+#include "ImageController.h"
 #include "AvsSprite.h"
 #include "common/crc32.h"
 #include <math.h>
@@ -37,7 +37,7 @@ namespace {
 Cgt::Cgt(AvsSprite* sprite, const avs::ImageInfo& target, float time, unsigned int change, int method)
 	: m_sprite(sprite)
 	, m_arrival(target)
-	, m_transTime(time / 1000.f)
+	, m_transTime(time)
 	, m_elapsedTime(0)
 	, m_change(change)
 	, m_func(linear)
