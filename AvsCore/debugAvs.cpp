@@ -210,7 +210,7 @@ int main(int argc, char *argv[])
 	TiXmlDocument schema;
 	// スキーマを読む
 	if (!schema.LoadFile("sink.xsd")){
-		printf("file read error (sink.xsd)\n");
+//		printf("file read error (sink.xsd)\n");
 		exit(0);
 	}
 //	XmlEnum xmls;
@@ -229,7 +229,7 @@ int main(int argc, char *argv[])
 
 	int stat;
 	do {
-		stat = script.Run();
+		stat = script.Run(0);
 		avsText.Update();
 		switch (stat){
 		case avs::CLICK:

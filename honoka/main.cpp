@@ -1,4 +1,5 @@
 #include "DxLib.h"
+#include "avs.h"
 #include <list>
 #include <string>
 #include <algorithm>
@@ -46,6 +47,7 @@ struct Sprite {
 };
 
 std::list<Sprite> sprites;
+XmlEnum sinkxsd;
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -60,7 +62,36 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 	SetDrawScreen(DX_SCREEN_BACK);	// 裏画面描画モード
 
+	{
+		TiXmlDocument schema;
+		// スキーマを読む
+		if (!schema.LoadFile("sink.xsd")){
+			printf("file read error (sink.xsd)\n");
+			exit(0);
+		}
+		//	XmlEnum xmls;
+		sinkxsd.ReadSchema(schema.RootElement());
+	}
+
 	AssetManager asset_manager;
+
+	{
+		OPENFILENAME ofn;
+		TCHAR fname_full[MAX_PATH] = "";   // ファイル名(フルパス)を受け取る領域
+		// 構造体に情報をセット
+		ZeroMemory(&ofn, sizeof(ofn));				// 最初にゼロクリアしておく
+		ofn.lStructSize = sizeof(ofn);				// 構造体のサイズ
+		ofn.hwndOwner = NULL;						// コモンダイアログの親ウィンドウハンドル
+		ofn.lpstrFilter = "script(*.xml)\0*.xml\0\0";	// ファイルの種類
+		ofn.lpstrFile = fname_full;				// 選択されたファイル名(フルパス)を受け取る変数のアドレス
+		ofn.nMaxFile = MAX_PATH;		// lpstrFileに指定した変数のサイズ
+		ofn.Flags = OFN_FILEMUSTEXIST;		// フラグ指定
+		ofn.lpstrTitle = "ファイルを開く";		// コモンダイアログのキャプション
+		ofn.lpstrDefExt = "xml";					// デフォルトのファイルの種類
+		// ファイルを開くコモンダイアログを作成
+		if (GetOpenFileName(&ofn)){
+		}
+	}
 
 	while(1){
 		// キーの状態をチェック
