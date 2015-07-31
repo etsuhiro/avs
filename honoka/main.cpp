@@ -1,53 +1,83 @@
+//
+// DxLibを使用したavsの実行環境
+//
 #include "DxLib.h"
 #include "avs.h"
+#include "DxLibAvsImage.h"
 #include <list>
 #include <string>
-#include <algorithm>
 
-struct Asset {
-	std::string name;
-	int handle;
-};
-
-class AssetManager {
-	std::list<Asset> m_assets;
-
-public:
-	~AssetManager(){
-		for (auto& asset : m_assets){
-			DeleteGraph(asset.handle);
-		}
-		m_assets.clear();
-	}
-	int Load(const char* path){
-		auto it = std::find_if(m_assets.begin(), m_assets.end(), [&path](Asset& asset){return asset.name == path; });
-		if (it != m_assets.end())
-			return it->handle;
-
-		int handle = LoadGraph(path);
-		if (handle >= 0){
-			Asset asset{ path, handle };
-			m_assets.push_back(asset);
-		}
-		return handle;
-	}
-	void Remove(int handle){
-		auto it = std::find_if(m_assets.begin(), m_assets.end(), [&handle](Asset& asset){return asset.handle == handle; });
-		if (it != m_assets.end()){
-			DeleteGraph(it->handle);
-			m_assets.erase(it);
-		}
-	}
-};
-
-struct Sprite {
-	int ghandle;
-	int x;
-	int y;
-};
-
-std::list<Sprite> sprites;
 XmlEnum sinkxsd;
+
+void mikuPrint(char *pBuf, XmlEnum& xmls)
+{
+	int idx = 0;
+	int indent = 0;
+	do {
+		miku::Node *pNode = reinterpret_cast<miku::Node *>(&pBuf[idx]);
+		if (pNode->isElementType()){
+			miku::ElementNode *pElement = static_cast<miku::ElementNode *>(pNode);
+
+			for (int i = 0; i<indent; i++)
+				printfDx("  ");
+			printfDx("<%s", xmls.ElementName(pElement->name));
+			miku::Attr *pAttr = reinterpret_cast<miku::Attr *>(pElement + 1);
+			for (int i = 0; i<pElement->getAttrNum(); i++, pAttr++){
+				printfDx(" %s=???", xmls.AttributeName(pAttr->name));
+			}
+			if (pElement->getChildNode()){
+				printfDx(">\n");
+				idx = pElement->getChildNode();
+				indent++;
+				continue;
+			}
+			else {
+				printfDx("/>\n");
+			}
+		}
+		else {
+			miku::TextNode *pText = static_cast<miku::TextNode *>(pNode);
+
+			for (int i = 0; i<indent; i++)
+				printfDx("  ");
+			printfDx("%s\n", &pBuf[pText->entity]);
+		}
+		while (pNode->isTerminate()){
+			// 次がなければ１階層のエレメントに戻る
+			idx = pNode->getNextNode();
+			pNode = reinterpret_cast<miku::Node *>(&pBuf[idx]);
+			indent--;
+			miku::ElementNode *pElement = static_cast<miku::ElementNode *>(pNode);
+			for (int i = 0; i<indent; i++)
+				printfDx("  ");
+			printfDx("</%s>\n", xmls.ElementName(pElement->name));
+
+			//			if (indent==0)	break;	// rootまで上がってきたので終了。returnでも良い
+			if (idx == 0)	break;	// rootまで上がってきたので終了。returnでも良い
+		}
+		idx = pNode->getBrotherNode();
+	} while (indent);	// 階層がない場合のみここで抜ける。
+	ScreenFlip();
+}
+
+void LoadScript(std::vector<char>& scriptbuf, const char* path, XmlEnum& xmls)
+{
+	TiXmlDocument xml;
+	// スクリプトを読む
+	if (!xml.LoadFile(path)){
+		printf("file read error %s\n", path);
+		exit(0);
+	}
+
+	// バイナリに変換
+	hashmap_t hashmap;
+	XmlBin().Conv(scriptbuf, hashmap, xml, &xmls);
+	mikuPrint(&scriptbuf[0], xmls);
+}
+
+class MyScriptEngine : public avs::ScriptEngine
+{
+};
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -73,8 +103,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		sinkxsd.ReadSchema(schema.RootElement());
 	}
 
-	AssetManager asset_manager;
+	MyScriptEngine script;
+	DxLibAvsImage avsImage;
+	script.AddImageListener(&avsImage);
 
+	std::vector<char> scriptBuf;
 	{
 		OPENFILENAME ofn;
 		TCHAR fname_full[MAX_PATH] = "";   // ファイル名(フルパス)を受け取る領域
@@ -90,45 +123,31 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		ofn.lpstrDefExt = "xml";					// デフォルトのファイルの種類
 		// ファイルを開くコモンダイアログを作成
 		if (GetOpenFileName(&ofn)){
+			LoadScript(scriptBuf, fname_full, sinkxsd);
+			script.SetScript(&scriptBuf[0]);
 		}
 	}
 
-	while(1){
+	int gametime = GetNowCount();
+	while (1){
 		// キーの状態をチェック
 		{
 			char Buf[256];
 			GetHitKeyStateAll(Buf);
 			if (Buf[KEY_INPUT_LCONTROL] || Buf[KEY_INPUT_RCONTROL])
 			{
-				if (Buf[KEY_INPUT_O])
-				{
-					OPENFILENAME ofn;
-					TCHAR fname_full[MAX_PATH] = "";   // ファイル名(フルパス)を受け取る領域
-					// 構造体に情報をセット
-					ZeroMemory(&ofn, sizeof(ofn));				// 最初にゼロクリアしておく
-					ofn.lStructSize = sizeof(ofn);				// 構造体のサイズ
-					ofn.hwndOwner = NULL;						// コモンダイアログの親ウィンドウハンドル
-					ofn.lpstrFilter = "png(*.png)\0*.png\0\0";	// ファイルの種類
-					ofn.lpstrFile = fname_full;				// 選択されたファイル名(フルパス)を受け取る変数のアドレス
-					ofn.nMaxFile = MAX_PATH;		// lpstrFileに指定した変数のサイズ
-					ofn.Flags = OFN_FILEMUSTEXIST;		// フラグ指定
-					ofn.lpstrTitle = "ファイルを開く";		// コモンダイアログのキャプション
-					ofn.lpstrDefExt = "png";					// デフォルトのファイルの種類
-					// ファイルを開くコモンダイアログを作成
-					if (GetOpenFileName(&ofn)){
-						int handle = asset_manager.Load(fname_full);
-						if (handle >= 0){
-							Sprite sprite{ handle, 0, 0 };
-							sprites.push_back(sprite);
-						}
-					}
-				}
 			}
 		}
-		for (auto& sprite: sprites)
-		{
-			DrawGraph(sprite.x, sprite.y, sprite.ghandle, TRUE);
-		}
+
+		int nowtime = GetNowCount();
+		int elapsedtime = gametime - nowtime;
+		gametime = nowtime;
+		avs::RunningStatus stat = script.Run(elapsedtime);
+		if (stat == avs::FINISH)
+			break;
+
+		avsImage.Update(elapsedtime);
+		avsImage.Draw();
 
 		// メッセージループに代わる処理をする
 		if (ProcessMessage() == -1)

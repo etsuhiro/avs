@@ -15,6 +15,7 @@ namespace avs
 		AvsSprite(int id, const avs::ImageInfo& info, AvsSprite* parent);
 		virtual ~AvsSprite();
 		void Update();
+		virtual void Draw();
 		int GetId();
 		AvsSprite* GetParent();
 		void Disown();

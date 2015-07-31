@@ -46,6 +46,10 @@ void AvsSprite::Update()
 	SetSprite(info);
 }
 
+void AvsSprite::Draw()
+{
+}
+
 int AvsSprite::GetId()
 {
 	return m_id;

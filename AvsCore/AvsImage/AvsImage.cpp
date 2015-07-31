@@ -97,6 +97,24 @@ void AvsImage::Update(float elapsedTime)
 	}
 }
 
+void AvsImage::Draw()
+{
+	// priolityに従ってソートリストを作成
+	std::list<avs::AvsSprite*> priolityList;
+	for (std::list<avs::AvsSprite*>::iterator it = sprite_list.begin(); it != sprite_list.end(); ++it){
+		std::list<avs::AvsSprite*>::iterator p = priolityList.begin();
+		for (; p != priolityList.end(); ++p){
+			if ((*p)->ImageInfo().priority > (*it)->ImageInfo().priority)
+				break;
+		}
+		priolityList.insert(p, *it);
+	}
+
+	for (std::list<avs::AvsSprite*>::iterator it = priolityList.begin(); it != priolityList.end(); ++it){
+		(*it)->Draw();
+	}
+}
+
 bool AvsImage::IsBusy()
 {
 	return m_busy;

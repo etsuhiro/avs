@@ -28,5 +28,6 @@ namespace avs
 		AvsImage();
 		virtual ~AvsImage();
 		void Update(float elapsedTime);
+		void Draw();
 	};
 }
