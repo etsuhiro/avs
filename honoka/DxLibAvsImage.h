@@ -12,5 +12,6 @@ class DxLibAvsImage : public avs::AvsImage {
 public:
 	DxLibAvsImage();
 	void Draw();
+	static void SetScreenSize(int x, int y);
 };
 

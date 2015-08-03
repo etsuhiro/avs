@@ -4,9 +4,15 @@
 #include <algorithm>
 #include <math.h>
 
+namespace{
+	int s_center_x = 640/2;
+	int s_center_y = 480/2;
+}
+
 struct Asset {
 	std::string name;
 	int handle;
+	int referCount;
 };
 
 class AssetManager {
@@ -21,12 +27,14 @@ public:
 	}
 	int Load(const char* path){
 		auto it = std::find_if(m_assets.begin(), m_assets.end(), [&path](Asset& asset){return asset.name == path; });
-		if (it != m_assets.end())
+		if (it != m_assets.end()){
+			it->referCount++;
 			return it->handle;
+		}
 
 		int handle = LoadGraph(path);
 		if (handle >= 0){
-			Asset asset{ path, handle };
+			Asset asset{ path, handle, 1 };
 			m_assets.push_back(asset);
 		}
 		return handle;
@@ -34,8 +42,10 @@ public:
 	void Remove(int handle){
 		auto it = std::find_if(m_assets.begin(), m_assets.end(), [&handle](Asset& asset){return asset.handle == handle; });
 		if (it != m_assets.end()){
-			DeleteGraph(it->handle);
-			m_assets.erase(it);
+			if (--it->referCount == 0){
+				DeleteGraph(it->handle);
+				m_assets.erase(it);
+			}
 		}
 	}
 };
@@ -60,11 +70,7 @@ class DxLibAvsSprite : public avs::AvsSprite {
 
 	virtual ~DxLibAvsSprite()
 	{
-//		pao::SpriteManager::ReleaseSprite(m_sprHn);
-//		pao::TextureManager::DecRefCount(m_texHn);
-//		if (pao::TextureManager::GetRefCount(m_texHn) <= 0){
-//			pao::TextureManager::ReleaseTexture(m_texHn);
-//		}
+		asset_manager.Remove(m_ghandle);
 	}
 
 	virtual void SetSprite(const avs::ImageInfo& info)
@@ -74,7 +80,8 @@ class DxLibAvsSprite : public avs::AvsSprite {
 
 	virtual void Draw() override
 	{
-		DrawGraph(m_local.x, m_local.y, m_ghandle, TRUE);
+//		DrawGraph(m_local.x, m_local.y, m_ghandle, TRUE);
+		DrawRotaGraph3(m_local.x + s_center_x, m_local.y + s_center_y, m_local.xpivot, m_local.ypivot, m_local.hscale, m_local.vscale, m_local.rot, m_ghandle, TRUE);
 	}
 
 public:
@@ -121,3 +128,8 @@ void DxLibAvsImage::DrawSync(bool)
 {
 }
 
+void DxLibAvsImage::SetScreenSize(int x, int y)
+{
+	s_center_x = x/2;
+	s_center_y = y/2;
+}

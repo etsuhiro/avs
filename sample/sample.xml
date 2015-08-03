@@ -2,29 +2,14 @@
 <script type="text/avs">
 	<cg id="bg" file="bg_18_1"/>
   <cg id="st" file="st_sor_s_916"/>
-
-  <cg id="kinght" file="knight" hscale="0.5" vscale="0.5"/>
-  <cg id="sub" parent="kinght" file="knight" x="128" y="128" hscale="0.5" vscale="0.5" rot="90"/>
-  <cg id="sub2" parent="sub" file="knight" x="128" y="128" hscale="0.5" vscale="0.5" rot="90"/>
-  <cgt id="sub2" hscale="0.7" vscale="0.7" time="500" method="sin"/>
-  <cgt id="kinght" rot="60" time="3000" method="sin"/>
-  <click/>
+  <cg id="st2" file="st_sor_s_916" x="-100"/>
 
   <label id="loop"/>
-  <cgt id="kinght" x="300" time="600" method="easein"/>
-  <wait time="1000"/>
-  <cgt id="kinght" x="0" time="600" method="easeout"/>
-
-  <set var="$0" set="1"/>
-  <while var="$0" eq="1">
-    <wait time="1"/>
-    <if key="X">
-      <cgt id="kinght"/>
-    </if>
-    <if key="A">
-      <set var="$0" set="0"/>
-    </if>
-  </while>
+  <cgt id="st" x="600" time="600" method="easein"/>
+  <wait time="600"/>
+  <cgt id="st" x="0" time="600" method="easeout"/>
+  <wait time="600"/>
+  <cg id="st2"/>
 
   <goto label="loop"/>
 
