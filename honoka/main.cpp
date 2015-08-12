@@ -140,7 +140,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 
 		int nowtime = GetNowCount();
-		int elapsedtime = gametime - nowtime;
+		int elapsedtime = nowtime - gametime;
 		gametime = nowtime;
 		avs::RunningStatus stat = script.Run(elapsedtime);
 		if (stat == avs::FINISH)

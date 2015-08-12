@@ -1,10 +1,8 @@
-// ResTest.cpp : アプリケーションのエントリ ポイントを定義します。
+// sprite.cpp : アプリケーションのエントリ ポイントを定義します。
 //
 
 #include "stdafx.h"
-#include "ResTest.h"
-#include "ImageTreeView.h"
-
+#include "sprite.h"
 
 #define MAX_LOADSTRING 100
 
@@ -33,7 +31,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	// グローバル文字列を初期化しています。
 	LoadString(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-	LoadString(hInstance, IDC_RESTEST, szWindowClass, MAX_LOADSTRING);
+	LoadString(hInstance, IDC_SPRITE, szWindowClass, MAX_LOADSTRING);
 	MyRegisterClass(hInstance);
 
 	// アプリケーションの初期化を実行します:
@@ -42,7 +40,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 		return FALSE;
 	}
 
-	hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_RESTEST));
+	hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_SPRITE));
 
 	// メイン メッセージ ループ:
 	while (GetMessage(&msg, NULL, 0, 0))
@@ -75,10 +73,10 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 	wcex.cbClsExtra		= 0;
 	wcex.cbWndExtra		= 0;
 	wcex.hInstance		= hInstance;
-	wcex.hIcon			= LoadIcon(hInstance, MAKEINTRESOURCE(IDI_RESTEST));
+	wcex.hIcon			= LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SPRITE));
 	wcex.hCursor		= LoadCursor(NULL, IDC_ARROW);
 	wcex.hbrBackground	= (HBRUSH)(COLOR_WINDOW+1);
-	wcex.lpszMenuName	= MAKEINTRESOURCE(IDC_RESTEST);
+	wcex.lpszMenuName	= MAKEINTRESOURCE(IDC_SPRITE);
 	wcex.lpszClassName	= szWindowClass;
 	wcex.hIconSm		= LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
@@ -112,9 +110,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
-	// モードレスダイアログボックスを作成します
-//   ImageTreeView::Create(hInst, hWnd);
-
    return TRUE;
 }
 
@@ -143,8 +138,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		switch (wmId)
 		{
 		case IDM_ABOUT:
-			// モードレスダイアログボックスを作成します
-			ImageTreeView::Create(hInst, hWnd);
 			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
 			break;
 		case IDM_EXIT:
@@ -187,4 +180,3 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	return (INT_PTR)FALSE;
 }
-
