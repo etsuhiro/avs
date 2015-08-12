@@ -2,6 +2,7 @@
 <script type="text/avs">
 	<cg id="bg" file="bg_18_1"/>
   <cg id="st" file="st_sor_s_916"/>
+  <cg id="st2" file="st_sor_s_916" x="200"/>
 
   <cg id="kinght" file="knight" hscale="0.5" vscale="0.5"/>
   <cg id="sub" parent="kinght" file="knight" x="128" y="128" hscale="0.5" vscale="0.5" rot="90"/>
