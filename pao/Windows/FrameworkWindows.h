@@ -37,4 +37,5 @@ namespace pao
 	};
 
 	BOOL OpenFileName(HWND hWnd, LPCWSTR filter, LPCWSTR defExt);
+	TCHAR* GetFullPath();
 }

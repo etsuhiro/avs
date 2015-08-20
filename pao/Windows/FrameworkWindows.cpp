@@ -149,10 +149,11 @@ INT_PTR CALLBACK FrameworkWindows::About(HWND hDlg, UINT message, WPARAM wParam,
 	return (INT_PTR)FALSE;
 }
 
+TCHAR fname_full[MAX_PATH] = L"";   // ファイル名(フルパス)を受け取る領域
+
 BOOL pao::OpenFileName(HWND hWnd, LPCWSTR filter, LPCWSTR defExt)
 {
 	OPENFILENAME ofn;
-	TCHAR fname_full[MAX_PATH] = L"";   // ファイル名(フルパス)を受け取る領域
 	// 構造体に情報をセット
 	ZeroMemory(&ofn, sizeof(ofn));				// 最初にゼロクリアしておく
 	ofn.lStructSize = sizeof(ofn);				// 構造体のサイズ
@@ -167,4 +168,9 @@ BOOL pao::OpenFileName(HWND hWnd, LPCWSTR filter, LPCWSTR defExt)
 	//			ofn.lpstrInitialDir = g_SetupData.dataPath;
 	// ファイルを開くコモンダイアログを作成
 	return GetOpenFileName(&ofn);
+}
+
+TCHAR* pao::GetFullPath()
+{
+	return fname_full;
 }

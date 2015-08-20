@@ -3,180 +3,146 @@
 
 #include "stdafx.h"
 #include "sprite.h"
+#include "DX11/FrameworkDX11.h"
 
-#define MAX_LOADSTRING 100
+#include <list>
+#include <SpriteBatch.h>
+#include <WICTextureLoader.h>
+#pragma comment(lib, "DirectXTK.lib")
 
-// グローバル変数:
-HINSTANCE hInst;								// 現在のインターフェイス
-TCHAR szTitle[MAX_LOADSTRING];					// タイトル バーのテキスト
-TCHAR szWindowClass[MAX_LOADSTRING];			// メイン ウィンドウ クラス名
-
-// このコード モジュールに含まれる関数の宣言を転送します:
-ATOM				MyRegisterClass(HINSTANCE hInstance);
-BOOL				InitInstance(HINSTANCE, int);
-LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
-INT_PTR CALLBACK	About(HWND, UINT, WPARAM, LPARAM);
-
-int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
-                     _In_opt_ HINSTANCE hPrevInstance,
-                     _In_ LPTSTR    lpCmdLine,
-                     _In_ int       nCmdShow)
-{
-	UNREFERENCED_PARAMETER(hPrevInstance);
-	UNREFERENCED_PARAMETER(lpCmdLine);
-
- 	// TODO: ここにコードを挿入してください。
-	MSG msg;
+class MyFramework : public pao::FrameworkDX11 {
+	static const int MAX_LOADSTRING = 100;
+	TCHAR szTitle[MAX_LOADSTRING];					// タイトル バーのテキスト
+	TCHAR szWindowClass[MAX_LOADSTRING];			// メイン ウィンドウ クラス名
 	HACCEL hAccelTable;
+	std::unique_ptr<DirectX::SpriteBatch> spriteBatch;
+	std::list<ID3D11ShaderResourceView*> textures;
 
-	// グローバル文字列を初期化しています。
-	LoadString(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-	LoadString(hInstance, IDC_SPRITE, szWindowClass, MAX_LOADSTRING);
-	MyRegisterClass(hInstance);
-
-	// アプリケーションの初期化を実行します:
-	if (!InitInstance (hInstance, nCmdShow))
+public:
+	MyFramework(HINSTANCE hInstance) : pao::FrameworkDX11(hInstance)
 	{
-		return FALSE;
+		LoadString(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
+		LoadString(hInstance, IDC_SPRITE, szWindowClass, MAX_LOADSTRING);
+
+		SetIcon(LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SPRITE)), LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SMALL)));
+		SetCursor(LoadCursor(NULL, IDC_ARROW));
+		SetMenu(MAKEINTRESOURCE(IDC_SPRITE));
+		SetClassName(szWindowClass);
+
+		hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_SPRITE));
+	}
+	~MyFramework()
+	{
 	}
 
-	hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_SPRITE));
-
-	// メイン メッセージ ループ:
-	while (GetMessage(&msg, NULL, 0, 0))
+	int Execute(int nCmdShow)
 	{
-		if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
+		return FrameworkWindows::Execute(szTitle, nCmdShow);
+	}
+
+	virtual BOOL Setup(HWND hWnd) override
+	{
+		ID3D11Device* hpDevice = dx11.Device();
+		ID3D11DeviceContext* hpDeviceContext = dx11.DeviceContext();
+
+		spriteBatch = std::unique_ptr<DirectX::SpriteBatch>(new DirectX::SpriteBatch(hpDeviceContext));
+
+		return TRUE;
+	}
+
+	virtual void Render(ID3D11DeviceContext* pDeviceContext) override
+	{
+#if 1
+		ID3D11BlendState* pBlendState = NULL;
+		D3D11_BLEND_DESC BlendDesc;
+		ZeroMemory(&BlendDesc, sizeof(BlendDesc));
+		BlendDesc.AlphaToCoverageEnable = FALSE;
+		BlendDesc.IndependentBlendEnable = FALSE;
+		BlendDesc.RenderTarget[0].BlendEnable = TRUE;
+		BlendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+		BlendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_DEST_COLOR;
+		BlendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+		BlendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+		BlendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+		BlendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+		BlendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+		float blendFactor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+		dx11.Device()->CreateBlendState(&BlendDesc, &pBlendState);
+		pDeviceContext->OMSetBlendState(pBlendState, blendFactor, 0xffffffff);
+#endif
+		spriteBatch->Begin();
+		for (auto& x : textures){
+			spriteBatch->Draw(x, DirectX::XMFLOAT2(0, 0), nullptr, DirectX::Colors::White);
 		}
+		spriteBatch->End();
 	}
 
-	return (int) msg.wParam;
-}
-
-
-
-//
-//  関数: MyRegisterClass()
-//
-//  目的: ウィンドウ クラスを登録します。
-//
-ATOM MyRegisterClass(HINSTANCE hInstance)
-{
-	WNDCLASSEX wcex;
-
-	wcex.cbSize = sizeof(WNDCLASSEX);
-
-	wcex.style			= CS_HREDRAW | CS_VREDRAW;
-	wcex.lpfnWndProc	= WndProc;
-	wcex.cbClsExtra		= 0;
-	wcex.cbWndExtra		= 0;
-	wcex.hInstance		= hInstance;
-	wcex.hIcon			= LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SPRITE));
-	wcex.hCursor		= LoadCursor(NULL, IDC_ARROW);
-	wcex.hbrBackground	= (HBRUSH)(COLOR_WINDOW+1);
-	wcex.lpszMenuName	= MAKEINTRESOURCE(IDC_SPRITE);
-	wcex.lpszClassName	= szWindowClass;
-	wcex.hIconSm		= LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
-
-	return RegisterClassEx(&wcex);
-}
-
-//
-//   関数: InitInstance(HINSTANCE, int)
-//
-//   目的: インスタンス ハンドルを保存して、メイン ウィンドウを作成します。
-//
-//   コメント:
-//
-//        この関数で、グローバル変数でインスタンス ハンドルを保存し、
-//        メイン プログラム ウィンドウを作成および表示します。
-//
-BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
-{
-   HWND hWnd;
-
-   hInst = hInstance; // グローバル変数にインスタンス処理を格納します。
-
-   hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
-
-   if (!hWnd)
-   {
-      return FALSE;
-   }
-
-   ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);
-
-   return TRUE;
-}
-
-//
-//  関数: WndProc(HWND, UINT, WPARAM, LPARAM)
-//
-//  目的:    メイン ウィンドウのメッセージを処理します。
-//
-//  WM_COMMAND	- アプリケーション メニューの処理
-//  WM_PAINT	- メイン ウィンドウの描画
-//  WM_DESTROY	- 中止メッセージを表示して戻る
-//
-//
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	int wmId, wmEvent;
-	PAINTSTRUCT ps;
-	HDC hdc;
-
-	switch (message)
+	// アプリケーション メニューの処理
+	virtual LRESULT WmCommand(HWND hWnd, WPARAM wParam, LPARAM lParam) override
 	{
-	case WM_COMMAND:
-		wmId    = LOWORD(wParam);
-		wmEvent = HIWORD(wParam);
+		int wmId = LOWORD(wParam);
+		int wmEvent = HIWORD(wParam);
 		// 選択されたメニューの解析:
 		switch (wmId)
 		{
 		case IDM_ABOUT:
-			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+			DialogBox(GetAppInstanceHandle(), MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
 			break;
 		case IDM_EXIT:
 			DestroyWindow(hWnd);
 			break;
-		default:
-			return DefWindowProc(hWnd, message, wParam, lParam);
-		}
-		break;
-	case WM_PAINT:
-		hdc = BeginPaint(hWnd, &ps);
-		// TODO: 描画コードをここに追加してください...
-		EndPaint(hWnd, &ps);
-		break;
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
-	default:
-		return DefWindowProc(hWnd, message, wParam, lParam);
-	}
-	return 0;
-}
-
-// バージョン情報ボックスのメッセージ ハンドラーです。
-INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	UNREFERENCED_PARAMETER(lParam);
-	switch (message)
-	{
-	case WM_INITDIALOG:
-		return (INT_PTR)TRUE;
-
-	case WM_COMMAND:
-		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
+		case IDM_FILE:
 		{
-			EndDialog(hDlg, LOWORD(wParam));
-			return (INT_PTR)TRUE;
+#if 1
+			if (pao::OpenFileName(hWnd, L"png(*.png)\0*.png\0\0", L"ファイルを開く") == TRUE){
+				ID3D11ShaderResourceView* texture;
+
+				if (FAILED(DirectX::CreateWICTextureFromFile(dx11.Device(), pao::GetFullPath(), NULL, &texture))){
+					MessageBox(hWnd, _T("CreateWICTextureFromFile"), _T("Err"), MB_ICONSTOP);
+					return FALSE;
+				}
+				textures.push_back(texture);
+			}
+#else
+			OPENFILENAME ofn;
+			TCHAR fname_full[MAX_PATH] = L"";   // ファイル名(フルパス)を受け取る領域
+			// 構造体に情報をセット
+			ZeroMemory(&ofn, sizeof(ofn));				// 最初にゼロクリアしておく
+			ofn.lStructSize = sizeof(ofn);				// 構造体のサイズ
+			ofn.hwndOwner = hWnd;						// コモンダイアログの親ウィンドウハンドル
+			ofn.lpstrFilter = L"png(*.png)\0*.png\0\0";	// ファイルの種類
+			ofn.lpstrFile = fname_full;				// 選択されたファイル名(フルパス)を受け取る変数のアドレス
+			ofn.nMaxFile = MAX_PATH;		// lpstrFileに指定した変数のサイズ
+			ofn.Flags = OFN_FILEMUSTEXIST;		// フラグ指定
+			ofn.lpstrTitle = L"ファイルを開く";		// コモンダイアログのキャプション
+			ofn.lpstrDefExt = L"png";					// デフォルトのファイルの種類
+			// 初期フォルダの指定
+			//			ofn.lpstrInitialDir = g_SetupData.dataPath;
+			// ファイルを開くコモンダイアログを作成
+			if (!GetOpenFileName(&ofn)) return false;
+			if (FAILED(DirectX::CreateWICTextureFromFile(dx11.Device(), fname_full, NULL, &hpShaderResourceView))){
+				MessageBox(hWnd, _T("CreateWICTextureFromFile"), _T("Err"), MB_ICONSTOP);
+				return FALSE;
+			}
+#endif
 		}
 		break;
+		default:
+			return DefWindowProc(hWnd, WM_COMMAND, wParam, lParam);
+		}
+		return 0;
 	}
-	return (INT_PTR)FALSE;
+};
+
+int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
+	_In_opt_ HINSTANCE hPrevInstance,
+	_In_ LPTSTR    lpCmdLine,
+	_In_ int       nCmdShow)
+{
+	UNREFERENCED_PARAMETER(hPrevInstance);
+	UNREFERENCED_PARAMETER(lpCmdLine);
+
+	MyFramework myFrameWork(hInstance);
+	return myFrameWork.Execute(nCmdShow);
 }

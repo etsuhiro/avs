@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="pao">
+      <UniqueIdentifier>{508dbff9-dd85-4fba-810e-dc85e78f3578}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -30,6 +33,18 @@
     <ClInclude Include="sprite.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="..\pao\DX11\DX11base.h">
+      <Filter>pao</Filter>
+    </ClInclude>
+    <ClInclude Include="..\pao\DX11\FrameworkDX11.h">
+      <Filter>pao</Filter>
+    </ClInclude>
+    <ClInclude Include="..\pao\Windows\FrameworkWindows.h">
+      <Filter>pao</Filter>
+    </ClInclude>
+    <ClInclude Include="..\pao\Windows\WindowProc.h">
+      <Filter>pao</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -37,6 +52,18 @@
     </ClCompile>
     <ClCompile Include="sprite.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\pao\DX11\DX11base.cpp">
+      <Filter>pao</Filter>
+    </ClCompile>
+    <ClCompile Include="..\pao\DX11\FrameworkDX11.cpp">
+      <Filter>pao</Filter>
+    </ClCompile>
+    <ClCompile Include="..\pao\Windows\FrameworkWindows.cpp">
+      <Filter>pao</Filter>
+    </ClCompile>
+    <ClCompile Include="..\pao\Windows\WindowProc.cpp">
+      <Filter>pao</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
