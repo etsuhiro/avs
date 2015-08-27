@@ -45,6 +45,9 @@
     <ClInclude Include="..\pao\Windows\WindowProc.h">
       <Filter>pao</Filter>
     </ClInclude>
+    <ClInclude Include="..\pao\Windows\FileDialog.h">
+      <Filter>pao</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -63,6 +66,9 @@
       <Filter>pao</Filter>
     </ClCompile>
     <ClCompile Include="..\pao\Windows\WindowProc.cpp">
+      <Filter>pao</Filter>
+    </ClCompile>
+    <ClCompile Include="..\pao\Windows\FileDialog.cpp">
       <Filter>pao</Filter>
     </ClCompile>
   </ItemGroup>

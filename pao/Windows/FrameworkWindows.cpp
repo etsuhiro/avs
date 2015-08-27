@@ -148,29 +148,3 @@ INT_PTR CALLBACK FrameworkWindows::About(HWND hDlg, UINT message, WPARAM wParam,
 	}
 	return (INT_PTR)FALSE;
 }
-
-TCHAR fname_full[MAX_PATH] = L"";   // ファイル名(フルパス)を受け取る領域
-
-BOOL pao::OpenFileName(HWND hWnd, LPCWSTR filter, LPCWSTR defExt)
-{
-	OPENFILENAME ofn;
-	// 構造体に情報をセット
-	ZeroMemory(&ofn, sizeof(ofn));				// 最初にゼロクリアしておく
-	ofn.lStructSize = sizeof(ofn);				// 構造体のサイズ
-	ofn.hwndOwner = hWnd;						// コモンダイアログの親ウィンドウハンドル
-	ofn.lpstrFilter = L"png(*.png)\0*.png\0\0";	// ファイルの種類
-	ofn.lpstrFile = fname_full;				// 選択されたファイル名(フルパス)を受け取る変数のアドレス
-	ofn.nMaxFile = MAX_PATH;		// lpstrFileに指定した変数のサイズ
-	ofn.Flags = OFN_FILEMUSTEXIST;		// フラグ指定
-	ofn.lpstrTitle = L"ファイルを開く";		// コモンダイアログのキャプション
-	ofn.lpstrDefExt = L"png";					// デフォルトのファイルの種類
-	// 初期フォルダの指定
-	//			ofn.lpstrInitialDir = g_SetupData.dataPath;
-	// ファイルを開くコモンダイアログを作成
-	return GetOpenFileName(&ofn);
-}
-
-TCHAR* pao::GetFullPath()
-{
-	return fname_full;
-}

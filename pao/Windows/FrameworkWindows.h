@@ -35,7 +35,4 @@ namespace pao
 		virtual int MainLoop();
 		static LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	};
-
-	BOOL OpenFileName(HWND hWnd, LPCWSTR filter, LPCWSTR defExt);
-	TCHAR* GetFullPath();
 }

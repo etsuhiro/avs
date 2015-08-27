@@ -147,6 +147,7 @@
     <ClInclude Include="..\pao\DX11\DX11base.h" />
     <ClInclude Include="..\pao\DX11\FrameworkDX11.h" />
     <ClInclude Include="..\pao\Windows\FrameworkWindows.h" />
+    <ClInclude Include="..\pao\Windows\FileDialog.h" />
     <ClInclude Include="..\pao\Windows\WindowProc.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="sprite.h" />
@@ -163,10 +164,15 @@
     <ClCompile Include="..\pao\Windows\FrameworkWindows.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\pao\Windows\FileDialog.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\pao\Windows\WindowProc.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="sprite.cpp" />
+    <ClCompile Include="sprite.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

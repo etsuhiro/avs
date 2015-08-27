@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "sprite.h"
 #include "DX11/FrameworkDX11.h"
+#include "Windows/FileDialog.h"
 
 #include <list>
 #include <SpriteBatch.h>
@@ -95,10 +96,12 @@ public:
 		case IDM_FILE:
 		{
 #if 1
-			if (pao::OpenFileName(hWnd, L"png(*.png)\0*.png\0\0", L"ファイルを開く") == TRUE){
+			pao::FileDialog fileDialog(hWnd);
+
+			if (fileDialog.DialogBoxOpen() == TRUE){
 				ID3D11ShaderResourceView* texture;
 
-				if (FAILED(DirectX::CreateWICTextureFromFile(dx11.Device(), pao::GetFullPath(), NULL, &texture))){
+				if (FAILED(DirectX::CreateWICTextureFromFile(dx11.Device(), fileDialog.GetFullPath(), NULL, &texture))){
 					MessageBox(hWnd, _T("CreateWICTextureFromFile"), _T("Err"), MB_ICONSTOP);
 					return FALSE;
 				}
