@@ -4,6 +4,7 @@
 	
 	ScriptEngineにテキストの出力が発生するとコールバックされる。
  */
+#pragma once
 
 namespace avs
 {

@@ -83,6 +83,7 @@
     <ClInclude Include="..\AvsCore\AvsImage\AvsImage.h" />
     <ClInclude Include="..\AvsCore\AvsImage\AvsSprite.h" />
     <ClInclude Include="..\AvsCore\AvsImage\ImageController.h" />
+    <ClInclude Include="..\AvsCore\ScriptEngine\AvsVariable.h" />
     <ClInclude Include="..\AvsCore\ScriptEngine\ScriptState.h" />
     <ClInclude Include="..\common\cFileWrite.h" />
     <ClInclude Include="..\common\crc32.h" />
@@ -102,6 +103,7 @@
     <ClCompile Include="..\AvsCore\ScriptEngine.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\AvsCore\ScriptEngine\AvsVariable.cpp" />
     <ClCompile Include="..\AvsCore\ScriptEngine\ScriptState.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>

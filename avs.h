@@ -5,11 +5,10 @@
 #include "AvsCore\AvsImage\AvsSprite.h"
 #include "AvsCore\AvsImage\ImageController.h"
 #include "AvsCore\ErrorMessageListener.h"
-#include "AvsCore\ImageListener.h"
 #include "AvsCore\ScriptEngine.h"
+#include "AvsCore\ScriptEngine\AvsVariable.h"
 #include "AvsCore\SoundListener.h"
 #include "AvsCore\TextListener.h"
-#include "AvsCore\VariableListener.h"
 
 #include "common\crc32.h"
 

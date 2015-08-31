@@ -98,6 +98,7 @@
     <ClCompile Include="..\AvsCore\AvsImage\AvsSprite.cpp" />
     <ClCompile Include="..\AvsCore\AvsImage\ImageController.cpp" />
     <ClCompile Include="..\AvsCore\ScriptEngine.cpp" />
+    <ClCompile Include="..\AvsCore\ScriptEngine\AvsVariable.cpp" />
     <ClCompile Include="..\AvsCore\ScriptEngine\ScriptState.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Develop|CTR'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|CTR'">NotUsing</PrecompiledHeader>
@@ -144,6 +145,7 @@
     <ClInclude Include="..\AvsCore\ErrorMessageListener.h" />
     <ClInclude Include="..\AvsCore\ImageListener.h" />
     <ClInclude Include="..\AvsCore\ScriptEngine.h" />
+    <ClInclude Include="..\AvsCore\ScriptEngine\AvsVariable.h" />
     <ClInclude Include="..\AvsCore\ScriptEngine\ScriptState.h" />
     <ClInclude Include="..\AvsCore\sinkenum.h" />
     <ClInclude Include="..\AvsCore\SoundListener.h" />

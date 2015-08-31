@@ -86,6 +86,9 @@
     <ClCompile Include="..\AvsCore\AvsImage\AvsImage.cpp">
       <Filter>ソース ファイル\AvsImage</Filter>
     </ClCompile>
+    <ClCompile Include="..\AvsCore\ScriptEngine\AvsVariable.cpp">
+      <Filter>ソース ファイル\ScriptEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\avs.h">
@@ -144,6 +147,9 @@
     </ClInclude>
     <ClInclude Include="..\AvsCore\AvsImage\AvsImage.h">
       <Filter>ヘッダー ファイル\AvsImage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\AvsCore\ScriptEngine\AvsVariable.h">
+      <Filter>ヘッダー ファイル\ScriptEngine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
