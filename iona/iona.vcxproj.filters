@@ -14,13 +14,13 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="pao">
-      <UniqueIdentifier>{508dbff9-dd85-4fba-810e-dc85e78f3578}</UniqueIdentifier>
+      <UniqueIdentifier>{73b05276-a057-45a3-8b0d-73cf905644cc}</UniqueIdentifier>
     </Filter>
     <Filter Include="pao\DX11">
-      <UniqueIdentifier>{1cadff3f-2f37-4345-b77b-a1ef9728c3da}</UniqueIdentifier>
+      <UniqueIdentifier>{53e8cf16-3468-4ca5-a45c-e43cbe719078}</UniqueIdentifier>
     </Filter>
     <Filter Include="pao\Windows">
-      <UniqueIdentifier>{274c6075-4fb2-4a5b-a17c-04c3e1eb9a83}</UniqueIdentifier>
+      <UniqueIdentifier>{018b61c5-48c4-414a-a615-6f765b3d82b3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -36,7 +36,7 @@
     <ClInclude Include="Resource.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="sprite.h">
+    <ClInclude Include="iona.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="..\pao\DX11\DX11base.h">
@@ -59,7 +59,7 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="sprite.cpp">
+    <ClCompile Include="iona.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="..\pao\DX11\DX11base.cpp">
@@ -79,7 +79,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="sprite.rc">
+    <ResourceCompile Include="iona.rc">
       <Filter>リソース ファイル</Filter>
     </ResourceCompile>
   </ItemGroup>
@@ -87,7 +87,7 @@
     <Image Include="small.ico">
       <Filter>リソース ファイル</Filter>
     </Image>
-    <Image Include="sprite.ico">
+    <Image Include="iona.ico">
       <Filter>リソース ファイル</Filter>
     </Image>
   </ItemGroup>
