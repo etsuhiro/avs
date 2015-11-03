@@ -10,6 +10,18 @@
 
 XmlEnum sinkxsd;
 
+void LoadSchema()
+{
+	TiXmlDocument schema;
+	// スキーマを読む
+	if (!schema.LoadFile("sink.xsd")){
+		printf("file read error (sink.xsd)\n");
+		exit(0);
+	}
+	//	XmlEnum xmls;
+	sinkxsd.ReadSchema(schema.RootElement());
+}
+
 void LoadScript(std::vector<char>& scriptbuf, const char* path, XmlEnum& xmls)
 {
 	TiXmlDocument xml;
@@ -58,6 +70,8 @@ public:
 		SetClassName(szWindowClass);
 
 		hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_IONA));
+
+		LoadSchema();
 	}
 	~MyFramework()
 	{

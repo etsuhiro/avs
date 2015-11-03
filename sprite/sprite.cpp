@@ -53,7 +53,7 @@ public:
 
 	virtual void Render(ID3D11DeviceContext* pDeviceContext) override
 	{
-#if 1
+#if 0
 		ID3D11BlendState* pBlendState = NULL;
 		D3D11_BLEND_DESC BlendDesc;
 		ZeroMemory(&BlendDesc, sizeof(BlendDesc));
