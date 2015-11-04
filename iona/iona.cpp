@@ -96,7 +96,7 @@ public:
 		case IDM_EXIT:
 			DestroyWindow(hWnd);
 			break;
-		case IDM_FILE:
+		case IDM_OPEN:
 			OpenScriptFile(hWnd);
 			break;
 		default:
