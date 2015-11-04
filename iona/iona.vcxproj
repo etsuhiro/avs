@@ -87,6 +87,7 @@
     <ClInclude Include="..\pao\Windows\FileDialog.h" />
     <ClInclude Include="..\pao\Windows\FrameworkWindows.h" />
     <ClInclude Include="..\pao\Windows\WindowProc.h" />
+    <ClInclude Include="ImageTreeView.h" />
     <ClInclude Include="iona.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -113,6 +114,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ImageTreeView.cpp" />
     <ClCompile Include="iona.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

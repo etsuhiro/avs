@@ -54,6 +54,9 @@
     <ClInclude Include="..\pao\Windows\WindowProc.h">
       <Filter>pao\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="ImageTreeView.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -76,6 +79,9 @@
     </ClCompile>
     <ClCompile Include="..\pao\Windows\WindowProc.cpp">
       <Filter>pao\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageTreeView.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -29,6 +29,9 @@ namespace pao {
 		// ファイルを開くコモンダイアログを作成
 		BOOL DialogBoxOpen();
 
+		// ファイルを保存するコモンダイアログを作成
+		BOOL FileDialog::DialogBoxSave();
+
 		TCHAR* GetFullPath();
 	};
 }

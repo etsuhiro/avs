@@ -55,3 +55,10 @@ TCHAR* FileDialog::GetFullPath()
 {
 	return m_fullPath;
 }
+
+// ファイルを保存するコモンダイアログを作成
+BOOL FileDialog::DialogBoxSave()
+{
+	return GetSaveFileName(&m_ofn);
+}
+

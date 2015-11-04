@@ -6,6 +6,7 @@
 #include "avs.h"
 #include "pao/DX11/FrameworkDX11.h"
 #include "pao/Windows/FileDialog.h"
+#include "ImageTreeView.h"
 #include <string>
 
 XmlEnum sinkxsd;
@@ -48,18 +49,42 @@ namespace {
 			char fpath[MAX_PATH];
 			WideCharToMultiByte(CP_OEMCP, 0, fileDialog.GetFullPath(), -1, fpath, MAX_PATH, NULL, NULL);
 			LoadScript(scriptBuf, fpath, sinkxsd);
+
+			// 上書き保存のメニューを選択可にする
+			HMENU hMenu = GetMenu(hWnd);
+			EnableMenuItem(hMenu, IDM_OVERWRITE, MF_ENABLED);
+		}
+	}
+
+	void SaveScriptFile(HWND hWnd)
+	{
+		pao::FileDialog fileDialog(hWnd);
+		fileDialog.SetTitle(L"名前を付けて保存");
+		fileDialog.SetFilter(L"script(*.xml)\0*.xml\0");
+
+		if (fileDialog.DialogBoxSave() == TRUE){
 		}
 	}
 }
 
-class MyFramework : public pao::FrameworkDX11 {
-	static const int MAX_LOADSTRING = 100;
+//using BaseClass = pao::FrameworkDX11;
+using BaseClass = pao::FrameworkWindows;
+
+class MyFramework : public BaseClass {
+		static const int MAX_LOADSTRING = 100;
 	TCHAR szTitle[MAX_LOADSTRING];					// タイトル バーのテキスト
 	TCHAR szWindowClass[MAX_LOADSTRING];			// メイン ウィンドウ クラス名
 	HACCEL hAccelTable;
 
+	virtual BOOL Init(HWND hWnd) override
+	{
+		// モードレスダイアログボックスを作成します
+		ImageTreeView::Create(GetAppInstanceHandle(), hWnd);
+		return TRUE;
+	}
+
 public:
-	MyFramework(HINSTANCE hInstance) : pao::FrameworkDX11(hInstance)
+	MyFramework(HINSTANCE hInstance) : BaseClass(hInstance)
 	{
 		LoadString(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
 		LoadString(hInstance, IDC_IONA, szWindowClass, MAX_LOADSTRING);
@@ -98,6 +123,9 @@ public:
 			break;
 		case IDM_OPEN:
 			OpenScriptFile(hWnd);
+			break;
+		case IDM_SAVE:
+			SaveScriptFile(hWnd);
 			break;
 		default:
 			return DefWindowProc(hWnd, WM_COMMAND, wParam, lParam);
