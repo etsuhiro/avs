@@ -81,7 +81,10 @@ class DxLibAvsSprite : public avs::AvsSprite {
 	virtual void Draw() override
 	{
 //		DrawGraph(m_local.x, m_local.y, m_ghandle, TRUE);
-		DrawRotaGraph3(m_local.x + s_center_x, m_local.y + s_center_y, m_local.xpivot, m_local.ypivot, m_local.hscale, m_local.vscale, m_local.rot, m_ghandle, TRUE);
+		if (m_local.rot == 0)
+			DrawRectGraph(m_local.x + s_center_x - m_local.xpivot, m_local.y + s_center_y - m_local.ypivot, m_local.u, m_local.v, m_local.w, m_local.h, m_ghandle, TRUE, FALSE);
+		else
+			DrawRotaGraph3(m_local.x + s_center_x, m_local.y + s_center_y, m_local.xpivot, m_local.ypivot, m_local.hscale, m_local.vscale, m_local.rot, m_ghandle, TRUE);
 	}
 
 public:

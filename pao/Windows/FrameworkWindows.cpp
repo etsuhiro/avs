@@ -99,13 +99,6 @@ BOOL FrameworkWindows::InitInstance(LPCTSTR windowName, int nCmdShow)
 	ShowWindow(m_hWnd, nCmdShow);
 	UpdateWindow(m_hWnd);
 
-	Init(m_hWnd);
-
-	return TRUE;
-}
-
-BOOL FrameworkWindows::Init(HWND hWnd)
-{
 	return TRUE;
 }
 

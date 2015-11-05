@@ -13,10 +13,10 @@ namespace pao
 		~FrameworkDX11();
 
 	private:
-		virtual BOOL Init(HWND hWnd) override;
 		virtual int MainLoop() override;
 		virtual BOOL Setup(HWND hWnd);
 		virtual void Render(ID3D11DeviceContext*);
+		virtual LRESULT WmCreate(HWND hWnd, WPARAM wParam, LPARAM lParam) override;
 	};
 
 }

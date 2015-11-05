@@ -11,17 +11,16 @@ FrameworkDX11::~FrameworkDX11()
 {
 }
 
-BOOL FrameworkDX11::Init(HWND hWnd)
-{
-	if (dx11.InitDX11(hWnd) != S_OK)
-		return FALSE;
-
-	return Setup(hWnd);
-}
-
 BOOL FrameworkDX11::Setup(HWND hWnd)
 {
 	return TRUE;
+}
+
+LRESULT FrameworkDX11::WmCreate(HWND hWnd, WPARAM wParam, LPARAM lParam)
+{
+	if (dx11.InitDX11(hWnd) == S_OK)
+		Setup(hWnd);
+	return 0;
 }
 
 int FrameworkDX11::MainLoop()

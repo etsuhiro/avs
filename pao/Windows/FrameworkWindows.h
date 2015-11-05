@@ -31,7 +31,6 @@ namespace pao
 
 	private:
 		BOOL InitInstance(LPCTSTR windowName, int nCmdShow);
-		virtual BOOL Init(HWND hWnd);
 		virtual int MainLoop();
 		static LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	};
