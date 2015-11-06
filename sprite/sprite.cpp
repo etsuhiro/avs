@@ -80,7 +80,7 @@ public:
 	}
 
 	// アプリケーション メニューの処理
-	virtual LRESULT WmCommand(HWND hWnd, WPARAM wParam, LPARAM lParam) override
+	virtual LRESULT OnCommand(HWND hWnd, WPARAM wParam, LPARAM lParam) override
 	{
 		int wmId = LOWORD(wParam);
 		int wmEvent = HIWORD(wParam);

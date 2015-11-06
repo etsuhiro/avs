@@ -16,8 +16,9 @@ BOOL FrameworkDX11::Setup(HWND hWnd)
 	return TRUE;
 }
 
-LRESULT FrameworkDX11::WmCreate(HWND hWnd, WPARAM wParam, LPARAM lParam)
+LRESULT FrameworkDX11::OnCreate(HWND hWnd, WPARAM wParam, LPARAM lParam)
 {
+	// WM_NCCREATEでは早すぎてdx11の初期化ができませんのでWM_CREATEで行います。
 	if (dx11.InitDX11(hWnd) == S_OK)
 		Setup(hWnd);
 	return 0;
@@ -43,6 +44,14 @@ int FrameworkDX11::MainLoop()
 	dx11.ExitDX11();
 
 	return (int)msg.wParam;
+}
+
+// ウィンドウリサイズ中はレンダーに処理が移行しないので、中で描画してみた
+void FrameworkDX11::OnSize(HWND hwnd, UINT flag, int width, int height)
+{
+	dx11.Clear();
+	Render(dx11.DeviceContext());
+	dx11.Flip();
 }
 
 void FrameworkDX11::Render(ID3D11DeviceContext*)

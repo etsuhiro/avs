@@ -76,13 +76,6 @@ class MyFramework : public BaseClass {
 	TCHAR szWindowClass[MAX_LOADSTRING];			// メイン ウィンドウ クラス名
 	HACCEL hAccelTable;
 
-	virtual BOOL Init(HWND hWnd) override
-	{
-		// モードレスダイアログボックスを作成します
-		ImageTreeView::Create(GetAppInstanceHandle(), hWnd);
-		return TRUE;
-	}
-
 public:
 	MyFramework(HINSTANCE hInstance) : BaseClass(hInstance)
 	{
@@ -107,8 +100,16 @@ public:
 		return FrameworkWindows::Execute(szTitle, nCmdShow);
 	}
 
+private:
+	virtual LRESULT OnCreate(HWND hWnd, WPARAM wParam, LPARAM lParam) override
+	{
+		// モードレスダイアログボックスを作成します
+		ImageTreeView::Create(GetAppInstanceHandle(), hWnd);
+		return 0;
+	}
+
 	// アプリケーション メニューの処理
-	virtual LRESULT WmCommand(HWND hWnd, WPARAM wParam, LPARAM lParam) override
+	virtual LRESULT OnCommand(HWND hWnd, WPARAM wParam, LPARAM lParam) override
 	{
 		int wmId = LOWORD(wParam);
 		int wmEvent = HIWORD(wParam);

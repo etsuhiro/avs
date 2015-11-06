@@ -8,14 +8,16 @@ namespace pao
 	public:
 		LRESULT operator()(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	private:
-		virtual LRESULT WmCreate(HWND hWnd, WPARAM wParam, LPARAM lParam);
-		virtual LRESULT WmCommand(HWND hWnd, WPARAM wParam, LPARAM lParam);
-		virtual LRESULT WmPaint(HWND hWnd, WPARAM wParam, LPARAM lParam);
-		virtual LRESULT WmLButtondown(HWND hWnd, WPARAM wParam, LPARAM lParam);
-		virtual LRESULT WmMButtondown(HWND hWnd, WPARAM wParam, LPARAM lParam);
-		virtual LRESULT WmRButtondown(HWND hWnd, WPARAM wParam, LPARAM lParam);
-		virtual LRESULT WmMouseMove(HWND hWnd, WPARAM wParam, LPARAM lParam);
-		virtual LRESULT WmDestroy(HWND hWnd, WPARAM wParam, LPARAM lParam);
-		virtual LRESULT WmClose(HWND hWnd, WPARAM wParam, LPARAM lParam);
+		virtual LRESULT OnNCCreate(HWND hWnd, WPARAM wParam, LPARAM lParam);
+		virtual LRESULT OnCreate(HWND hWnd, WPARAM wParam, LPARAM lParam);
+		virtual LRESULT OnCommand(HWND hWnd, WPARAM wParam, LPARAM lParam);
+		virtual LRESULT OnPaint(HWND hWnd, WPARAM wParam, LPARAM lParam);
+		virtual LRESULT OnLButtondown(HWND hWnd, WPARAM wParam, LPARAM lParam);
+		virtual LRESULT OnMButtondown(HWND hWnd, WPARAM wParam, LPARAM lParam);
+		virtual LRESULT OnRButtondown(HWND hWnd, WPARAM wParam, LPARAM lParam);
+		virtual LRESULT OnMouseMove(HWND hWnd, WPARAM wParam, LPARAM lParam);
+		virtual void OnDestroy(HWND hWnd);
+		virtual LRESULT OnClose(HWND hWnd, WPARAM wParam, LPARAM lParam);
+		virtual void OnSize(HWND hWnd, UINT flag, int width, int height);
 	};
 }
