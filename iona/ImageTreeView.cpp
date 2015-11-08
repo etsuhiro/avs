@@ -10,8 +10,8 @@
 void ImageTreeView::Create(HINSTANCE hInst, HWND hWndParent)
 {
 	// モードレスダイアログボックスを作成します
-//	CreateDialog(hInst, MAKEINTRESOURCE(IDD_DIALOG1), hWndParent, (DLGPROC)Proc);
-	DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG1), hWndParent, (DLGPROC)Proc);
+	CreateDialog(hInst, MAKEINTRESOURCE(IDD_DIALOG1), hWndParent, (DLGPROC)Proc);
+//	DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG1), hWndParent, (DLGPROC)Proc);
 }
 
 BOOL g_fdragging = FALSE;
@@ -187,6 +187,9 @@ LRESULT CALLBACK ImageTreeView::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 		}
 		break;
 	}
+
+	case WM_CLOSE:
+		return TRUE;
 
 	}
 
