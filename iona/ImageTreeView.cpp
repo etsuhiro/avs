@@ -10,7 +10,8 @@
 void ImageTreeView::Create(HINSTANCE hInst, HWND hWndParent)
 {
 	// モードレスダイアログボックスを作成します
-	CreateDialog(hInst, MAKEINTRESOURCE(IDD_DIALOG1), hWndParent, (DLGPROC)Proc);
+	HWND hWnd = CreateDialog(hInst, MAKEINTRESOURCE(IDD_DIALOG1), hWndParent, (DLGPROC)Proc);
+	ShowWindow(hWnd, SW_SHOW);
 //	DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG1), hWndParent, (DLGPROC)Proc);
 }
 
