@@ -17,6 +17,7 @@ void ImageTreeView::Create(HINSTANCE hInst, HWND hWndParent)
 
 BOOL g_fdragging = FALSE;
 static HTREEITEM    hDragItem;
+static HMENU hPopMenu;
 
 BOOL begin_drag(HWND h_tree, LPNMTREEVIEW p_nmtree)
 {
@@ -76,6 +77,29 @@ BOOL begin_drag(HWND h_tree, LPNMTREEVIEW p_nmtree)
 
 }
 
+void InitializeMenuItem(HMENU hmenu, LPTSTR lpszItemName, int nId, HMENU hmenuSub)
+{
+	MENUITEMINFO mii;
+
+	mii.cbSize = sizeof(MENUITEMINFO);
+	mii.fMask = MIIM_ID | MIIM_TYPE;
+	mii.wID = nId;
+
+	if (lpszItemName != NULL) {
+		mii.fType = MFT_STRING;
+		mii.dwTypeData = lpszItemName;
+	}
+	else
+		mii.fType = MFT_SEPARATOR;
+
+	if (hmenuSub != NULL) {
+		mii.fMask |= MIIM_SUBMENU;
+		mii.hSubMenu = hmenuSub;
+	}
+
+	InsertMenuItem(hmenu, nId, FALSE, &mii);
+}
+
 // プロシージャ
 LRESULT CALLBACK ImageTreeView::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -99,6 +123,14 @@ LRESULT CALLBACK ImageTreeView::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 		TreeView_InsertItem(hTree, &tv);
 		tv.item.pszText = TEXT("子２");
 		TreeView_InsertItem(hTree, &tv);
+
+		hPopMenu = CreatePopupMenu();
+		InitializeMenuItem(hPopMenu, TEXT("切り取り(&T)"), IDM_SAVE, NULL);
+		InitializeMenuItem(hPopMenu, TEXT("コピー(&C)"), IDM_SAVE, NULL);
+		InitializeMenuItem(hPopMenu, TEXT("貼り付け(&P)"), IDM_SAVE, NULL);
+		InitializeMenuItem(hPopMenu, TEXT("削除(&D)"), IDM_SAVE, NULL);
+		InitializeMenuItem(hPopMenu, NULL, 0, NULL);
+		InitializeMenuItem(hPopMenu, TEXT("挿入(&I)"), IDM_SAVE, NULL);
 	}
 	break;
 
@@ -189,7 +221,37 @@ LRESULT CALLBACK ImageTreeView::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 		break;
 	}
 
+	case WM_CONTEXTMENU:
+	{
+		HWND hwnd = (HWND)wParam;
+		TV_HITTESTINFO tvhtst;
+		tvhtst.pt.x = LOWORD(lParam);
+		tvhtst.pt.y = HIWORD(lParam);
+		ScreenToClient(hTree, &tvhtst.pt);
+		HTREEITEM hItem = TreeView_HitTest(hTree, &tvhtst);
+		if (hItem) {
+			TreeView_SelectItem(hTree, hItem);
+
+			TrackPopupMenu(hPopMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON,
+				LOWORD(lParam), HIWORD(lParam), 0/*必ず0*/, hDlg, NULL);
+		}
+		return TRUE;
+	}
+
+#if 0
+	case WM_RBUTTONUP:
+	{
+		POINT pt; // POINT 構造体
+		GetCursorPos(&pt); // スクリーン座標でクリック位置を知る。
+		TrackPopupMenu(hPopMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON,
+			pt.x, pt.y, 0/*必ず0*/, hDlg, NULL);
+		return TRUE;
+	}
+#endif
+
 	case WM_CLOSE:
+		DestroyMenu(hPopMenu);
+		EndDialog(hDlg, WM_CLOSE);
 		return TRUE;
 
 	}

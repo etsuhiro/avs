@@ -57,6 +57,9 @@
     <ClInclude Include="ImageTreeView.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="..\pao\Windows\DialogProc.h">
+      <Filter>pao\Windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -82,6 +85,9 @@
     </ClCompile>
     <ClCompile Include="ImageTreeView.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\pao\Windows\DialogProc.cpp">
+      <Filter>pao\Windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
