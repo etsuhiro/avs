@@ -1,12 +1,15 @@
 #include "DialogProc.h"
+#include <map>
 
 using namespace pao;
 
-LRESULT CALLBACK IDialogProc::WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+std::map<HWND, IDialogProc *> s_wndmap;
+
+LRESULT CALLBACK IDialogProc::DialogProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	IDialogProc *pThis = NULL;
 
-	if (uMsg == WM_NCCREATE)
+	if (uMsg == WM_INITDIALOG)
 	{
 		CREATESTRUCT* pCreate = (CREATESTRUCT*)lParam;
 		pThis = (IDialogProc*)pCreate->lpCreateParams;

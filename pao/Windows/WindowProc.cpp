@@ -2,6 +2,10 @@
 
 using namespace pao;
 
+// WindowProcのインターフェイス
+// MFC使った方がいいんじゃないのとも思ったり思わなかったり
+
+// static関数でエントリ
 LRESULT CALLBACK IWindowProc::WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	IWindowProc *pThis = (IWindowProc*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
@@ -9,8 +13,11 @@ LRESULT CALLBACK IWindowProc::WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LP
 	switch (uMsg){
 	case WM_NCCREATE:
 	{
+		// WM_NCCREATE と WM_CREATE での lParam パラメーターは CREATESTRUCT 構造体へのポインターとなります。
 		CREATESTRUCT* pCreate = (CREATESTRUCT*)lParam;
+		// CreateWindowEx で指定したポインターを取り出します。
 		pThis = (IWindowProc*)pCreate->lpCreateParams;
+		// ウィンドウのインスタンスデータに保存しておきます。
 		SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)pThis);
 
 		return pThis->OnNCCreate(hWnd, wParam, lParam);
@@ -112,7 +119,9 @@ void IWindowProc::OnDestroy(HWND)
 
 LRESULT IWindowProc::OnClose(HWND hWnd, WPARAM wParam, LPARAM lParam)
 {
-	return DefWindowProc(hWnd, WM_CLOSE, wParam, lParam);
+	DestroyWindow(hWnd);
+	return 0;
+//	return DefWindowProc(hWnd, WM_CLOSE, wParam, lParam);
 }
 
 void IWindowProc::OnSize(HWND hwnd, UINT flag, int width, int height)

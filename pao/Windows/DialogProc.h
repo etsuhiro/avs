@@ -8,7 +8,7 @@ namespace pao
 		HWND m_hwnd;
 
 	public:
-		static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+		static LRESULT CALLBACK DialogProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	private:
 		virtual LRESULT OnNCCreate(HWND hWnd, WPARAM wParam, LPARAM lParam);
 		virtual LRESULT OnCreate(HWND hWnd, WPARAM wParam, LPARAM lParam);

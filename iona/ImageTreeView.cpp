@@ -103,14 +103,12 @@ void InitializeMenuItem(HMENU hmenu, LPTSTR lpszItemName, int nId, HMENU hmenuSu
 // プロシージャ
 LRESULT CALLBACK ImageTreeView::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	static TV_INSERTSTRUCT tv{};
-	static avs::ImageInfo image[4];
-
 	HWND hTree = GetDlgItem(hDlg, IDC_TREE1);
 
 	switch (msg) {
 	case WM_INITDIALOG:
 	{
+		TV_INSERTSTRUCT tv{};
 		tv.hInsertAfter = TVI_LAST;
 		tv.item.mask = TVIF_TEXT;
 		tv.hParent = TVI_ROOT;
@@ -234,6 +232,16 @@ LRESULT CALLBACK ImageTreeView::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 
 			TrackPopupMenu(hPopMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON,
 				LOWORD(lParam), HIWORD(lParam), 0/*必ず0*/, hDlg, NULL);
+		}
+		else {
+			TrackPopupMenu(hPopMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON,
+				LOWORD(lParam), HIWORD(lParam), 0/*必ず0*/, hDlg, NULL);
+			TV_INSERTSTRUCT tv{};
+			tv.hInsertAfter = TVI_LAST;
+			tv.item.mask = TVIF_TEXT;
+			tv.hParent = TVI_ROOT;
+			tv.item.pszText = TEXT("追加");
+			TreeView_InsertItem(hTree, &tv);
 		}
 		return TRUE;
 	}
