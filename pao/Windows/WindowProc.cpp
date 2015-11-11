@@ -2,32 +2,40 @@
 
 using namespace pao;
 
-LRESULT IWindowProc::operator()(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK IWindowProc::WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg){
+	IWindowProc *pThis = (IWindowProc*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+
+	switch (uMsg){
 	case WM_NCCREATE:
-		return OnNCCreate(hWnd, wParam, lParam);
+	{
+		CREATESTRUCT* pCreate = (CREATESTRUCT*)lParam;
+		pThis = (IWindowProc*)pCreate->lpCreateParams;
+		SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)pThis);
+
+		return pThis->OnNCCreate(hWnd, wParam, lParam);
+	}
 
 	case WM_CREATE:
-		return OnCreate(hWnd, wParam, lParam);
+		return pThis->OnCreate(hWnd, wParam, lParam);
 
 	case WM_COMMAND:
-		return OnCommand(hWnd, wParam, lParam);
+		return pThis->OnCommand(hWnd, wParam, lParam);
 
 	case WM_PAINT:
-		return OnPaint(hWnd, wParam, lParam);
+		return pThis->OnPaint(hWnd, wParam, lParam);
 
 	case WM_LBUTTONDOWN:
-		return OnLButtondown(hWnd, wParam, lParam);
+		return pThis->OnLButtondown(hWnd, wParam, lParam);
 
 	case WM_MBUTTONDOWN:
-		return OnMButtondown(hWnd, wParam, lParam);
+		return pThis->OnMButtondown(hWnd, wParam, lParam);
 
 	case WM_RBUTTONDOWN:
-		return OnRButtondown(hWnd, wParam, lParam);
+		return pThis->OnRButtondown(hWnd, wParam, lParam);
 
 	case WM_MOUSEMOVE:
-		return OnMouseMove(hWnd, wParam, lParam);
+		return pThis->OnMouseMove(hWnd, wParam, lParam);
 
 	case WM_SIZE:
 	{
@@ -35,25 +43,26 @@ LRESULT IWindowProc::operator()(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 		int height = HIWORD(lParam); // 上位ワードを取得するマクロ
 
 		// メッセージに応答:
-		OnSize(hWnd, (UINT)wParam, width, height);
+		pThis->OnSize(hWnd, (UINT)wParam, width, height);
 	}
 	break;
 
 	case WM_DESTROY:
-		OnDestroy(hWnd);
+		pThis->OnDestroy(hWnd);
+		break;
 
 	case WM_CLOSE:    // ウィンドウが閉じられようとしたときに送られてくる
-		return OnClose(hWnd, wParam, lParam);
+		return pThis->OnClose(hWnd, wParam, lParam);
 
 	default:
-		return DefWindowProc(hWnd, msg, wParam, lParam);
+		return DefWindowProc(hWnd, uMsg, wParam, lParam);
 	}
 	return 0;
 }
 
 LRESULT IWindowProc::OnNCCreate(HWND hWnd, WPARAM wParam, LPARAM lParam)
 {
-	// WM_NCCREATEに限ってはTRUEを返す。01を返すとWindow生成処理が破棄され、ウィンドウハンドルがNULLとなる。
+	// WM_NCCREATEに限ってはTRUEを返す。0を返すとWindow生成処理が破棄され、ウィンドウハンドルがNULLとなる。
 	return TRUE;
 }
 

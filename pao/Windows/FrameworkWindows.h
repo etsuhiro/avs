@@ -5,12 +5,9 @@
 namespace pao
 {
 	class FrameworkWindows : public pao::IWindowProc {
-		static pao::IWindowProc* s_pWindowProc;
 		WNDCLASSEX wcex;
 		BOOL m_bMenu = FALSE;	// メニューバー表示
-		HWND m_hWnd;
 	protected:
-		//	static FrameworkWindows* s_pFrameworkWindows;	// インスタンスを保持
 		int m_width = CW_USEDEFAULT;
 		int m_height;
 		DWORD m_style = WS_OVERLAPPEDWINDOW;
@@ -32,6 +29,5 @@ namespace pao
 	private:
 		BOOL InitInstance(LPCTSTR windowName, int nCmdShow);
 		virtual int MainLoop();
-		static LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	};
 }

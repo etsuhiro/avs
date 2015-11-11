@@ -2,9 +2,6 @@
 
 using namespace pao;
 
-//FrameworkWindows* FrameworkWindows::s_pFrameworkWindows;	// インスタンスを保持
-pao::IWindowProc* FrameworkWindows::s_pWindowProc;	// インスタンスを保持
-
 FrameworkWindows::FrameworkWindows(HINSTANCE hInstance)
 {
 	wcex.cbSize = sizeof(WNDCLASSEX);
@@ -18,11 +15,8 @@ FrameworkWindows::FrameworkWindows(HINSTANCE hInstance)
 	wcex.hCursor = NULL;
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	wcex.lpszMenuName = NULL;
-	wcex.lpszClassName = L"pao_Framework";
+	wcex.lpszClassName = TEXT("pao_Framework");
 	wcex.hIconSm = NULL;
-
-	//		s_pFrameworkWindows = this;
-	s_pWindowProc = this;
 }
 
 FrameworkWindows::~FrameworkWindows()
@@ -80,7 +74,8 @@ BOOL FrameworkWindows::InitInstance(LPCTSTR windowName, int nCmdShow)
 		m_height = rc.bottom - rc.top;
 	}
 
-	m_hWnd = CreateWindowEx(
+	pao::IWindowProc* pWindowProc = this;
+	HWND hWnd = CreateWindowEx(
 		m_exstyle,
 		wcex.lpszClassName,
 		windowName,
@@ -88,16 +83,16 @@ BOOL FrameworkWindows::InitInstance(LPCTSTR windowName, int nCmdShow)
 		CW_USEDEFAULT, 0,
 		m_width, m_height,
 		NULL, NULL,
-		wcex.hInstance, NULL
+		wcex.hInstance, pWindowProc
 		);
 
-	if (!m_hWnd)
+	if (!hWnd)
 	{
 		return FALSE;
 	}
 
-	ShowWindow(m_hWnd, nCmdShow);
-	UpdateWindow(m_hWnd);
+	ShowWindow(hWnd, nCmdShow);
+	UpdateWindow(hWnd);
 
 	return TRUE;
 }
@@ -114,12 +109,6 @@ int FrameworkWindows::MainLoop()
 	}
 
 	return (int)msg.wParam;
-}
-
-LRESULT CALLBACK FrameworkWindows::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	//		return s_pFrameworkWindows->WndProc(hWnd, message, wParam, lParam);
-	return (*s_pWindowProc)(hWnd, message, wParam, lParam);
 }
 
 // バージョン情報ボックスのメッセージ ハンドラーです。
