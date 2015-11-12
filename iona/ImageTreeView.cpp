@@ -233,7 +233,8 @@ LRESULT CALLBACK ImageTreeView::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 			TrackPopupMenu(hPopMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON,
 				LOWORD(lParam), HIWORD(lParam), 0/*•K‚¸0*/, hDlg, NULL);
 		}
-		else {
+		else if (hwnd==hTree){
+			TreeView_SelectItem(hTree, NULL);
 			TrackPopupMenu(hPopMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON,
 				LOWORD(lParam), HIWORD(lParam), 0/*•K‚¸0*/, hDlg, NULL);
 			TV_INSERTSTRUCT tv{};

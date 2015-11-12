@@ -8,18 +8,18 @@ namespace pao
 		HWND m_hwnd;
 
 	public:
-		static LRESULT CALLBACK DialogProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+		HWND IDialogProc::Create(HINSTANCE hInst, UINT nIDResource, HWND hWndParent);
 	private:
-		virtual LRESULT OnNCCreate(HWND hWnd, WPARAM wParam, LPARAM lParam);
-		virtual LRESULT OnCreate(HWND hWnd, WPARAM wParam, LPARAM lParam);
-		virtual LRESULT OnCommand(HWND hWnd, WPARAM wParam, LPARAM lParam);
-		virtual LRESULT OnPaint(HWND hWnd, WPARAM wParam, LPARAM lParam);
-		virtual LRESULT OnLButtondown(HWND hWnd, WPARAM wParam, LPARAM lParam);
-		virtual LRESULT OnMButtondown(HWND hWnd, WPARAM wParam, LPARAM lParam);
-		virtual LRESULT OnRButtondown(HWND hWnd, WPARAM wParam, LPARAM lParam);
-		virtual LRESULT OnMouseMove(HWND hWnd, WPARAM wParam, LPARAM lParam);
-		virtual void OnDestroy(HWND hWnd);
-		virtual LRESULT OnClose(HWND hWnd, WPARAM wParam, LPARAM lParam);
-		virtual void OnSize(HWND hWnd, UINT flag, int width, int height);
+		static LRESULT CALLBACK DialogProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+		virtual LRESULT OnInitDialog();
+		virtual LRESULT OnDropFiles();
+		virtual LRESULT OnNotify();
+		virtual LRESULT OnMouseMove(int xPos, int yPos, DWORD flags);
+		virtual LRESULT OnLButtonDown(int xPos, int yPos, DWORD flags);
+		virtual LRESULT OnLButtonUp();
+		virtual LRESULT OnContextMenu(int xPos, int yPos, HWND hwnd);
+		virtual LRESULT OnRButtonUp();
+		virtual LRESULT OnClose();
 	};
 }
