@@ -97,7 +97,7 @@ void InitializeMenuItem(HMENU hmenu, LPTSTR lpszItemName, int nId, HMENU hmenuSu
 		mii.hSubMenu = hmenuSub;
 	}
 
-	InsertMenuItem(hmenu, nId, FALSE, &mii);
+	InsertMenuItem(hmenu, -1, TRUE, &mii); // -1,TRUEで最下段への追加を意味する
 }
 
 // プロシージャ

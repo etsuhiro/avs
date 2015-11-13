@@ -6,6 +6,7 @@
 namespace pao {
 	class FileDialog {
 		TCHAR m_fullPath[MAX_PATH];   // ファイル名(フルパス)を受け取る領域
+		TCHAR m_fname[MAX_PATH];        // ファイル名を受け取る領域
 		OPENFILENAME m_ofn;
 
 	public:
@@ -32,6 +33,10 @@ namespace pao {
 		// ファイルを保存するコモンダイアログを作成
 		BOOL FileDialog::DialogBoxSave();
 
+		// フルパスを得る
 		TCHAR* GetFullPath();
+
+		// ファイル名を得る
+		TCHAR* GetFileName();
 	};
 }

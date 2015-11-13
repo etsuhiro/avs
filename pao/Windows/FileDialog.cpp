@@ -10,7 +10,9 @@ FileDialog::FileDialog(HWND hWnd)
 	m_ofn.hwndOwner = hWnd;						// コモンダイアログの親ウィンドウハンドル
 	m_ofn.lpstrFilter = L"all(*.*)\0*.*\0\0";	// ファイルの種類
 	m_ofn.lpstrFile = m_fullPath;				// 選択されたファイル名(フルパス)を受け取る変数のアドレス
+	m_ofn.lpstrFileTitle = m_fname;					// 選択されたファイル名を受け取る変数のアドレス
 	m_ofn.nMaxFile = MAX_PATH;		// lpstrFileに指定した変数のサイズ
+	m_ofn.nMaxFileTitle = MAX_PATH;					// lpstrFileTitleに指定した変数のサイズ
 	m_ofn.Flags = OFN_FILEMUSTEXIST;		// フラグ指定
 	m_ofn.lpstrTitle = L"ファイルを開く";		// コモンダイアログのキャプション
 }
@@ -54,6 +56,11 @@ BOOL FileDialog::DialogBoxOpen()
 TCHAR* FileDialog::GetFullPath()
 {
 	return m_fullPath;
+}
+
+TCHAR* FileDialog::GetFileName()
+{
+	return m_fname;
 }
 
 // ファイルを保存するコモンダイアログを作成

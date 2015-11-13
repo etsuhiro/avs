@@ -97,7 +97,6 @@ public:
 			break;
 		case IDM_FILE:
 		{
-#if 1
 			pao::FileDialog fileDialog(hWnd);
 
 			if (fileDialog.DialogBoxOpen() == TRUE){
@@ -109,32 +108,20 @@ public:
 				}
 				textures.push_back(texture);
 
-				HWND hWndMenu = GetDlgItem(hWnd, IDC_SPRITE);
-				HMENU hMenu = GetMenu(hWndMenu);
-				InitializeMenuItem(hMenu, TEXT("挿入(&I)"), 0, NULL);
+				// ドロップダウンメニューにスプライトを追加します。
+				// まずはメニューハンドルを得ます
+				HMENU hMenu = GetMenu(hWnd);
+				// サブメニューは位置を指定して取得します。左から0,1,2で、今回は2
+				HMENU hSubMenu = GetSubMenu(hMenu, 2);
+				if (hSubMenu == NULL){
+					// 空の場合の追加の仕方がわからないので、現時点ではサブメニューにダミーを仕込んでNULLにならないようにしてます
+//					hSubMenu = CreatePopupMenu();
+//					AppendMenu(hMenu, );
+//					InsertMenu(hMenu, 2, MF_BYPOSITION, 0, NULL);
+//					InitializeMenuItem(hMenu, fileDialog.GetFileName(), 0, NULL);
+				} else
+					InitializeMenuItem(hSubMenu, fileDialog.GetFileName(), textures.size(), NULL);
 			}
-#else
-			OPENFILENAME ofn;
-			TCHAR fname_full[MAX_PATH] = L"";   // ファイル名(フルパス)を受け取る領域
-			// 構造体に情報をセット
-			ZeroMemory(&ofn, sizeof(ofn));				// 最初にゼロクリアしておく
-			ofn.lStructSize = sizeof(ofn);				// 構造体のサイズ
-			ofn.hwndOwner = hWnd;						// コモンダイアログの親ウィンドウハンドル
-			ofn.lpstrFilter = L"png(*.png)\0*.png\0\0";	// ファイルの種類
-			ofn.lpstrFile = fname_full;				// 選択されたファイル名(フルパス)を受け取る変数のアドレス
-			ofn.nMaxFile = MAX_PATH;		// lpstrFileに指定した変数のサイズ
-			ofn.Flags = OFN_FILEMUSTEXIST;		// フラグ指定
-			ofn.lpstrTitle = L"ファイルを開く";		// コモンダイアログのキャプション
-			ofn.lpstrDefExt = L"png";					// デフォルトのファイルの種類
-			// 初期フォルダの指定
-			//			ofn.lpstrInitialDir = g_SetupData.dataPath;
-			// ファイルを開くコモンダイアログを作成
-			if (!GetOpenFileName(&ofn)) return false;
-			if (FAILED(DirectX::CreateWICTextureFromFile(dx11.Device(), fname_full, NULL, &hpShaderResourceView))){
-				MessageBox(hWnd, _T("CreateWICTextureFromFile"), _T("Err"), MB_ICONSTOP);
-				return FALSE;
-			}
-#endif
 		}
 		break;
 		default:
@@ -166,6 +153,7 @@ void InitializeMenuItem(HMENU hmenu, LPTSTR lpszItemName, int nId, HMENU hmenuSu
 
 	if (lpszItemName != NULL) {
 		mii.fType = MFT_STRING;
+//		mii.fType = MFT_MENUBREAK;
 		mii.dwTypeData = lpszItemName;
 	}
 	else
@@ -176,5 +164,5 @@ void InitializeMenuItem(HMENU hmenu, LPTSTR lpszItemName, int nId, HMENU hmenuSu
 		mii.hSubMenu = hmenuSub;
 	}
 
-	InsertMenuItem(hmenu, nId, FALSE, &mii);
+	InsertMenuItem(hmenu, -1, TRUE, &mii); // -1,TRUEで最下段への追加の意味になる
 }
