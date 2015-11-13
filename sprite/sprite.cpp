@@ -11,6 +11,8 @@
 #include <WICTextureLoader.h>
 #pragma comment(lib, "DirectXTK.lib")
 
+void InitializeMenuItem(HMENU hmenu, LPTSTR lpszItemName, int nId, HMENU hmenuSub);
+
 class MyFramework : public pao::FrameworkDX11 {
 	static const int MAX_LOADSTRING = 100;
 	TCHAR szTitle[MAX_LOADSTRING];					// タイトル バーのテキスト
@@ -106,6 +108,10 @@ public:
 					return FALSE;
 				}
 				textures.push_back(texture);
+
+				HWND hWndMenu = GetDlgItem(hWnd, IDC_SPRITE);
+				HMENU hMenu = GetMenu(hWndMenu);
+				InitializeMenuItem(hMenu, TEXT("挿入(&I)"), 0, NULL);
 			}
 #else
 			OPENFILENAME ofn;
@@ -148,4 +154,27 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 
 	MyFramework myFrameWork(hInstance);
 	return myFrameWork.Execute(nCmdShow);
+}
+
+void InitializeMenuItem(HMENU hmenu, LPTSTR lpszItemName, int nId, HMENU hmenuSub)
+{
+	MENUITEMINFO mii;
+
+	mii.cbSize = sizeof(MENUITEMINFO);
+	mii.fMask = MIIM_ID | MIIM_TYPE;
+	mii.wID = nId;
+
+	if (lpszItemName != NULL) {
+		mii.fType = MFT_STRING;
+		mii.dwTypeData = lpszItemName;
+	}
+	else
+		mii.fType = MFT_SEPARATOR;
+
+	if (hmenuSub != NULL) {
+		mii.fMask |= MIIM_SUBMENU;
+		mii.hSubMenu = hmenuSub;
+	}
+
+	InsertMenuItem(hmenu, nId, FALSE, &mii);
 }
