@@ -92,22 +92,15 @@ void InitializeMenuItem(HMENU hmenu, LPTSTR lpszItemName, int nId, HMENU hmenuSu
 	InsertMenuItem(hmenu, -1, TRUE, &mii); // -1,TRUEÇ≈ç≈â∫íiÇ÷ÇÃí«â¡Çà”ñ°Ç∑ÇÈ
 }
 
-HTREEITEM TreeViewItem::s_parent = TVI_ROOT;
-
-TreeViewItem::TreeViewItem(HWND hTree, const LPTSTR text)
+HTREEITEM TreeViewAddItem(HWND hTree, HTREEITEM parent, const LPTSTR text)
 {
 	TV_INSERTSTRUCT tv{};
 	tv.hInsertAfter = TVI_LAST;
 	tv.item.mask = TVIF_TEXT;
-	tv.hParent = s_parent;
+	tv.hParent = (parent)? parent : TVI_ROOT;
 	tv.item.pszText = text;
-	store = s_parent;
-	s_parent = TreeView_InsertItem(hTree, &tv);
-}
-
-TreeViewItem::~TreeViewItem()
-{
-	s_parent = store;
+	HTREEITEM item = TreeView_InsertItem(hTree, &tv);
+	return item;
 }
 
 void ImageTreeView::AddControl(ITreeViewControl* pControl)

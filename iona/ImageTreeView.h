@@ -2,19 +2,13 @@
 
 #include <pao/Windows/DialogProc.h>
 #include <Windows.h>
+#include <commctrl.h>
 
-class TreeViewItem {
-	static HTREEITEM s_parent;
-	HTREEITEM store;
-
-public:
-	TreeViewItem(HWND hTree, const LPTSTR text);
-	~TreeViewItem();
-};
+HTREEITEM TreeViewAddItem(HWND hTree, HTREEITEM parent, const LPTSTR text);
 
 class ITreeViewControl {
 public:
-	virtual void Setup(HWND hTree);
+	virtual void Setup(HWND hTree) = 0;
 };
 
 class ImageTreeView : public pao::IDialogProc {
