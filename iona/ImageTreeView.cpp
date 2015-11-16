@@ -100,6 +100,9 @@ HTREEITEM TreeViewAddItem(HWND hTree, HTREEITEM parent, const LPTSTR text)
 	tv.hParent = (parent)? parent : TVI_ROOT;
 	tv.item.pszText = text;
 	HTREEITEM item = TreeView_InsertItem(hTree, &tv);
+
+	// 展開表示にするため、親の方に展開指定
+	TreeView_Expand(hTree, tv.hParent, TVE_EXPAND);
 	return item;
 }
 
