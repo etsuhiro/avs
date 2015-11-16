@@ -103,10 +103,9 @@ namespace {
 
 
 			ScriptTreeView* scriptTree = new ScriptTreeView(&scriptBuf[0], sinkxsd);
-			ImageTreeView* treeView = new ImageTreeView();
+			ImageTreeView* treeView = new ImageTreeView(hInst, IDD_DIALOG1, hWnd);
 			treeView->AddControl(scriptTree);
-			HWND hwndTreeView = treeView->Create(hInst, IDD_DIALOG1, hWnd);
-			ShowWindow(hwndTreeView, SW_SHOW);
+			treeView->SetTitle(fileDialog.GetFileName());
 		}
 	}
 

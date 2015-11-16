@@ -18,5 +18,7 @@ class ImageTreeView : public pao::IDialogProc {
 	virtual LRESULT OnContextMenu(int xPos, int yPos, HWND hwnd) override;
 
 public :
+	ImageTreeView(HINSTANCE hInst, UINT nIDResource, HWND hWndParent);
+	void SetTitle(LPCTSTR lpszTitle);
 	void AddControl(ITreeViewControl* pControl);
 };

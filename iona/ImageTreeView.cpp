@@ -103,17 +103,27 @@ HTREEITEM TreeViewAddItem(HWND hTree, HTREEITEM parent, const LPTSTR text)
 	return item;
 }
 
+
+ImageTreeView::ImageTreeView(HINSTANCE hInst, UINT nIDResource, HWND hWndParent)
+{
+	Create(hInst, nIDResource, hWndParent);
+	ShowWindow(m_hwnd, SW_SHOW);
+}
+
 void ImageTreeView::AddControl(ITreeViewControl* pControl)
 {
 	m_pControl = pControl;
+	HWND hTree = GetDlgItem(m_hwnd, IDC_TREE1);
+	m_pControl->Setup(hTree);
+}
+
+void ImageTreeView::SetTitle(LPCTSTR lpszTitle)
+{
+	SetWindowText(m_hwnd, lpszTitle);
 }
 
 LRESULT ImageTreeView::OnInitDialog()
 {
-	HWND hTree = GetDlgItem(m_hwnd, IDC_TREE1);
-	if (m_pControl)
-		m_pControl->Setup(hTree);
-
 	hPopMenu = CreatePopupMenu();
 	InitializeMenuItem(hPopMenu, TEXT("Ø‚èæ‚è(&T)"), IDM_SAVE, NULL);
 	InitializeMenuItem(hPopMenu, TEXT("ƒRƒs[(&C)"), IDM_SAVE, NULL);
