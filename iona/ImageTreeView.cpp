@@ -1,19 +1,11 @@
 #include "stdafx.h"
 #include "ImageTreeView.h"
+#include "resource.h"
 #include <windowsx.h>
 #include <commctrl.h>
-#include "resource.h"
 #include "AvsCore/ImageListener.h"
 
 #pragma comment( lib, "Comctl32.lib" )
-
-void ImageTreeView::Create(HINSTANCE hInst, HWND hWndParent)
-{
-	// モードレスダイアログボックスを作成します
-	HWND hWnd = CreateDialog(hInst, MAKEINTRESOURCE(IDD_DIALOG1), hWndParent, (DLGPROC)Proc);
-	ShowWindow(hWnd, SW_SHOW);
-//	DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG1), hWndParent, (DLGPROC)Proc);
-}
 
 BOOL g_fdragging = FALSE;
 static HTREEITEM    hDragItem;
@@ -100,170 +92,77 @@ void InitializeMenuItem(HMENU hmenu, LPTSTR lpszItemName, int nId, HMENU hmenuSu
 	InsertMenuItem(hmenu, -1, TRUE, &mii); // -1,TRUEで最下段への追加を意味する
 }
 
-// プロシージャ
-LRESULT CALLBACK ImageTreeView::Proc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	HWND hTree = GetDlgItem(hDlg, IDC_TREE1);
+HTREEITEM TreeViewItem::s_parent = TVI_ROOT;
 
-	switch (msg) {
-	case WM_INITDIALOG:
-	{
+TreeViewItem::TreeViewItem(HWND hTree, const LPTSTR text)
+{
+	TV_INSERTSTRUCT tv{};
+	tv.hInsertAfter = TVI_LAST;
+	tv.item.mask = TVIF_TEXT;
+	tv.hParent = s_parent;
+	tv.item.pszText = text;
+	store = s_parent;
+	s_parent = TreeView_InsertItem(hTree, &tv);
+}
+
+TreeViewItem::~TreeViewItem()
+{
+	s_parent = store;
+}
+
+void ImageTreeView::AddControl(ITreeViewControl* pControl)
+{
+	m_pControl = pControl;
+}
+
+LRESULT ImageTreeView::OnInitDialog()
+{
+	HWND hTree = GetDlgItem(m_hwnd, IDC_TREE1);
+	if (m_pControl)
+		m_pControl->Setup(hTree);
+
+	hPopMenu = CreatePopupMenu();
+	InitializeMenuItem(hPopMenu, TEXT("切り取り(&T)"), IDM_SAVE, NULL);
+	InitializeMenuItem(hPopMenu, TEXT("コピー(&C)"), IDM_SAVE, NULL);
+	InitializeMenuItem(hPopMenu, TEXT("貼り付け(&P)"), IDM_SAVE, NULL);
+	InitializeMenuItem(hPopMenu, TEXT("削除(&D)"), IDM_SAVE, NULL);
+	InitializeMenuItem(hPopMenu, NULL, 0, NULL);
+	InitializeMenuItem(hPopMenu, TEXT("挿入(&I)"), IDM_SAVE, NULL);
+
+	return TRUE;
+}
+
+LRESULT ImageTreeView::OnContextMenu(int xPos, int yPos, HWND hwnd)
+{
+	HWND hTree = GetDlgItem(m_hwnd, IDC_TREE1);
+	TV_HITTESTINFO tvhtst;
+	tvhtst.pt.x = xPos;
+	tvhtst.pt.y = yPos;
+	ScreenToClient(hTree, &tvhtst.pt);
+	HTREEITEM hItem = TreeView_HitTest(hTree, &tvhtst);
+	if (hItem) {
+		TreeView_SelectItem(hTree, hItem);
+
+		TrackPopupMenu(hPopMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON,
+			xPos, yPos, 0/*必ず0*/, m_hwnd, NULL);
+	}
+	else if (hwnd == hTree){
+		TreeView_SelectItem(hTree, NULL);
+		TrackPopupMenu(hPopMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON,
+			xPos, yPos, 0/*必ず0*/, m_hwnd, NULL);
 		TV_INSERTSTRUCT tv{};
 		tv.hInsertAfter = TVI_LAST;
 		tv.item.mask = TVIF_TEXT;
 		tv.hParent = TVI_ROOT;
-		tv.item.pszText = TEXT("親１");
+		tv.item.pszText = TEXT("追加");
 		TreeView_InsertItem(hTree, &tv);
-		tv.item.pszText = TEXT("親２");
-		HTREEITEM hParent = TreeView_InsertItem(hTree, &tv);
-		tv.hParent = hParent;
-		tv.item.pszText = TEXT("子１");
-		TreeView_InsertItem(hTree, &tv);
-		tv.item.pszText = TEXT("子２");
-		TreeView_InsertItem(hTree, &tv);
-
-		hPopMenu = CreatePopupMenu();
-		InitializeMenuItem(hPopMenu, TEXT("切り取り(&T)"), IDM_SAVE, NULL);
-		InitializeMenuItem(hPopMenu, TEXT("コピー(&C)"), IDM_SAVE, NULL);
-		InitializeMenuItem(hPopMenu, TEXT("貼り付け(&P)"), IDM_SAVE, NULL);
-		InitializeMenuItem(hPopMenu, TEXT("削除(&D)"), IDM_SAVE, NULL);
-		InitializeMenuItem(hPopMenu, NULL, 0, NULL);
-		InitializeMenuItem(hPopMenu, TEXT("挿入(&I)"), IDM_SAVE, NULL);
 	}
-	break;
+	return TRUE;
+}
 
-	case WM_DROPFILES:
-		break;
-
-	case WM_NOTIFY:
-		if (wParam == IDC_TREE1)
-		{
-			TV_DISPINFO* ptv_disp = (TV_DISPINFO *)lParam;
-			switch (ptv_disp->hdr.code){
-			case TVN_BEGINDRAG:                                                    //!< ドラッグ開始
-				begin_drag(hTree, reinterpret_cast<LPNMTREEVIEW>(lParam));
-				break;
-
-			case TVN_SELCHANGING:
-				// 項目が選択された
-				return TRUE;
-
-			case TVN_ENDLABELEDIT:
-				// ツリーの項目編集が終わったのでデータをセット
-				TreeView_SetItem(hTree, &ptv_disp->item);
-				return TRUE;
-			}
-		}
-		break;
-
-	case WM_MOUSEMOVE:
-	{
-		POINT pnt;
-		HTREEITEM h_item = NULL;
-
-		pnt.x = GET_X_LPARAM(lParam);
-		pnt.y = GET_Y_LPARAM(lParam);
-		if (g_fdragging)
-		{
-			//unlock window and allow updates to occur
-			ImageList_DragLeave(NULL);
-			ClientToScreen(hDlg, &pnt);
-			//check with the tree control to see if we are on an item
-			TVHITTESTINFO tv_ht;
-			ZeroMemory(&tv_ht, sizeof(TVHITTESTINFO));
-			tv_ht.flags = TVHT_ONITEM;
-			tv_ht.pt.x = pnt.x;
-			tv_ht.pt.y = pnt.y;
-			ScreenToClient(hTree, &(tv_ht.pt));
-			h_item = (HTREEITEM)SendMessage(hTree, TVM_HITTEST, 0, (LPARAM)&tv_ht);
-			if (h_item)
-			{  //if we had a hit, then drop highlite the item
-				SendMessage(hTree, TVM_SELECTITEM, TVGN_DROPHILITE, (LPARAM)h_item);
-			}
-			//paint the image in the new location
-			ImageList_DragMove(pnt.x, pnt.y);
-			//lock the screen again
-			ImageList_DragEnter(NULL, pnt.x, pnt.y);
-			return TRUE;
-		}
-		break;
-	}
-
-	case WM_LBUTTONUP:
-	{
-		HTREEITEM h_item = NULL;
-		TVHITTESTINFO tv_ht;
-		TVITEM tv;
-		ZeroMemory(&tv, sizeof(TVITEM));
-		ZeroMemory(&tv_ht, sizeof(TVHITTESTINFO));
-
-		if (g_fdragging)
-		{
-			ImageList_DragLeave(NULL);
-			ImageList_EndDrag();
-			ReleaseCapture();
-			//determin if we let up on an item
-			GetCursorPos(&(tv_ht.pt));
-			ScreenToClient(hTree, &(tv_ht.pt));
-			tv_ht.flags = TVHT_ONITEM;
-			h_item = (HTREEITEM)SendMessage(hTree, TVM_HITTEST, 0, (LPARAM)&tv_ht);
-			ShowCursor(TRUE);
-			g_fdragging = FALSE;
-			if (h_item)
-			{
-				/*we need to defer changing the selection until done processing this message post message allows us to do this. */
-//				PostMessage(hDlg, M_CHANGEFOCUS, (WPARAM)0, (LPARAM)h_item);
-			}
-			return TRUE;
-		}
-		break;
-	}
-
-	case WM_CONTEXTMENU:
-	{
-		HWND hwnd = (HWND)wParam;
-		TV_HITTESTINFO tvhtst;
-		tvhtst.pt.x = LOWORD(lParam);
-		tvhtst.pt.y = HIWORD(lParam);
-		ScreenToClient(hTree, &tvhtst.pt);
-		HTREEITEM hItem = TreeView_HitTest(hTree, &tvhtst);
-		if (hItem) {
-			TreeView_SelectItem(hTree, hItem);
-
-			TrackPopupMenu(hPopMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON,
-				LOWORD(lParam), HIWORD(lParam), 0/*必ず0*/, hDlg, NULL);
-		}
-		else if (hwnd==hTree){
-			TreeView_SelectItem(hTree, NULL);
-			TrackPopupMenu(hPopMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON,
-				LOWORD(lParam), HIWORD(lParam), 0/*必ず0*/, hDlg, NULL);
-			TV_INSERTSTRUCT tv{};
-			tv.hInsertAfter = TVI_LAST;
-			tv.item.mask = TVIF_TEXT;
-			tv.hParent = TVI_ROOT;
-			tv.item.pszText = TEXT("追加");
-			TreeView_InsertItem(hTree, &tv);
-		}
-		return TRUE;
-	}
-
-#if 0
-	case WM_RBUTTONUP:
-	{
-		POINT pt; // POINT 構造体
-		GetCursorPos(&pt); // スクリーン座標でクリック位置を知る。
-		TrackPopupMenu(hPopMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON,
-			pt.x, pt.y, 0/*必ず0*/, hDlg, NULL);
-		return TRUE;
-	}
-#endif
-
-	case WM_CLOSE:
-		DestroyMenu(hPopMenu);
-		EndDialog(hDlg, WM_CLOSE);
-		return TRUE;
-
-	}
-
-	return FALSE;
+LRESULT ImageTreeView::OnClose()
+{
+	DestroyMenu(hPopMenu);
+	EndDialog(m_hwnd, WM_CLOSE);
+	return TRUE;
 }

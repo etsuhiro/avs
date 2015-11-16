@@ -5,12 +5,13 @@
 using namespace pao;
 
 std::map<HWND, IDialogProc *> s_dialogMap;
+IDialogProc *s_initialPtr;
 
 HWND IDialogProc::Create(HINSTANCE hInst, UINT nIDResource, HWND hWndParent)
 {
+	s_initialPtr = this;
 	// モードレスダイアログボックスを作成します
 	m_hwnd = CreateDialog(hInst, MAKEINTRESOURCE(nIDResource), hWndParent, (DLGPROC)DialogProc);
-	s_dialogMap[m_hwnd] = this;
 	return m_hwnd;
 }
 
@@ -20,6 +21,9 @@ LRESULT CALLBACK IDialogProc::DialogProc(HWND hwnd, UINT uMsg, WPARAM wParam, LP
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
+		s_dialogMap[hwnd] = s_initialPtr;
+		pThis = s_initialPtr;
+		pThis->m_hwnd = hwnd;
 		return pThis->OnInitDialog();
 
 	case WM_DROPFILES:

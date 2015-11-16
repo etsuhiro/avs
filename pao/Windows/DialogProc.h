@@ -5,6 +5,7 @@
 namespace pao
 {
 	class IDialogProc {
+	protected:
 		HWND m_hwnd;
 
 	public:
