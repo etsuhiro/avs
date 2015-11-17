@@ -9,56 +9,43 @@
 
 XmlEnum sinkxsd;
 
-void mikuPrint(char *pBuf, XmlEnum& xmls)
-{
-	int idx = 0;
-	int indent = 0;
-	do {
-		miku::Node *pNode = reinterpret_cast<miku::Node *>(&pBuf[idx]);
-		if (pNode->isElementType()){
-			miku::ElementNode *pElement = static_cast<miku::ElementNode *>(pNode);
+class DxLibMikuPrint : public IMikuPrint {
+	virtual void TagName(const char* name, int indent) override
+	{
+		for (int i = 0; i<indent; i++)
+			printfDx("  ");
+		printfDx("<%s", name);
+	}
 
-			for (int i = 0; i<indent; i++)
-				printfDx("  ");
-			printfDx("<%s", xmls.ElementName(pElement->name));
-			miku::Attr *pAttr = reinterpret_cast<miku::Attr *>(pElement + 1);
-			for (int i = 0; i<pElement->getAttrNum(); i++, pAttr++){
-				printfDx(" %s=???", xmls.AttributeName(pAttr->name));
-			}
-			if (pElement->getChildNode()){
-				printfDx(">\n");
-				idx = pElement->getChildNode();
-				indent++;
-				continue;
-			}
-			else {
-				printfDx("/>\n");
-			}
-		}
-		else {
-			miku::TextNode *pText = static_cast<miku::TextNode *>(pNode);
+	virtual void TagClose(const char* name, int indent) override
+	{
+		printfDx(">\n");
+	}
 
-			for (int i = 0; i<indent; i++)
-				printfDx("  ");
-			printfDx("%s\n", &pBuf[pText->entity]);
-		}
-		while (pNode->isTerminate()){
-			// 次がなければ１階層のエレメントに戻る
-			idx = pNode->getNextNode();
-			pNode = reinterpret_cast<miku::Node *>(&pBuf[idx]);
-			indent--;
-			miku::ElementNode *pElement = static_cast<miku::ElementNode *>(pNode);
-			for (int i = 0; i<indent; i++)
-				printfDx("  ");
-			printfDx("</%s>\n", xmls.ElementName(pElement->name));
+	virtual void EmptyElementTagClose(const char* name, int indent) override
+	{
+		printfDx("/>\n");
+	}
 
-			//			if (indent==0)	break;	// rootまで上がってきたので終了。returnでも良い
-			if (idx == 0)	break;	// rootまで上がってきたので終了。returnでも良い
-		}
-		idx = pNode->getBrotherNode();
-	} while (indent);	// 階層がない場合のみここで抜ける。
-	ScreenFlip();
-}
+	virtual void EndTag(const char* name, int indent) override
+	{
+		for (int i = 0; i<indent; i++)
+			printfDx("  ");
+		printfDx("</%s>\n", name);
+	}
+
+	virtual void AttrName(const char* name) override
+	{
+		printfDx(" %s=???", name);
+	}
+
+	virtual void Text(const char* text, int indent) override
+	{
+		for (int i = 0; i<indent; i++)
+			printfDx("  ");
+		printfDx("%s\n", text);
+	}
+};
 
 void LoadScript(std::vector<char>& scriptbuf, const char* path, XmlEnum& xmls)
 {
@@ -72,7 +59,9 @@ void LoadScript(std::vector<char>& scriptbuf, const char* path, XmlEnum& xmls)
 	// バイナリに変換
 	hashmap_t hashmap;
 	XmlBin().Conv(scriptbuf, hashmap, xml, &xmls);
-	mikuPrint(&scriptbuf[0], xmls);
+
+	mikuPrint(&scriptbuf[0], xmls, DxLibMikuPrint());
+	ScreenFlip();
 }
 
 class MyScriptEngine : public avs::ScriptEngine

@@ -37,6 +37,46 @@ void LoadScript(std::vector<char>& scriptbuf, const char* path, XmlEnum& xmls)
 	XmlBin().Conv(scriptbuf, hashmap, xml, &xmls);
 }
 
+class TreePrint : public IMikuPrint {
+	HWND hTree;
+	HTREEITEM item;
+	std::vector<HTREEITEM> tv;
+
+public:
+	TreePrint(HWND hTree) : hTree(hTree) {}
+
+private:
+	virtual void TagName(const char* name, int indent) override
+	{
+		TCHAR str[256];
+		MultiByteToWideChar(CP_OEMCP, MB_PRECOMPOSED, name, -1, str, sizeof(str) / 2);
+		HTREEITEM parent = (tv.empty()) ? NULL : tv.back();
+		item = TreeViewAddItem(hTree, parent, str);
+	}
+
+	virtual void TagClose(const char* name, int indent) override
+	{
+		tv.push_back(item);
+	}
+
+	virtual void EmptyElementTagClose(const char* name, int indent) override
+	{
+	}
+
+	virtual void EndTag(const char* name, int indent) override
+	{
+		tv.pop_back();
+	}
+
+	virtual void AttrName(const char* name) override
+	{
+	}
+
+	virtual void Text(const char* text, int indent) override
+	{
+	}
+};
+
 class ScriptTreeView : public ITreeViewControl {
 	char *pBuf;
 	XmlEnum& xmls;
@@ -50,6 +90,8 @@ public:
 private:
 	virtual void Setup(HWND hTree) override
 	{
+		mikuPrint(pBuf, xmls, TreePrint(hTree));
+#if 0
 		int idx = 0;
 		int indent = 0;
 		std::vector<HTREEITEM> tv;
@@ -81,6 +123,7 @@ private:
 			}
 			idx = pNode->getBrotherNode();
 		} while (indent);	// äKëwÇ™Ç»Ç¢èÍçáÇÃÇ›Ç±Ç±Ç≈î≤ÇØÇÈÅB
+#endif
 	}
 };
 

@@ -228,4 +228,45 @@ int XmlBin::Conv(std::vector<char>& outbuf, hashmap_t& hashmap, const TiXmlDocum
 	return nodeSize;
 }
 
+void mikuPrint(char *pBuf, XmlEnum& xmls, IMikuPrint& print)
+{
+	int idx = 0;
+	int indent = 0;
+	do {
+		miku::Node *pNode = reinterpret_cast<miku::Node *>(&pBuf[idx]);
+		if (pNode->isElementType()){
+			miku::ElementNode *pElement = static_cast<miku::ElementNode *>(pNode);
+			print.TagName(xmls.ElementName(pElement->name), indent);
 
+			miku::Attr *pAttr = reinterpret_cast<miku::Attr *>(pElement + 1);
+			for (int i = 0; i<pElement->getAttrNum(); i++, pAttr++){
+				print.AttrName(xmls.AttributeName(pAttr->name));
+			}
+			if (pElement->getChildNode()){
+				print.TagClose(xmls.ElementName(pElement->name), indent);
+				idx = pElement->getChildNode();
+				indent++;
+				continue;
+			}
+			else {
+				print.EmptyElementTagClose(xmls.ElementName(pElement->name), indent);
+			}
+		}
+		else {
+			miku::TextNode *pText = static_cast<miku::TextNode *>(pNode);
+			print.Text(&pBuf[pText->entity], indent);
+		}
+		while (pNode->isTerminate()){
+			// Ÿ‚ª‚È‚¯‚ê‚Î‚PŠK‘w‚ÌƒGƒŒƒƒ“ƒg‚É–ß‚é
+			idx = pNode->getNextNode();
+			pNode = reinterpret_cast<miku::Node *>(&pBuf[idx]);
+			indent--;
+			miku::ElementNode *pElement = static_cast<miku::ElementNode *>(pNode);
+			print.EndTag(xmls.ElementName(pElement->name), indent);
+
+			//			if (indent==0)	break;	// root‚Ü‚Åã‚ª‚Á‚Ä‚«‚½‚Ì‚ÅI—¹Breturn‚Å‚à—Ç‚¢
+			if (idx == 0)	break;	// root‚Ü‚Åã‚ª‚Á‚Ä‚«‚½‚Ì‚ÅI—¹Breturn‚Å‚à—Ç‚¢
+		}
+		idx = pNode->getBrotherNode();
+	} while (indent);	// ŠK‘w‚ª‚È‚¢ê‡‚Ì‚İ‚±‚±‚Å”²‚¯‚éB
+}
