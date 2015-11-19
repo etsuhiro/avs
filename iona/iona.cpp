@@ -130,7 +130,7 @@ private:
 namespace {
 	std::vector<char> scriptBuf;
 
-	void OpenScriptFile(HINSTANCE hInst, HWND hWnd)
+	void OpenScriptFile(HINSTANCE hInst, HWND hWnd, avs::ScriptEngine& script)
 	{
 		pao::FileDialog fileDialog(hWnd);
 		fileDialog.SetFilter(L"script(*.xml)\0*.xml\0" L"all(*.*)\0*.*\0" L"\0");
@@ -139,6 +139,7 @@ namespace {
 			char fpath[MAX_PATH];
 			WideCharToMultiByte(CP_OEMCP, 0, fileDialog.GetFullPath(), -1, fpath, MAX_PATH, NULL, NULL);
 			LoadScript(scriptBuf, fpath, sinkxsd);
+			script.SetScript(&scriptBuf[0]);
 
 			// è„èëÇ´ï€ë∂ÇÃÉÅÉjÉÖÅ[ÇëIëâ¬Ç…Ç∑ÇÈ
 			HMENU hMenu = GetMenu(hWnd);
@@ -163,12 +164,17 @@ namespace {
 	}
 }
 
+class MyScriptEngine : public avs::ScriptEngine
+{
+};
+
 using BaseClass = pao::FrameworkDX11;
 //using BaseClass = pao::FrameworkWindows;
 
 class MyFramework : public BaseClass {
 		static const int MAX_LOADSTRING = 100;
 	HACCEL hAccelTable;
+	MyScriptEngine script;
 
 public:
 	MyFramework(HINSTANCE hInstance) : BaseClass(hInstance)
@@ -213,7 +219,7 @@ private:
 			DestroyWindow(hWnd);
 			break;
 		case IDM_OPEN:
-			OpenScriptFile(GetAppInstanceHandle(), hWnd);
+			OpenScriptFile(GetAppInstanceHandle(), hWnd, script);
 			break;
 		case IDM_SAVE:
 			SaveScriptFile(hWnd);
@@ -222,6 +228,11 @@ private:
 			return DefWindowProc(hWnd, WM_COMMAND, wParam, lParam);
 		}
 		return 0;
+	}
+
+	virtual void Render(ID3D11DeviceContext*) override
+	{
+		avs::RunningStatus stat = script.Run(16.f);
 	}
 };
 

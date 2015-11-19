@@ -16,6 +16,7 @@ namespace pao
 	public:
 		FrameworkWindows(HINSTANCE hInstance);
 		~FrameworkWindows();
+		void Create(HINSTANCE hInstance);
 		int Execute(LPCTSTR windowName, int nCmdShow);
 		static INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 

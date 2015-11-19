@@ -23,6 +23,23 @@ FrameworkWindows::~FrameworkWindows()
 {
 }
 
+void FrameworkWindows::Create(HINSTANCE hInstance)
+{
+	wcex.cbSize = sizeof(WNDCLASSEX);
+	wcex.style = CS_HREDRAW | CS_VREDRAW;
+	//		wcex.style = CS_CLASSDC;	// DirectXƒAƒvƒŠ‚Í‚±‚ê
+	wcex.lpfnWndProc = WindowProc;
+	wcex.cbClsExtra = 0;
+	wcex.cbWndExtra = 0;
+	wcex.hInstance = hInstance;
+	wcex.hIcon = NULL;
+	wcex.hCursor = NULL;
+	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+	wcex.lpszMenuName = NULL;
+	wcex.lpszClassName = TEXT("pao_Framework");
+	wcex.hIconSm = NULL;
+}
+
 void FrameworkWindows::SetClassName(LPCTSTR name)
 {
 	wcex.lpszClassName = name;
