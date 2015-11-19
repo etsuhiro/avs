@@ -163,8 +163,8 @@ namespace {
 	}
 }
 
-//using BaseClass = pao::FrameworkDX11;
-using BaseClass = pao::FrameworkWindows;
+using BaseClass = pao::FrameworkDX11;
+//using BaseClass = pao::FrameworkWindows;
 
 class MyFramework : public BaseClass {
 		static const int MAX_LOADSTRING = 100;
