@@ -168,14 +168,12 @@ using BaseClass = pao::FrameworkDX11;
 
 class MyFramework : public BaseClass {
 		static const int MAX_LOADSTRING = 100;
-	TCHAR szTitle[MAX_LOADSTRING];					// タイトル バーのテキスト
-	TCHAR szWindowClass[MAX_LOADSTRING];			// メイン ウィンドウ クラス名
 	HACCEL hAccelTable;
 
 public:
 	MyFramework(HINSTANCE hInstance) : BaseClass(hInstance)
 	{
-		LoadString(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
+		TCHAR szWindowClass[MAX_LOADSTRING];			// メイン ウィンドウ クラス名
 		LoadString(hInstance, IDC_IONA, szWindowClass, MAX_LOADSTRING);
 
 		SetIcon(LoadIcon(hInstance, MAKEINTRESOURCE(IDI_IONA)), LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SMALL)));
@@ -193,6 +191,9 @@ public:
 
 	int Execute(int nCmdShow)
 	{
+		TCHAR szTitle[MAX_LOADSTRING];					// タイトル バーのテキスト
+		LoadString(GetAppInstanceHandle(), IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
+
 		return FrameworkWindows::Execute(szTitle, nCmdShow);
 	}
 

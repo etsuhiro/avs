@@ -15,8 +15,6 @@ void InitializeMenuItem(HMENU hmenu, LPTSTR lpszItemName, int nId, HMENU hmenuSu
 
 class MyFramework : public pao::FrameworkDX11 {
 	static const int MAX_LOADSTRING = 100;
-	TCHAR szTitle[MAX_LOADSTRING];					// タイトル バーのテキスト
-	TCHAR szWindowClass[MAX_LOADSTRING];			// メイン ウィンドウ クラス名
 	HACCEL hAccelTable;
 	std::unique_ptr<DirectX::SpriteBatch> spriteBatch;
 	std::list<ID3D11ShaderResourceView*> textures;
@@ -24,7 +22,7 @@ class MyFramework : public pao::FrameworkDX11 {
 public:
 	MyFramework(HINSTANCE hInstance) : pao::FrameworkDX11(hInstance)
 	{
-		LoadString(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
+		TCHAR szWindowClass[MAX_LOADSTRING];			// メイン ウィンドウ クラス名
 		LoadString(hInstance, IDC_SPRITE, szWindowClass, MAX_LOADSTRING);
 
 		SetIcon(LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SPRITE)), LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SMALL)));
@@ -40,6 +38,8 @@ public:
 
 	int Execute(int nCmdShow)
 	{
+		TCHAR szTitle[MAX_LOADSTRING];					// タイトル バーのテキスト
+		LoadString(GetAppInstanceHandle(), IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
 		return FrameworkWindows::Execute(szTitle, nCmdShow);
 	}
 
