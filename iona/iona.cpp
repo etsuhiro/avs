@@ -11,30 +11,32 @@
 
 XmlEnum sinkxsd;
 
-void LoadSchema()
-{
-	TiXmlDocument schema;
-	// スキーマを読む
-	if (!schema.LoadFile("sink.xsd")){
-		printf("file read error (sink.xsd)\n");
-		exit(0);
-	}
-	//	XmlEnum xmls;
-	sinkxsd.ReadSchema(schema.RootElement());
-}
-
-void LoadScript(std::vector<char>& scriptbuf, const char* path, XmlEnum& xmls)
-{
-	TiXmlDocument xml;
-	// スクリプトを読む
-	if (!xml.LoadFile(path)){
-		printf("file read error %s\n", path);
-		exit(0);
+namespace avsutil {
+	void LoadSchema()
+	{
+		TiXmlDocument schema;
+		// スキーマを読む
+		if (!schema.LoadFile("sink.xsd")){
+			printf("file read error (sink.xsd)\n");
+			exit(0);
+		}
+		//	XmlEnum xmls;
+		sinkxsd.ReadSchema(schema.RootElement());
 	}
 
-	// バイナリに変換
-	hashmap_t hashmap;
-	XmlBin().Conv(scriptbuf, hashmap, xml, &xmls);
+	void LoadScript(std::vector<char>& scriptbuf, const char* path, XmlEnum& xmls)
+	{
+		TiXmlDocument xml;
+		// スクリプトを読む
+		if (!xml.LoadFile(path)){
+			printf("file read error %s\n", path);
+			exit(0);
+		}
+
+		// バイナリに変換
+		hashmap_t hashmap;
+		XmlBin().Conv(scriptbuf, hashmap, xml, &xmls);
+	}
 }
 
 class TreePrint : public IMikuPrint {
@@ -138,7 +140,7 @@ namespace {
 		if (fileDialog.DialogBoxOpen() == TRUE){
 			char fpath[MAX_PATH];
 			WideCharToMultiByte(CP_OEMCP, 0, fileDialog.GetFullPath(), -1, fpath, MAX_PATH, NULL, NULL);
-			LoadScript(scriptBuf, fpath, sinkxsd);
+			avsutil::LoadScript(scriptBuf, fpath, sinkxsd);
 			script.SetScript(&scriptBuf[0]);
 
 			// 上書き保存のメニューを選択可にする
@@ -179,31 +181,35 @@ class MyFramework : public BaseClass {
 public:
 	MyFramework(HINSTANCE hInstance) : BaseClass(hInstance)
 	{
-		TCHAR szWindowClass[MAX_LOADSTRING];			// メイン ウィンドウ クラス名
-		LoadString(hInstance, IDC_IONA, szWindowClass, MAX_LOADSTRING);
-
-		SetIcon(LoadIcon(hInstance, MAKEINTRESOURCE(IDI_IONA)), LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SMALL)));
-		SetCursor(LoadCursor(NULL, IDC_ARROW));
-		SetMenu(MAKEINTRESOURCE(IDC_IONA));
-		SetClassName(szWindowClass);
-
 		hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_IONA));
-
-		LoadSchema();
 	}
 	~MyFramework()
 	{
 	}
 
-	int Execute(int nCmdShow)
+	void Init(HINSTANCE hInstance, int nCmdShow)
 	{
 		TCHAR szTitle[MAX_LOADSTRING];					// タイトル バーのテキスト
 		LoadString(GetAppInstanceHandle(), IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
+		TCHAR szWindowClass[MAX_LOADSTRING];			// メイン ウィンドウ クラス名
+		LoadString(hInstance, IDC_IONA, szWindowClass, MAX_LOADSTRING);
+		HWND hWnd = Create(hInstance, szWindowClass, szTitle);
+		ShowWindow(hWnd, nCmdShow);
+		UpdateWindow(hWnd);
 
-		return FrameworkWindows::Execute(szTitle, nCmdShow);
+		avsutil::LoadSchema();
 	}
 
 private:
+	virtual void MakeWindow(WNDCLASSEX& wcex) override
+	{
+		HINSTANCE hInstance = GetAppInstanceHandle();
+
+		SetIcon(LoadIcon(hInstance, MAKEINTRESOURCE(IDI_IONA)), LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SMALL)));
+		SetCursor(LoadCursor(NULL, IDC_ARROW));
+		SetMenu(MAKEINTRESOURCE(IDC_IONA));
+	}
+
 	// アプリケーション メニューの処理
 	virtual LRESULT OnCommand(HWND hWnd, WPARAM wParam, LPARAM lParam) override
 	{
@@ -230,10 +236,10 @@ private:
 		return 0;
 	}
 
-	virtual void Render(ID3D11DeviceContext*) override
-	{
-		avs::RunningStatus stat = script.Run(16.f);
-	}
+//	virtual void Render(ID3D11DeviceContext*) override
+//	{
+//		avs::RunningStatus stat = script.Run(16.f);
+//	}
 };
 
 
@@ -246,5 +252,6 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
 	MyFramework myFrameWork(hInstance);
-	return myFrameWork.Execute(nCmdShow);
+	myFrameWork.Init(hInstance, nCmdShow);
+	return myFrameWork.Run();
 }

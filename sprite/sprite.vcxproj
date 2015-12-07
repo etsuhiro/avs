@@ -145,7 +145,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\pao\DX11\DX11base.h" />
+    <ClInclude Include="..\pao\DX11\DX11Component.h" />
     <ClInclude Include="..\pao\DX11\FrameworkDX11.h" />
+    <ClInclude Include="..\pao\Windows\Component.h" />
     <ClInclude Include="..\pao\Windows\FrameworkWindows.h" />
     <ClInclude Include="..\pao\Windows\FileDialog.h" />
     <ClInclude Include="..\pao\Windows\WindowProc.h" />
@@ -157,6 +159,9 @@
   <ItemGroup>
     <ClCompile Include="..\pao\DX11\DX11base.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\pao\DX11\DX11Component.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\pao\DX11\FrameworkDX11.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>

@@ -54,6 +54,12 @@
     <ClInclude Include="..\pao\Windows\WindowProc.h">
       <Filter>pao\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="..\pao\Windows\Component.h">
+      <Filter>pao\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\pao\DX11\DX11Component.h">
+      <Filter>pao\DX11</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -76,6 +82,9 @@
     </ClCompile>
     <ClCompile Include="..\pao\Windows\WindowProc.cpp">
       <Filter>pao\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\pao\DX11\DX11Component.cpp">
+      <Filter>pao\DX11</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

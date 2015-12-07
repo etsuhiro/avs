@@ -22,34 +22,37 @@ class MyFramework : public pao::FrameworkDX11 {
 public:
 	MyFramework(HINSTANCE hInstance) : pao::FrameworkDX11(hInstance)
 	{
-		TCHAR szWindowClass[MAX_LOADSTRING];			// メイン ウィンドウ クラス名
-		LoadString(hInstance, IDC_SPRITE, szWindowClass, MAX_LOADSTRING);
-
-		SetIcon(LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SPRITE)), LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SMALL)));
-		SetCursor(LoadCursor(NULL, IDC_ARROW));
-		SetMenu(MAKEINTRESOURCE(IDC_SPRITE));
-		SetClassName(szWindowClass);
-
 		hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_SPRITE));
 	}
 	~MyFramework()
 	{
 	}
 
-	int Execute(int nCmdShow)
+	void Init(HINSTANCE hInstance, int nCmdShow)
 	{
 		TCHAR szTitle[MAX_LOADSTRING];					// タイトル バーのテキスト
 		LoadString(GetAppInstanceHandle(), IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-		return FrameworkWindows::Execute(szTitle, nCmdShow);
+		TCHAR szWindowClass[MAX_LOADSTRING];			// メイン ウィンドウ クラス名
+		LoadString(hInstance, IDC_SPRITE, szWindowClass, MAX_LOADSTRING);
+		HWND hWnd = Create(hInstance, szWindowClass, szTitle);
+		ShowWindow(hWnd, nCmdShow);
+//		UpdateWindow(hWnd);
+	}
+
+private:
+	virtual void MakeWindow(WNDCLASSEX& wcex) override
+	{
+		HINSTANCE hInstance = GetAppInstanceHandle();
+
+		SetIcon(LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SPRITE)), LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SMALL)));
+		SetCursor(LoadCursor(NULL, IDC_ARROW));
+		SetMenu(MAKEINTRESOURCE(IDC_SPRITE));
 	}
 
 	virtual BOOL Setup(HWND hWnd) override
 	{
-		ID3D11Device* hpDevice = dx11.Device();
 		ID3D11DeviceContext* hpDeviceContext = dx11.DeviceContext();
-
 		spriteBatch = std::unique_ptr<DirectX::SpriteBatch>(new DirectX::SpriteBatch(hpDeviceContext));
-
 		return TRUE;
 	}
 
@@ -74,11 +77,13 @@ public:
 		dx11.Device()->CreateBlendState(&BlendDesc, &pBlendState);
 		pDeviceContext->OMSetBlendState(pBlendState, blendFactor, 0xffffffff);
 #endif
-		spriteBatch->Begin();
-		for (auto& x : textures){
-			spriteBatch->Draw(x, DirectX::XMFLOAT2(0, 0), nullptr, DirectX::Colors::White);
+		if (spriteBatch){
+			spriteBatch->Begin();
+			for (auto& x : textures){
+				spriteBatch->Draw(x, DirectX::XMFLOAT2(0, 0), nullptr, DirectX::Colors::White);
+			}
+			spriteBatch->End();
 		}
-		spriteBatch->End();
 	}
 
 	// アプリケーション メニューの処理
@@ -140,7 +145,8 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
 	MyFramework myFrameWork(hInstance);
-	return myFrameWork.Execute(nCmdShow);
+	myFrameWork.Init(hInstance, nCmdShow);
+	return myFrameWork.Run();
 }
 
 void InitializeMenuItem(HMENU hmenu, LPTSTR lpszItemName, int nId, HMENU hmenuSub)

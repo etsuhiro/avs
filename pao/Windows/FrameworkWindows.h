@@ -1,12 +1,15 @@
 #pragma once
 
 #include "WindowProc.h"
+#include "Component.h"
+#include <list>
 
 namespace pao
 {
 	class FrameworkWindows : public pao::IWindowProc {
 		WNDCLASSEX wcex;
 		BOOL m_bMenu = FALSE;	// メニューバー表示
+		std::list<Component*> m_components;
 	protected:
 		int m_width = CW_USEDEFAULT;
 		int m_height;
@@ -16,8 +19,8 @@ namespace pao
 	public:
 		FrameworkWindows(HINSTANCE hInstance);
 		~FrameworkWindows();
-		void Create(HINSTANCE hInstance);
-		int Execute(LPCTSTR windowName, int nCmdShow);
+		HWND Create(HINSTANCE hInstance, LPCTSTR className, LPCTSTR windowName);
+		int Run();
 		static INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 
 	protected:
@@ -28,7 +31,8 @@ namespace pao
 		HINSTANCE GetAppInstanceHandle();
 
 	private:
-		BOOL InitInstance(LPCTSTR windowName, int nCmdShow);
+		HWND InitInstance(LPCTSTR windowName);
 		virtual int MainLoop();
+		virtual void MakeWindow(WNDCLASSEX& wcex);
 	};
 }

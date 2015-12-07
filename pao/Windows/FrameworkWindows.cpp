@@ -2,42 +2,16 @@
 
 using namespace pao;
 
+namespace {
+	HINSTANCE s_hInstance;
+}
+
 FrameworkWindows::FrameworkWindows(HINSTANCE hInstance)
 {
-	wcex.cbSize = sizeof(WNDCLASSEX);
-	wcex.style = CS_HREDRAW | CS_VREDRAW;
-	//		wcex.style = CS_CLASSDC;	// DirectXアプリはこれ
-	wcex.lpfnWndProc = WindowProc;
-	wcex.cbClsExtra = 0;
-	wcex.cbWndExtra = 0;
-	wcex.hInstance = hInstance;
-	wcex.hIcon = NULL;
-	wcex.hCursor = NULL;
-	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-	wcex.lpszMenuName = NULL;
-	wcex.lpszClassName = TEXT("pao_Framework");
-	wcex.hIconSm = NULL;
 }
 
 FrameworkWindows::~FrameworkWindows()
 {
-}
-
-void FrameworkWindows::Create(HINSTANCE hInstance)
-{
-	wcex.cbSize = sizeof(WNDCLASSEX);
-	wcex.style = CS_HREDRAW | CS_VREDRAW;
-	//		wcex.style = CS_CLASSDC;	// DirectXアプリはこれ
-	wcex.lpfnWndProc = WindowProc;
-	wcex.cbClsExtra = 0;
-	wcex.cbWndExtra = 0;
-	wcex.hInstance = hInstance;
-	wcex.hIcon = NULL;
-	wcex.hCursor = NULL;
-	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-	wcex.lpszMenuName = NULL;
-	wcex.lpszClassName = TEXT("pao_Framework");
-	wcex.hIconSm = NULL;
 }
 
 void FrameworkWindows::SetClassName(LPCTSTR name)
@@ -67,21 +41,50 @@ HINSTANCE FrameworkWindows::GetAppInstanceHandle()
 	return wcex.hInstance;
 }
 
-int FrameworkWindows::Execute(LPCTSTR windowName, int nCmdShow)
+HWND FrameworkWindows::Create(HINSTANCE hInstance, LPCTSTR className, LPCTSTR windowName)
 {
+//	WNDCLASSEX wcex{};
+
+	wcex.cbSize = sizeof(WNDCLASSEX);
+	wcex.style = CS_HREDRAW | CS_VREDRAW;
+	//		wcex.style = CS_CLASSDC;	// DirectXアプリはこれ
+	wcex.lpfnWndProc = WindowProc;
+	wcex.cbClsExtra = 0;
+	wcex.cbWndExtra = 0;
+	wcex.hInstance = hInstance;
+	wcex.hIcon = NULL;
+	wcex.hCursor = NULL;
+	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+	wcex.lpszMenuName = NULL;
+	wcex.lpszClassName = className;
+	wcex.hIconSm = NULL;
+
+	MakeWindow(wcex);
+
 	// ウィンドウクラス登録
 	RegisterClassEx(&wcex);
 
 	// アプリケーションの初期化を実行します:
-	if (!InitInstance(windowName, nCmdShow))
+	HWND hwnd = InitInstance(windowName);
+
+	for (auto& x : m_components)
 	{
-		return FALSE;
+		x->Init(hwnd);
 	}
 
+	return hwnd;
+}
+
+void FrameworkWindows::MakeWindow(WNDCLASSEX& wcex)
+{
+}
+
+int FrameworkWindows::Run()
+{
 	return MainLoop();
 }
 
-BOOL FrameworkWindows::InitInstance(LPCTSTR windowName, int nCmdShow)
+HWND FrameworkWindows::InitInstance(LPCTSTR windowName)
 {
 	if (m_width != CW_USEDEFAULT){
 		RECT rc;
@@ -103,26 +106,29 @@ BOOL FrameworkWindows::InitInstance(LPCTSTR windowName, int nCmdShow)
 		wcex.hInstance, pWindowProc
 		);
 
-	if (!hWnd)
-	{
-		return FALSE;
-	}
-
-	ShowWindow(hWnd, nCmdShow);
-	UpdateWindow(hWnd);
-
-	return TRUE;
+	return hWnd;
 }
 
 int FrameworkWindows::MainLoop()
 {
-	MSG msg;
-
-	// メイン メッセージ ループ:
-	while (GetMessage(&msg, NULL, 0, 0))
+	MSG msg = { 0 };
+	while (msg.message != WM_QUIT)
 	{
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+		if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE)){
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+		else {
+			for (auto& x : m_components)
+			{
+				x->Update();
+			}
+		}
+	}
+
+	for (auto& x : m_components)
+	{
+		x->Final();
 	}
 
 	return (int)msg.wParam;
