@@ -25,4 +25,5 @@ public:
 	virtual void Init(HWND hWnd) = 0;
 	virtual void Update() = 0;
 	virtual void Final() = 0;
+	virtual ~Component() = default;
 };

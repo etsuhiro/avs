@@ -7,6 +7,7 @@
 #include "pao/DX11/FrameworkDX11.h"
 #include "pao/Windows/FileDialog.h"
 #include "ImageTreeView.h"
+#include "AvsComponent.h"
 #include <string>
 
 XmlEnum sinkxsd;
@@ -147,7 +148,7 @@ namespace {
 			HMENU hMenu = GetMenu(hWnd);
 			EnableMenuItem(hMenu, IDM_OVERWRITE, MF_ENABLED);
 
-
+			AvsComponent* avsComponent = new AvsComponent();
 			ScriptTreeView* scriptTree = new ScriptTreeView(&scriptBuf[0], sinkxsd);
 			ImageTreeView* treeView = new ImageTreeView(hInst, IDD_DIALOG1, hWnd);
 			treeView->AddControl(scriptTree);

@@ -60,6 +60,9 @@
     <ClInclude Include="..\pao\Windows\DialogProc.h">
       <Filter>pao\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="AvsComponent.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -88,6 +91,9 @@
     </ClCompile>
     <ClCompile Include="..\pao\Windows\DialogProc.cpp">
       <Filter>pao\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="AvsComponent.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
