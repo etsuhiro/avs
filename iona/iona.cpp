@@ -25,7 +25,7 @@ namespace avsutil {
 		sinkxsd.ReadSchema(schema.RootElement());
 	}
 
-	void LoadScript(std::vector<char>& scriptbuf, const char* path, XmlEnum& xmls)
+	void LoadScript(std::vector<char>& scriptbuf, const char* path)
 	{
 		TiXmlDocument xml;
 		// スクリプトを読む
@@ -36,7 +36,7 @@ namespace avsutil {
 
 		// バイナリに変換
 		hashmap_t hashmap;
-		XmlBin().Conv(scriptbuf, hashmap, xml, &xmls);
+		XmlBin().Conv(scriptbuf, hashmap, xml, &sinkxsd);
 	}
 }
 
@@ -131,28 +131,38 @@ private:
 };
 
 namespace {
-	std::vector<char> scriptBuf;
+	struct AvsWork {
+		std::vector<char> scriptBuf;
+		AvsComponent* avsComponent;
+		ScriptTreeView* scriptTree;
+		ImageTreeView* treeView;
 
-	void OpenScriptFile(HINSTANCE hInst, HWND hWnd, avs::ScriptEngine& script)
+		void Init(HINSTANCE hInst, HWND hWnd, LPCTSTR title)
+		{
+			avsComponent = new AvsComponent();
+			avsComponent->SetScript(&scriptBuf[0]);
+			scriptTree = new ScriptTreeView(&scriptBuf[0], sinkxsd);
+			treeView = new ImageTreeView(hInst, IDD_DIALOG1, hWnd);
+			treeView->AddControl(scriptTree);
+			treeView->SetTitle(title);
+		}
+	};
+
+	void OpenScriptFile(HINSTANCE hInst, HWND hWnd)
 	{
 		pao::FileDialog fileDialog(hWnd);
 		fileDialog.SetFilter(L"script(*.xml)\0*.xml\0" L"all(*.*)\0*.*\0" L"\0");
 
 		if (fileDialog.DialogBoxOpen() == TRUE){
+			AvsWork* avsWork = new AvsWork{};
 			char fpath[MAX_PATH];
 			WideCharToMultiByte(CP_OEMCP, 0, fileDialog.GetFullPath(), -1, fpath, MAX_PATH, NULL, NULL);
-			avsutil::LoadScript(scriptBuf, fpath, sinkxsd);
-			script.SetScript(&scriptBuf[0]);
+			avsutil::LoadScript(avsWork->scriptBuf, fpath);
+			avsWork->Init(hInst, hWnd, fileDialog.GetFileName());
 
 			// 上書き保存のメニューを選択可にする
 			HMENU hMenu = GetMenu(hWnd);
 			EnableMenuItem(hMenu, IDM_OVERWRITE, MF_ENABLED);
-
-			AvsComponent* avsComponent = new AvsComponent();
-			ScriptTreeView* scriptTree = new ScriptTreeView(&scriptBuf[0], sinkxsd);
-			ImageTreeView* treeView = new ImageTreeView(hInst, IDD_DIALOG1, hWnd);
-			treeView->AddControl(scriptTree);
-			treeView->SetTitle(fileDialog.GetFileName());
 		}
 	}
 
@@ -177,7 +187,6 @@ using BaseClass = pao::FrameworkDX11;
 class MyFramework : public BaseClass {
 		static const int MAX_LOADSTRING = 100;
 	HACCEL hAccelTable;
-	MyScriptEngine script;
 
 public:
 	MyFramework(HINSTANCE hInstance) : BaseClass(hInstance)
@@ -226,7 +235,7 @@ private:
 			DestroyWindow(hWnd);
 			break;
 		case IDM_OPEN:
-			OpenScriptFile(GetAppInstanceHandle(), hWnd, script);
+			OpenScriptFile(GetAppInstanceHandle(), hWnd);
 			break;
 		case IDM_SAVE:
 			SaveScriptFile(hWnd);
@@ -237,10 +246,6 @@ private:
 		return 0;
 	}
 
-//	virtual void Render(ID3D11DeviceContext*) override
-//	{
-//		avs::RunningStatus stat = script.Run(16.f);
-//	}
 };
 
 

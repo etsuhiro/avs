@@ -4,7 +4,7 @@
 
 
 class AvsComponent : public Component {
-	class Impl;
+	struct Impl;
 	Impl* pImpl;
 private:
 	virtual void Init(HWND hwnd) override;
@@ -13,4 +13,5 @@ private:
 public:
 	AvsComponent();
 	~AvsComponent();
+	void SetScript(const char* script);
 };

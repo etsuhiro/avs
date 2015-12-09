@@ -29,3 +29,8 @@ AvsComponent::~AvsComponent()
 {
 	delete pImpl;
 }
+
+void AvsComponent::SetScript(const char* script)
+{
+	pImpl->scriptEngine.SetScript(script);
+}
