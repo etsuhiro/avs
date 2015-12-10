@@ -94,39 +94,6 @@ private:
 	virtual void Setup(HWND hTree) override
 	{
 		mikuPrint(pBuf, xmls, TreePrint(hTree));
-#if 0
-		int idx = 0;
-		int indent = 0;
-		std::vector<HTREEITEM> tv;
-		do {
-			miku::Node *pNode = reinterpret_cast<miku::Node *>(&pBuf[idx]);
-			if (pNode->isElementType()){
-				miku::ElementNode *pElement = static_cast<miku::ElementNode *>(pNode);
-
-				TCHAR str[256];
-				MultiByteToWideChar(CP_OEMCP, MB_PRECOMPOSED, xmls.ElementName(pElement->name), -1, str, sizeof(str) / 2);
-				HTREEITEM parent = (tv.empty())? NULL : tv.back();
-				HTREEITEM item = TreeViewAddItem(hTree, parent, str);
-
-				if (pElement->getChildNode()){
-					idx = pElement->getChildNode();
-					tv.push_back(item);
-					indent++;
-					continue;
-				}
-			}
-			while (pNode->isTerminate()){
-				// Ÿ‚ª‚È‚¯‚ê‚Î‚PŠK‘w‚ÌƒGƒŒƒƒ“ƒg‚É–ß‚é
-				idx = pNode->getNextNode();
-				pNode = reinterpret_cast<miku::Node *>(&pBuf[idx]);
-				tv.pop_back();
-				indent--;
-				//			if (indent==0)	break;	// root‚Ü‚Åã‚ª‚Á‚Ä‚«‚½‚Ì‚ÅI—¹Breturn‚Å‚à—Ç‚¢
-				if (idx == 0)	break;	// root‚Ü‚Åã‚ª‚Á‚Ä‚«‚½‚Ì‚ÅI—¹Breturn‚Å‚à—Ç‚¢
-			}
-			idx = pNode->getBrotherNode();
-		} while (indent);	// ŠK‘w‚ª‚È‚¢ê‡‚Ì‚İ‚±‚±‚Å”²‚¯‚éB
-#endif
 	}
 };
 

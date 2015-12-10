@@ -21,6 +21,8 @@ namespace pao
 		~FrameworkWindows();
 		HWND Create(HINSTANCE hInstance, LPCTSTR className, LPCTSTR windowName);
 		int Run();
+		void AddComponent(Component* pComponent);
+		void RemoveComponent(Component* pComponent);
 		static INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 
 	protected:

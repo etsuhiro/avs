@@ -134,6 +134,16 @@ int FrameworkWindows::MainLoop()
 	return (int)msg.wParam;
 }
 
+void FrameworkWindows::AddComponent(Component* pComponent)
+{
+	m_components.push_back(pComponent);
+}
+
+void FrameworkWindows::RemoveComponent(Component* pComponent)
+{
+	m_components.remove(pComponent);
+}
+
 // バージョン情報ボックスのメッセージ ハンドラーです。
 INT_PTR CALLBACK FrameworkWindows::About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
