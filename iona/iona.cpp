@@ -25,18 +25,19 @@ namespace avsutil {
 		sinkxsd.ReadSchema(schema.RootElement());
 	}
 
-	void LoadScript(std::vector<char>& scriptbuf, const char* path)
+	int LoadScript(std::vector<char>& scriptbuf, const char* path)
 	{
 		TiXmlDocument xml;
 		// スクリプトを読む
 		if (!xml.LoadFile(path)){
-			printf("file read error %s\n", path);
-			exit(0);
+			return -1;
 		}
 
 		// バイナリに変換
 		hashmap_t hashmap;
 		XmlBin().Conv(scriptbuf, hashmap, xml, &sinkxsd);
+
+		return 0;
 	}
 }
 
@@ -124,12 +125,16 @@ namespace {
 			AvsWork* avsWork = new AvsWork{};
 			char fpath[MAX_PATH];
 			WideCharToMultiByte(CP_OEMCP, 0, fileDialog.GetFullPath(), -1, fpath, MAX_PATH, NULL, NULL);
-			avsutil::LoadScript(avsWork->scriptBuf, fpath);
-			avsWork->Init(hInst, hWnd, fileDialog.GetFileName());
+			if (avsutil::LoadScript(avsWork->scriptBuf, fpath) < 0){
+				DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, pao::FrameworkWindows::About);
+			}
+			else {
+				avsWork->Init(hInst, hWnd, fileDialog.GetFileName());
 
-			// 上書き保存のメニューを選択可にする
-			HMENU hMenu = GetMenu(hWnd);
-			EnableMenuItem(hMenu, IDM_OVERWRITE, MF_ENABLED);
+				// 上書き保存のメニューを選択可にする
+				HMENU hMenu = GetMenu(hWnd);
+				EnableMenuItem(hMenu, IDM_OVERWRITE, MF_ENABLED);
+			}
 		}
 	}
 
