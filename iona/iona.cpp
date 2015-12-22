@@ -126,7 +126,7 @@ namespace {
 			char fpath[MAX_PATH];
 			WideCharToMultiByte(CP_OEMCP, 0, fileDialog.GetFullPath(), -1, fpath, MAX_PATH, NULL, NULL);
 			if (avsutil::LoadScript(avsWork->scriptBuf, fpath) < 0){
-				DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, pao::FrameworkWindows::About);
+				DialogBox(hInst, MAKEINTRESOURCE(IDD_XMLERROR), hWnd, pao::FrameworkWindows::About);
 			}
 			else {
 				avsWork->Init(hInst, hWnd, fileDialog.GetFileName());
