@@ -13,6 +13,7 @@
 XmlEnum sinkxsd;
 
 namespace avsutil {
+	// xmlスクリプトを解釈するためにスキーマのsink.xsdを読んでおく必要がある
 	void LoadSchema()
 	{
 		TiXmlDocument schema;
@@ -25,6 +26,7 @@ namespace avsutil {
 		sinkxsd.ReadSchema(schema.RootElement());
 	}
 
+	// xmlスクリプトはロード後にエンジンが解釈できるバイナリーに変換しておく
 	int LoadScript(std::vector<char>& scriptbuf, const char* path)
 	{
 		TiXmlDocument xml;
@@ -41,6 +43,7 @@ namespace avsutil {
 	}
 }
 
+// スクリプトをTreeView形式で表示するためのクラス
 class TreePrint : public IMikuPrint {
 	HWND hTree;
 	HTREEITEM item;
@@ -99,6 +102,8 @@ private:
 };
 
 namespace {
+
+	// スクリプトウィンドウ単位で必要なワークを一括管理
 	struct AvsWork {
 		std::vector<char> scriptBuf;
 		AvsComponent* avsComponent;
@@ -116,6 +121,7 @@ namespace {
 		}
 	};
 
+	// ファイル読み込みダイアログを出してスクリプトを読み込む
 	void OpenScriptFile(HINSTANCE hInst, HWND hWnd)
 	{
 		pao::FileDialog fileDialog(hWnd);
@@ -138,6 +144,7 @@ namespace {
 		}
 	}
 
+	// ファイル保存ダイアログを出してスクリプトの保存をする
 	void SaveScriptFile(HWND hWnd)
 	{
 		pao::FileDialog fileDialog(hWnd);
